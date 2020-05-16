@@ -1,0 +1,22 @@
+mysqlConfig:
+  dataSource:
+    - name: default
+      host: localhost
+      port: 3306
+      userName: user
+      passwd: passwd
+      driver: com.mysql.jdbc.Driver
+      databaseName: test
+      truncate: true
+      fetchsize: 10
+      batchsize: 10000
+    - name: xa-test
+      host: localhost
+      port: 3306
+      userName: user
+      passwd: passwd
+      driver: com.mysql.jdbc.Driver
+      databaseName: test
+      truncate: true
+      fetchsize: 10
+      batchsize: 10000

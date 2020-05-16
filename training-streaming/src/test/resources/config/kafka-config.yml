@@ -1,0 +1,13 @@
+kafka:
+  producer:
+    bootstrapServers: cdh-172-16-1-31:9092,cdh-172-16-1-32:9092,cdh-172-16-1-33:9092,cdh-172-16-1-34:9092,cdh-172-16-1-35:9092,cdh-172-16-1-36:9092,cdh-172-16-1-41:9092
+    keySerializer: org.apache.kafka.common.serialization.StringSerializer
+    valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+  consumer:
+    bootstrapServers: cdh-172-16-1-31:9092,cdh-172-16-1-32:9092,cdh-172-16-1-33:9092,cdh-172-16-1-34:9092,cdh-172-16-1-35:9092,cdh-172-16-1-36:9092,cdh-172-16-1-41:9092
+    groupId: flink_trainning
+    enableAutoCommit: true
+    keySerializer: org.apache.kafka.common.serialization.StringSerializer
+    valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+    autoOffsetReset: latest
+    autoCommitInterval: 3000
