@@ -20,6 +20,12 @@ public class BatchBucketWriteV2 {
 
         DataSet<Tuple2<String, String>> dataSet = getDataSource(executionEnvironment);
 
+        try {
+            dataSet.print();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 

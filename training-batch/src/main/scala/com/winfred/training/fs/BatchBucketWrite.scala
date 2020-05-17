@@ -1,7 +1,7 @@
 package com.winfred.training.fs
 
-import org.apache.flink.api.scala.hadoop.mapreduce.HadoopOutputFormat
 import org.apache.flink.api.java.io.TypeSerializerOutputFormat
+import org.apache.flink.api.scala.hadoop.mapreduce.HadoopOutputFormat
 import org.apache.flink.api.scala.{DataSet, ExecutionEnvironment}
 import org.apache.flink.core.fs.FileSystem
 import org.apache.flink.formats.parquet.ParquetWriterFactory
@@ -22,14 +22,13 @@ object BatchBucketWrite {
 
     import org.apache.flink.api.scala._
 
-    //    val tmpDataPath = Thread.currentThread().getContextClassLoader.getResource("tmp_data").toString
-    val tmpDataPath = "G:\\github_space\\flink-practice\\training-batch\\src\\main\\resources\\tmp_data"
+    val tmpDataPath = Thread.currentThread().getContextClassLoader.getResource("data/blog-context.text").toString
     val batchEnv: ExecutionEnvironment = ExecutionEnvironment.getExecutionEnvironment
-    //    val batchTableEnvironment = BatchTableEnvironment.create(batchEnv)
-    //
-    //    val streamEnv = StreamExecutionEnvironment.getExecutionEnvironment
-    //    val streamTableEnvironment = StreamTableEnvironment.create(streamEnv)
-    //
+
+    val strDataSet: DataSet[String] = batchEnv.readTextFile(tmpDataPath)
+
+    strDataSet.print()
+
     val dataSet: DataSet[TestEntity] = getDataSource(executionEnvironment = batchEnv)
     //
     //    val table = batchTableEnvironment.fromDataSet(dataSet)

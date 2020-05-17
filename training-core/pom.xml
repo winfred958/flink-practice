@@ -102,6 +102,13 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
         </dependency>
+
+        <!--ik analyzer -->
+        <dependency>
+            <groupId>com.jianggujin</groupId>
+            <artifactId>IKAnalyzer-lucene</artifactId>
+            <version>8.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>
