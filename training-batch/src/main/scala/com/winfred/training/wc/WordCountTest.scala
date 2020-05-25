@@ -33,7 +33,13 @@ object WordCountTest {
     reslut
       .map(x => {
         String.format("==%s", x._1)
+        x
       })
+
+    val i = reslut.collect().count(x => {
+      true
+    })
+    println(i)
     //      .groupBy(0)
     //      .sum(1)
     //      .sortPartition(1, Order.DESCENDING)
@@ -48,7 +54,6 @@ object WordCountTest {
 
     //    reslut.print()
 
-    environment.execute("wc-test")
   }
 
 
