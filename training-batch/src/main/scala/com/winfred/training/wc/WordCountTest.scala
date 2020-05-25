@@ -31,10 +31,7 @@ object WordCountTest {
       })
 
     reslut
-      .collect()
-      .foreach(x => {
-        log.warn(s"${x._1}, ${x._2}")
-      })
+      .print()
     //      .groupBy(0)
     //      .sum(1)
     //      .sortPartition(1, Order.DESCENDING)
@@ -44,7 +41,7 @@ object WordCountTest {
     //      })
     //      .writeAsText(outputPath, FileSystem.WriteMode.OVERWRITE)
 
-//    environment.execute("wc-test")
+    //    environment.execute("wc-test")
   }
 
 
