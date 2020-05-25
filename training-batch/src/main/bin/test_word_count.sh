@@ -13,7 +13,7 @@ CMD=$(cat << EOF
   --parallelism 12 \
   --detached  \
   --yarnname wordcount-test \
-  ${HOME_PATH}/lib/training-batch.jar
+  ${HOME_PATH}/lib/training-batch.jar --input-path hdfs:///usr/hadoop/tmp/test/blog-context.text
 EOF
 )
 
