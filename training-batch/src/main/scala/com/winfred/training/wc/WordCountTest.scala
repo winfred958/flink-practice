@@ -31,8 +31,7 @@ object WordCountTest {
       })
 
     reslut
-      .collect()
-      .foreach(x => {
+      .map(x => {
         String.format("==%s", x._1)
       })
     //      .groupBy(0)
@@ -49,7 +48,7 @@ object WordCountTest {
 
     //    reslut.print()
 
-    //    environment.execute("wc-test")
+    environment.execute("wc-test")
   }
 
 
