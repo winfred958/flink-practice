@@ -43,6 +43,10 @@ object WordCountTest {
     //      })
     //      .writeAsText(outputPath, FileSystem.WriteMode.OVERWRITE)
 
+    println("================================= 我是中文===================")
+
+    reslut.print()
+
     //    environment.execute("wc-test")
   }
 
