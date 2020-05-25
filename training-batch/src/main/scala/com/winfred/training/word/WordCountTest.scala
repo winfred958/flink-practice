@@ -3,8 +3,11 @@ package com.winfred.training.word
 import com.winfred.core.utils.{ArgsHandler, IkAnalyzerUtils}
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.scala.{DataSet, ExecutionEnvironment, _}
+import org.slf4j.{Logger, LoggerFactory}
 
-object WordCount {
+object WordCountTest {
+
+  val log: Logger = LoggerFactory.getLogger(this.getClass);
 
   def main(args: Array[String]): Unit = {
 
@@ -42,6 +45,7 @@ object WordCount {
 
   def getSourceDataSet(environment: ExecutionEnvironment, args: Array[String]): DataSet[String] = {
     var inputPath = ArgsHandler.getArgsParam(args, "input-path")
+    log.info("inputPath = {}", inputPath)
     if (StringUtils.isBlank(inputPath)) {
       inputPath = Thread.currentThread().getContextClassLoader.getResource("data/blog-context.text").toString
     }
