@@ -16,7 +16,7 @@ object WordCountTest {
 
     val outputPath = s"D:/tmp/flink-test-output/wc-test"
 
-    dataSet
+    val reslut = dataSet
       .filter(line => {
         StringUtils.isNoneBlank(line)
       })
@@ -29,7 +29,12 @@ object WordCountTest {
       .map(term => {
         (String.valueOf(term), 1)
       })
-      .print()
+
+    reslut
+        .collect()
+        .foreach(x => {
+          log.warn(s"${x._1}, ${x._2}")
+        })
     //      .groupBy(0)
     //      .sum(1)
     //      .sortPartition(1, Order.DESCENDING)
