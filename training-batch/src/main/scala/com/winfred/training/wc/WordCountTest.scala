@@ -30,12 +30,11 @@ object WordCountTest {
         (String.valueOf(term), 1)
       })
 
-    reslut.print()
-//    reslut
-//        .collect()
-//        .foreach(x => {
-//          log.warn(s"${x._1}, ${x._2}")
-//        })
+    reslut
+      .collect()
+      .foreach(x => {
+        log.warn(s"${x._1}, ${x._2}")
+      })
     //      .groupBy(0)
     //      .sum(1)
     //      .sortPartition(1, Order.DESCENDING)
