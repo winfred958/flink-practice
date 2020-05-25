@@ -33,7 +33,7 @@ object WordCountTest {
     reslut
       .collect()
       .foreach(x => {
-        System.out.println(s"${x._1}, ${x._2}")
+        String.format("==%s", x._1)
       })
     //      .groupBy(0)
     //      .sum(1)
@@ -47,7 +47,7 @@ object WordCountTest {
     println("================================= 我是中文===================1")
     System.out.println("================================= 我是中文===================2")
 
-//    reslut.print()
+    //    reslut.print()
 
     //    environment.execute("wc-test")
   }
