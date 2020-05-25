@@ -1,4 +1,4 @@
-package com.winfred.training.wordcount
+package com.winfred.training.word
 
 import com.winfred.core.utils.{ArgsHandler, IkAnalyzerUtils}
 import org.apache.commons.lang3.StringUtils
