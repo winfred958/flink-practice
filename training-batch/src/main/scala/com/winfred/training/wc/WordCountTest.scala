@@ -31,7 +31,8 @@ object WordCountTest {
       })
 
     reslut
-      .map(x => {
+      .collect()
+      .foreach(x => {
         System.out.println(s"${x._1}, ${x._2}")
       })
     //      .groupBy(0)
@@ -43,9 +44,10 @@ object WordCountTest {
     //      })
     //      .writeAsText(outputPath, FileSystem.WriteMode.OVERWRITE)
 
-    println("================================= 我是中文===================")
+    println("================================= 我是中文===================1")
+    System.out.println("================================= 我是中文===================2")
 
-    reslut.print()
+//    reslut.print()
 
     //    environment.execute("wc-test")
   }
