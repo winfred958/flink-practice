@@ -1,6 +1,6 @@
 package com.winfred.training.wordcount
 
-import com.winfred.core.utils.IkAnalyzerUtils
+import com.winfred.core.utils.{ArgsHandler, IkAnalyzerUtils}
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.scala.{DataSet, ExecutionEnvironment, _}
 
@@ -9,7 +9,7 @@ object WordCount {
   def main(args: Array[String]): Unit = {
 
     val environment: ExecutionEnvironment = ExecutionEnvironment.getExecutionEnvironment
-    val dataSet: DataSet[String] = getSourceDataSet(environment)
+    val dataSet: DataSet[String] = getSourceDataSet(environment, args)
 
     val outputPath = s"D:/tmp/flink-test-output/wc-test"
 
@@ -40,10 +40,13 @@ object WordCount {
   }
 
 
-  def getSourceDataSet(environment: ExecutionEnvironment): DataSet[String] = {
-    val tmpDataPath = Thread.currentThread().getContextClassLoader.getResource("data/blog-context.text").toString
+  def getSourceDataSet(environment: ExecutionEnvironment, args: Array[String]): DataSet[String] = {
+    var inputPath = ArgsHandler.getArgsParam(args, "input-path")
+    if (StringUtils.isBlank(inputPath)) {
+      inputPath = Thread.currentThread().getContextClassLoader.getResource("data/blog-context.text").toString
+    }
     val dataSet: DataSet[String] = environment
-      .readTextFile(tmpDataPath)
+      .readTextFile(inputPath)
     dataSet
   }
 }
