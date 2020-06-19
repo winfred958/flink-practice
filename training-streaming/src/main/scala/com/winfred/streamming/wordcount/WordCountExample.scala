@@ -40,7 +40,7 @@ object WordCountExample {
         Word(term, 1L)
       })
       .keyBy("word")
-      .window(SlidingProcessingTimeWindows.of(Time.seconds(60), Time.seconds(10)))
+      .window(SlidingProcessingTimeWindows.of(Time.seconds(30), Time.seconds(10)))
       .sum("count")
   }
 

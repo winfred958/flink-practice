@@ -105,8 +105,17 @@
               import org.apache.flink.streaming.api.scala._
           
               dataStream
-                .map(socketTestEntity => {
-                  Word(socketTestEntity.text, 1L)
+                .map(entity => {
+                  entity.text
+                })
+                .flatMap(text => {
+                  text.split("\\W+")
+                })
+                .filter(str => {
+                  StringUtils.isNotBlank(str)
+                })
+                .map(term => {
+                  Word(term, 1L)
                 })
                 .keyBy("word")
                 .window(SlidingProcessingTimeWindows.of(Time.seconds(60), Time.seconds(10)))
@@ -121,12 +130,6 @@
               import org.apache.flink.streaming.api.scala._
           
               executionEnvironment.socketTextStream(hostname, port)
-                .flatMap(text => {
-                  text.split("\\W+")
-                })
-                .filter(str => {
-                  StringUtils.isNotBlank(str)
-                })
                 .map(str => {
                   SocketTestEntity(
                     text = str
@@ -151,6 +154,7 @@
                            )
           
           }
+
           ```
 
 ## 本地运行 Hello word 准备 (安装 netcat 插件) [Run the Example](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#run-the-example) 
@@ -163,8 +167,13 @@
         - 下载[netcat](https://eternallybored.org/misc/netcat/)
         - 配置环境变量
 - ### 运行 Hello word
+    - 命令行运行 nc -l -p 9999
+        - ![avatar](./images/nc1.png)
+    - IDE 运行 WordCountExample
+    - 命令行 nc下 中输入单词
+        - ![avatar](./images/nc2.png)
 ## 效果示例
-- 
+- ![avatar](./images/wc.png)
 
 ## maven常用插件
 - ```xml
