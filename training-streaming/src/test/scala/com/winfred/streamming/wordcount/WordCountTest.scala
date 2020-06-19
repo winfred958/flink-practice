@@ -12,7 +12,7 @@ class WordCountTest extends AbstractTestBase {
   def wordCountTest(): Unit = {
     val executionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
 
-    val dataStream: DataStream[SocketTestEntity] = TestCase.getDataStreamFromSocket(executionEnvironment)
+    val dataStream: DataStream[SocketTestEntity] = TestCase.getDataStreamFromLocalSocket(executionEnvironment)
 
     dataStream.print()
 

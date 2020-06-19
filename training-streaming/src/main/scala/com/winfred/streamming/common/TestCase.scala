@@ -2,8 +2,6 @@ package com.winfred.streamming.common
 
 import java.util.UUID
 
-import org.apache.commons.lang3.StringUtils
-import org.apache.flink.streaming.api.functions.IngestionTimeExtractor
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 
@@ -17,20 +15,14 @@ object TestCase {
    * @param port
    * @return
    */
-  def getDataStreamFromSocket(
-                               executionEnvironment: StreamExecutionEnvironment,
-                               hostname: String = "127.0.0.1",
-                               port: Int = 9999
-                             ): DataStream[SocketTestEntity] = {
+  def getDataStreamFromLocalSocket(
+                                    executionEnvironment: StreamExecutionEnvironment,
+                                    hostname: String = "127.0.0.1",
+                                    port: Int = 9999
+                                  ): DataStream[SocketTestEntity] = {
     import org.apache.flink.streaming.api.scala._
 
     executionEnvironment.socketTextStream(hostname, port)
-      .flatMap(text => {
-        text.split("\\W+")
-      })
-      .filter(str => {
-        StringUtils.isNotBlank(str)
-      })
       .map(str => {
         SocketTestEntity(
           text = str
