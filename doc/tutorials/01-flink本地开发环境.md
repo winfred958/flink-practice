@@ -24,6 +24,12 @@
                   <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
                   <version>${flink.version}</version>
               </dependency>
+              <dependency>
+                  <groupId>org.apache.flink</groupId>
+                  <artifactId>flink-test-utils_${scala.binary.version}</artifactId>
+                  <version>${flink.version}</version>
+                  <scope>test</scope>
+              </dependency>
           </dependencies>
           ```
     - java hello Word 代码
