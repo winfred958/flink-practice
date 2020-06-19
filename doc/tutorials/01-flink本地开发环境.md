@@ -304,7 +304,6 @@
                     </executions>
                 </plugin>
 
-                <!-- release package-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
