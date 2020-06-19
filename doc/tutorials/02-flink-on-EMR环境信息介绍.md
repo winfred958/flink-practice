@@ -12,6 +12,7 @@
 ## 2. Flink 部署目录
 - EMR 上 flink 部署目录
     - FLINK_HOME=/usr/local/service/flink
+- 您可以在EMR控制台更改配置, 然后下发配置
 ## 3. 推荐使用方式
 - 在EMR上推荐您使用flink on yarn模式 [YARN Setup](https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/deployment/yarn_setup.html)
     - 你可以配置自己的flink client, (编译flink版本, 配置环境变量即可)
