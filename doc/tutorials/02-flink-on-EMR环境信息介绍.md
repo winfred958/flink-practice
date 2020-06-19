@@ -13,7 +13,7 @@
 - EMR 上 flink 部署目录
     - FLINK_HOME=/usr/local/service/flink
 ## 3. 推荐使用方式
-- 在EMR上推荐您使用flink on yarn模式
+- 在EMR上推荐您使用flink on yarn模式 [YARN Setup](https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/deployment/yarn_setup.html)
     - 你可以配置自己的flink client, (编译flink版本, 配置环境变量即可)
 - job 提交方式
     - flink on yarn session (不推荐, 多个job共有1个jobManager, 耦合严重)

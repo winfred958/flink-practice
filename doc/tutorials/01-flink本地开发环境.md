@@ -1,6 +1,6 @@
 # Flink 本地开发环境准备
-## 1. System 
-- java 8+ or 11
+## 1. System environment
+- java 8+
 - maven 3.6.x
 - IDE
     - IntelliJ IDEA
