@@ -1,6 +1,7 @@
 package com.winfred.streamming.wordcount
 
 import com.winfred.streamming.common.TestCase.SocketTestEntity
+import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.functions.ReduceFunction
 import org.apache.flink.streaming.api.scala.DataStream
 import org.apache.flink.streaming.api.windowing.assigners.SlidingProcessingTimeWindows
@@ -13,8 +14,17 @@ object WordCount {
     import org.apache.flink.streaming.api.scala._
 
     dataStream
-      .map(e => {
-        (e.text, 1L)
+      .map(entity => {
+        entity.text
+      })
+      .flatMap(text => {
+        text.split("\\W+")
+      })
+      .filter(str => {
+        StringUtils.isNotBlank(str)
+      })
+      .map(term => {
+        (term, 1L)
       })
       .keyBy(0)
       .window(SlidingProcessingTimeWindows.of(Time.seconds(60), Time.seconds(5)))
