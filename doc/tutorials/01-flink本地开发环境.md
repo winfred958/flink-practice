@@ -10,7 +10,9 @@
 
 ## 2. 编写 [Hello word (Streaming API)](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#read-the-code)
 - ### 2.1 maven plugin 配置**请看本文末**
-- ### 2.2 java版代码示例
+- ### 2.2 推荐的目录结构
+    - ![avatar](./images/maven_dir_constract.png)
+- ### 2.3 java版代码示例
     - maven pom 配置
         - ```xml
           <properties>
@@ -34,7 +36,7 @@
           ```
     - java hello Word 代码
         - [Read the Code](https://github.com/apache/flink/blob/master/flink-examples/flink-examples-streaming/src/main/java/org/apache/flink/streaming/examples/socket/SocketWindowWordCount.java)
-- ### 2.2 scala版代码示例
+- ### 2.4 scala版代码示例
     - maven pom 配置
         - ```xml
           <properties>
