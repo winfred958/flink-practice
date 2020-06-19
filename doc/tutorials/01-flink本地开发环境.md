@@ -27,9 +27,7 @@
           </dependencies>
           ```
     - java hello Word 代码
-        - ```scala
-          
-          ```
+        - [Read the Code](https://github.com/apache/flink/blob/master/flink-examples/flink-examples-streaming/src/main/java/org/apache/flink/streaming/examples/socket/SocketWindowWordCount.java)
 - ### scala版代码示例
     - maven pom 配置
         - ```xml
@@ -166,13 +164,13 @@
     - #### Windows
         - 下载[netcat](https://eternallybored.org/misc/netcat/)
         - 配置环境变量
-- ### 运行 Hello word
+- ### 运行 Hello word (Windows 10为例)
     - 命令行运行 nc -l -p 9999
         - ![avatar](./images/nc1.png)
     - IDE 运行 WordCountExample
     - 命令行 nc下 中输入单词
         - ![avatar](./images/nc2.png)
-## 效果示例
+## 效果展示
 - ![avatar](./images/wc.png)
 
 ## maven常用插件
