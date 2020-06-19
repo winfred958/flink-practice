@@ -19,4 +19,30 @@
     - flink on yarn session (不推荐, 多个job共有1个jobManager, 耦合严重)
     - flink on yarn single job
         - [官方文档](https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/deployment/yarn_setup.html#run-a-single-flink-job-on-yarn)
-## 4. 需要您关注的Flink配置
+        - 推荐使用长命令方式, 举例
+            - ```shell script
+              flink run \
+                --class com.datamining.streaming.base.RealTimeRawHandler \
+                --jobmanager yarn-cluster \
+                --yarncontainer 3 \
+                --yarnslots 4 \
+                --yarnjobManagerMemory 2048 \
+                --yarntaskManagerMemory 2048 \
+                --parallelism 12 \
+                --yarnstreaming \
+                --detached  \
+                --yarnname RealTimeRawHandler \
+                /home/hadoop/apm/lib/metrics-base.jar
+              ```
+## 4. 需要您关注的Flink配置 ()
+| key | 简述 | 默认值 | 推荐 |
+| :--- | :--- | :--- | :--- |
+| jobmanager.rpc.address |  | none | 0.0.0.0 |
+| jobmanager.rpc.port |  | 6123 |  |
+| jobmanager.heap.size | JobManager heap size | 1024m | flink run 参数指定 |
+| taskmanager.heap.size | TaskManager heap size | 1024m | flink run 参数指定 |
+| parallelism.default | 并行度 | 1 | flink run 参数指定 |
+| rest.bind-port | 会覆盖 rest.port的值, **建议配置这个** | 8081 | 为了避免, 一个node上启动多个JobManager造成冲突, 建议配置成区间, 例如“50100-50200”|
+| rest.bind-address |  | none | 0.0.0.0 |
+| classloader.resolve-order | 定义优先加载的依赖 | "child-first" | "child-first" |
+
