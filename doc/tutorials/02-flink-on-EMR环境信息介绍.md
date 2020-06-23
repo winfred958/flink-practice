@@ -33,7 +33,7 @@
                 --yarnstreaming \
                 --detached  \
                 --yarnname RealTimeRawHandler \
-                /home/hadoop/apm/lib/metrics-base.jar
+                /home/hadoop/user-project/lib/xxxx.jar
               ```
 ## 4. 需要您关注的Flink配置 ()
 | key | 简述 | 默认值 | 推荐 |
