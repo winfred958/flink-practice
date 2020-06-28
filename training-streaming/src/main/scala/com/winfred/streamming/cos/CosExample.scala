@@ -5,6 +5,8 @@ import java.util.{Properties, UUID}
 
 import com.alibaba.fastjson.JSON
 import com.winfred.core.config.KafkaConfig
+import com.winfred.core.utils.ArgsHandler
+import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.core.fs.Path
 import org.apache.flink.formats.parquet.avro.ParquetAvroWriters
@@ -29,6 +31,11 @@ object CosExample {
     import org.apache.flink.streaming.api.scala._
 
 
+    var basePath = ArgsHandler.getArgsParam(args = args, "target-path")
+    if (StringUtils.isBlank(basePath)) {
+      basePath = "/tmp/CosExample"
+    }
+
     // source
     val sourceData: DataStream[String] = executionEnvironment
       .addSource(getKafkaSource(topic = sourceTopic, groupId = groupId))
@@ -42,7 +49,7 @@ object CosExample {
     // sink
     streamingFileSink(
       data = result,
-      basePath = "",
+      basePath = basePath,
       bucketCheckInterval = 60000L
     )
 
