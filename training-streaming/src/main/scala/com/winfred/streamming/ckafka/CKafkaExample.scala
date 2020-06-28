@@ -5,6 +5,7 @@ import java.util.{Properties, UUID}
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.serializer.SerializerFeature
 import com.winfred.core.config.KafkaConfig
+import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
@@ -12,9 +13,12 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.{StringDeserializer, StringSerializer}
 
+import scala.beans.BeanProperty
+
 object CKafkaExample {
 
   var auto_offset_reset: String = "earliest"
+
   val groupId: String = this.getClass.getCanonicalName
   val sourceTopic: String = "ckafka_test_raw"
   val sinkTopic: String = "ckafka_test_target"
@@ -35,6 +39,9 @@ object CKafkaExample {
 
     // data process
     val result: DataStream[String] = dataSource
+      .filter(str => {
+        StringUtils.isNotBlank(str)
+      })
       .map(str => {
         LogEntity(message = str)
       })
@@ -89,9 +96,9 @@ object CKafkaExample {
   }
 
   case class LogEntity(
-                        uuid: String = UUID.randomUUID().toString,
-                        event_time: Long = System.currentTimeMillis(),
-                        message: String = ""
+                        @BeanProperty uuid: String = UUID.randomUUID().toString,
+                        @BeanProperty event_time: Long = System.currentTimeMillis(),
+                        @BeanProperty message: String = ""
                       )
 
 }
