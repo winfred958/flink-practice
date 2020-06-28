@@ -5,7 +5,6 @@ import java.util.Properties
 
 import com.amazonaws.services.kinesisanalytics.runtime.KinesisAnalyticsRuntime
 import com.winfred.core.config.KinesisConfig
-import com.winfred.core.utils.IkAnalyzerUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.functions.source.SourceFunction
 import org.apache.flink.streaming.connectors.kinesis.FlinkKinesisConsumer

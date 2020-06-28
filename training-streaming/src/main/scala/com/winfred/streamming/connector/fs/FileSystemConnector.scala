@@ -70,7 +70,7 @@ object FileSystemConnector {
         path,
         ParquetAvroWriters.forReflectRecord(classOf[LogEntity])
       )
-      .withBucketAssigner(new DateTimeBucketAssigner[LogEntity]("yyyy/MM/dd/HH", ZoneId.of("America/Los_Angeles")))
+      .withBucketAssigner(new DateTimeBucketAssigner[LogEntity]("yyyy/MM/dd/HH", ZoneId.of("Asia/Shanghai")))
       .withBucketCheckInterval(bucketCheckInterval)
       .build()
 

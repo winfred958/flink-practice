@@ -1,6 +1,6 @@
 # Flink 本地开发环境准备
-## System 
-- java 8+ or 11
+## 1. System environment
+- java 8+
 - maven 3.6.x
 - IDE
     - IntelliJ IDEA
@@ -8,9 +8,11 @@
 - 如果用scala开发flink, 请配置 scala 2.11 or 2.12环境
     - **注意**: EMR flink 依赖的scala版本为 2.11
 
-## 编写 [Hello word (Streaming API)](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#read-the-code)
-- ### maven plugin 配置请看本文末
-- ### java版代码示例
+## 2. 编写 [Hello word (Streaming API)](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#read-the-code)
+- ### 2.1 maven plugin 配置**请看本文末**
+- ### 2.2 推荐的目录结构
+    - ![avatar](./images/maven_dir_constract.png)
+- ### 2.3 java版代码示例
     - maven pom 配置
         - ```xml
           <properties>
@@ -24,11 +26,17 @@
                   <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
                   <version>${flink.version}</version>
               </dependency>
+              <dependency>
+                  <groupId>org.apache.flink</groupId>
+                  <artifactId>flink-test-utils_${scala.binary.version}</artifactId>
+                  <version>${flink.version}</version>
+                  <scope>test</scope>
+              </dependency>
           </dependencies>
           ```
     - java hello Word 代码
         - [Read the Code](https://github.com/apache/flink/blob/master/flink-examples/flink-examples-streaming/src/main/java/org/apache/flink/streaming/examples/socket/SocketWindowWordCount.java)
-- ### scala版代码示例
+- ### 2.4 scala版代码示例
     - maven pom 配置
         - ```xml
           <properties>
@@ -155,8 +163,8 @@
 
           ```
 
-## 本地运行 Hello word 准备 (安装 netcat 插件) [Run the Example](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#run-the-example) 
-- ### 安装netcat插件
+## 3. 本地运行 Hello word 准备 (安装 netcat 插件) [Run the Example](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#run-the-example) 
+- ### 3.1 安装netcat插件
     - #### CentOS 7
         - ```shell script
             yum install -y nc
@@ -164,16 +172,16 @@
     - #### Windows
         - 下载[netcat](https://eternallybored.org/misc/netcat/)
         - 配置环境变量
-- ### 运行 Hello word (Windows 10为例)
+- ### 3.2 运行 Hello word (Windows 10为例)
     - 命令行运行 nc -l -p 9999
         - ![avatar](./images/nc1.png)
     - IDE 运行 WordCountExample
     - 命令行 nc下 中输入单词
         - ![avatar](./images/nc2.png)
-## 效果展示
+## 4. 效果展示
 - ![avatar](./images/wc.png)
 
-## maven常用插件
+## 5. maven常用插件
 - ```xml
     <properties>
         <!--plugin-->
@@ -304,7 +312,6 @@
                     </executions>
                 </plugin>
 
-                <!-- release package-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>

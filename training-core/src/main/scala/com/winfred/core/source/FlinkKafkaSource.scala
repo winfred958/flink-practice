@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 
 import com.winfred.core.config.KafkaConfig
 import org.apache.flink.api.common.serialization.SimpleStringSchema
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 
@@ -30,25 +30,25 @@ object FlinkKafkaSource {
    * @param groupId
    * @return
    */
-  def getKafkaSource(topics: String, groupId: String): FlinkKafkaConsumer011[String] = {
+  def getKafkaSource(topics: String, groupId: String): FlinkKafkaConsumer[String] = {
     val properties = getKafkaSinkProperties()
     properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
     val topicList: util.List[String] = new util.ArrayList[String]()
     for (topic <- topics.split(",")) {
       topicList.add(topic)
     }
-    val source: FlinkKafkaConsumer011[String] = new FlinkKafkaConsumer011[String](topicList, new SimpleStringSchema(), properties)
+    val source: FlinkKafkaConsumer[String] = new FlinkKafkaConsumer[String](topicList, new SimpleStringSchema(), properties)
     source
   }
 
 
-  def getKafkaSource(topics: String, groupId: String, properties: Properties): FlinkKafkaConsumer011[String] = {
+  def getKafkaSource(topics: String, groupId: String, properties: Properties): FlinkKafkaConsumer[String] = {
     properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
     val topicList: util.List[String] = new util.ArrayList[String]()
     for (topic <- topics.split(",")) {
       topicList.add(topic)
     }
-    val source: FlinkKafkaConsumer011[String] = new FlinkKafkaConsumer011[String](topicList, new SimpleStringSchema(), properties)
+    val source: FlinkKafkaConsumer[String] = new FlinkKafkaConsumer[String](topicList, new SimpleStringSchema(), properties)
     source
   }
 
@@ -58,10 +58,10 @@ object FlinkKafkaSource {
    * @param groupId
    * @return
    */
-  def getKafkaSourceFromTopicRegex(topicRegex: String, groupId: String): FlinkKafkaConsumer011[String] = {
+  def getKafkaSourceFromTopicRegex(topicRegex: String, groupId: String): FlinkKafkaConsumer[String] = {
     val properties = getKafkaSinkProperties()
     properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
-    new FlinkKafkaConsumer011[String](Pattern.compile(topicRegex), new SimpleStringSchema(), properties)
+    new FlinkKafkaConsumer[String](Pattern.compile(topicRegex), new SimpleStringSchema(), properties)
   }
 
   def getKafkaSinkProperties(): Properties = {
@@ -70,7 +70,9 @@ object FlinkKafkaSource {
 
     val properties = new Properties()
     properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    properties.setProperty(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000")
+    properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500")
+    properties.setProperty(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "300000")
+    properties.setProperty(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000")
     properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000")
     properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)
     properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)

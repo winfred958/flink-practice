@@ -10,8 +10,8 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Inherited
 public @interface MysqlTableName {
-
-    String name() default "";
-
-    String sql() default "";
+  
+  String name() default "";
+  
+  String sql() default "";
 }
