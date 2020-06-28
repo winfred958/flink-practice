@@ -178,19 +178,19 @@ io.tmp.dirs: /tmp/flink/tmp_0/:/tmp/flink/tmp_1/:/tmp/flink/tmp_2/:/tmp/flink/tm
 
 taskmanager.memory.preallocate: true
 
-# The classloading resolve order. Possible values are 'child-first' (Flink's default)
-# and 'parent-first' (Java's default).
-#
-# Child first classloading allows users to use different dependency/library
-# versions in their application than those in the classpath. Switching back
-# to 'parent-first' may help with debugging dependency issues.
-#
-# classloader.resolve-order: child-first
+  # The classloading resolve order. Possible values are 'child-first' (Flink's default)
+  # and 'parent-first' (Java's default).
+  #
+  # Child first classloading allows users to use different dependency/library
+  # versions in their application than those in the classpath. Switching back
+  # to 'parent-first' may help with debugging dependency issues.
+  #
+  # classloader.resolve-order: child-first
 
-# The amount of memory going to the network stack. These numbers usually need 
-# no tuning. Adjusting them may be necessary in case of an "Insufficient number
-# of network buffers" error. The default min is 64MB, the default max is 1GB.
- 
+  # The amount of memory going to the network stack. These numbers usually need
+  # no tuning. Adjusting them may be necessary in case of an "Insufficient number
+  # of network buffers" error. The default min is 64MB, the default max is 1GB.
+
 taskmanager.network.memory.fraction: 0.1
 taskmanager.network.memory.min: 134217728
 taskmanager.network.memory.max: 2147483648

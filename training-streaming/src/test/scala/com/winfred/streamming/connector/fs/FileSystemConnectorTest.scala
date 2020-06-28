@@ -3,7 +3,7 @@ package com.winfred.streamming.connector.fs
 import com.alibaba.fastjson.JSON
 import com.winfred.core.source.FlinkKafkaSource
 import com.winfred.core.utils.ArgsHandler
-import FileSystemConnector.LogEntity
+import com.winfred.streamming.connector.fs.FileSystemConnector.LogEntity
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.functions.MapFunction
 import org.apache.flink.streaming.api.functions.sink.SinkFunction

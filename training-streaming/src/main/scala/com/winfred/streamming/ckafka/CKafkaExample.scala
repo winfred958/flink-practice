@@ -1,6 +1,6 @@
 package com.winfred.streamming.ckafka
 
-import java.util.Properties
+import java.util.{Properties, UUID}
 
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.serializer.SerializerFeature
@@ -89,8 +89,9 @@ object CKafkaExample {
   }
 
   case class LogEntity(
-                        actionTime: Long = System.currentTimeMillis(),
-                        message: String = "",
+                        uuid: String = UUID.randomUUID().toString,
+                        event_time: Long = System.currentTimeMillis(),
+                        message: String = ""
                       )
 
 }
