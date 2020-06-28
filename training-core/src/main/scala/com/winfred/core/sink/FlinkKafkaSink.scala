@@ -4,7 +4,7 @@ import java.util.Properties
 
 import com.winfred.core.config.KafkaConfig
 import org.apache.flink.api.common.serialization.SimpleStringSchema
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 
@@ -16,7 +16,7 @@ import org.apache.kafka.common.serialization.StringSerializer
  */
 object FlinkKafkaSink {
 
-  def getKafkaSink(topic: String): FlinkKafkaProducer011[String] = {
+  def getKafkaSink(topic: String): FlinkKafkaProducer[String] = {
     val kafkaConfigEntity = KafkaConfig.getConfigEntity()
     val bootstrapServers = kafkaConfigEntity.getKafka.getProducer.getBootstrapServers
     val properties = new Properties()
@@ -27,8 +27,8 @@ object FlinkKafkaSink {
     properties.setProperty(ProducerConfig.ACKS_CONFIG, "0")
     properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "16384")
 
-    val sink: FlinkKafkaProducer011[String] = new FlinkKafkaProducer011[String](topic, new SimpleStringSchema(), properties)
-    sink.setWriteTimestampToKafka(false)
+    val sink: FlinkKafkaProducer[String] = new FlinkKafkaProducer[String](topic, new SimpleStringSchema(), properties)
+    sink.setWriteTimestampToKafka(true)
     sink
   }
 
