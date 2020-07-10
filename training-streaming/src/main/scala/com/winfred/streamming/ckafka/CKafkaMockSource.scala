@@ -25,7 +25,7 @@ object CKafkaMockSource {
 
 
     executionEnvironment
-      .execute("CKafkaTestSource")
+      .execute("CKafkaMockSource")
   }
 
 }
