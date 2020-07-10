@@ -16,7 +16,6 @@ object CKafkaMockSource {
 
     import org.apache.flink.streaming.api.scala._
 
-
     val dataStream = executionEnvironment
       .addSource(new TestSource(20, 500));
 

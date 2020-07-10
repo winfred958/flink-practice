@@ -12,7 +12,6 @@ import org.apache.kafka.common.serialization.StringSerializer
  * com.winfred.test.rt.sink
  *
  * @author kevin
- * @since 2018/8/29 8:34
  */
 object FlinkKafkaSink {
 
