@@ -10,6 +10,7 @@ import com.winfred.streamming.entity.log.EventHeader;
 import com.winfred.streamming.entity.log.SimpleEventEntity;
 import com.winfred.streamming.entity.user.UserInfo;
 import com.winfred.streamming.entity.user.UserRole;
+import com.winfred.streamming.mock.MockUtils;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
@@ -122,7 +123,7 @@ public class TestSource extends RichParallelSourceFunction<String> {
     EventBody body = entity.getBody();
     body.setEvent_name("item.click");
     List<EventBody.Parameter> parameters = new ArrayList<>(1);
-    parameters.add(new EventBody.Parameter("item_id", "a234124"));
+    parameters.add(new EventBody.Parameter("sku", UUID.randomUUID().toString()));
     body.setParameters(parameters);
     return entity;
   }
@@ -170,8 +171,10 @@ public class TestSource extends RichParallelSourceFunction<String> {
     
     entity.setEvent_name("item.click");
     List<SimpleEventEntity.Parameter> parameters = new ArrayList<>(1);
-    parameters.add(new SimpleEventEntity.Parameter("item_id", "a234124"));
+    parameters.add(new SimpleEventEntity.Parameter("sku", MockUtils.getSku()));
     entity.setParameters(parameters);
     return entity;
   }
+  
+  
 }
