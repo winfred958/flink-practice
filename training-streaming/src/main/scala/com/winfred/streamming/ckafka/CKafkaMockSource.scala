@@ -1,7 +1,5 @@
 package com.winfred.streamming.ckafka
 
-import com.winfred.core.sink.FlinkKafkaSink
-import com.winfred.streamming.ckafka.CKafkaExample.sinkTopic
 import com.winfred.streamming.common.TestSource
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
@@ -19,10 +17,12 @@ object CKafkaMockSource {
 
 
     val datastream = executionEnvironment
-      .addSource(new TestSource(200));
+      .addSource(new TestSource(20, 500));
 
     datastream
-      .addSink(FlinkKafkaSink.getKafkaSink(topic = sinkTopic))
+      .print()
+    //    datastream
+    //      .addSink(FlinkKafkaSink.getKafkaSink(topic = sinkTopic))
 
 
     executionEnvironment

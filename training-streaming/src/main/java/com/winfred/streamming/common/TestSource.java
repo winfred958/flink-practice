@@ -11,6 +11,7 @@ import com.winfred.streamming.entity.log.SimpleEventEntity;
 import com.winfred.streamming.entity.user.UserInfo;
 import com.winfred.streamming.entity.user.UserRole;
 import com.winfred.streamming.mock.MockUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
@@ -25,15 +26,17 @@ public class TestSource extends RichParallelSourceFunction<String> {
   
   private volatile boolean isRun;
   
-  private int intervalMillisecond;
+  private int intervalMillisecondMin;
+  private int intervalMillisecondMax;
   
   /**
    * mock 数据
    *
-   * @param intervalMillisecond
+   * @param intervalMillisecondMin
    */
-  public TestSource(int intervalMillisecond) {
-    this.intervalMillisecond = intervalMillisecond;
+  public TestSource(int intervalMillisecondMin, int intervalMillisecondMax) {
+    this.intervalMillisecondMin = intervalMillisecondMin;
+    this.intervalMillisecondMax = intervalMillisecondMax;
     
     /**
      * session_id 3 秒一换
@@ -67,13 +70,15 @@ public class TestSource extends RichParallelSourceFunction<String> {
   
   @Override
   public void run(SourceContext<String> ctx) throws Exception {
+  
+    long aLong = RandomUtils.nextLong(intervalMillisecondMin, intervalMillisecondMax);
     while (isRun) {
       buildDataList(true)
           .stream()
           .map(entity -> {
             return JSON.toJSONString(entity, SerializerFeature.SortField);
           }).forEach(ctx::collect);
-      Thread.sleep(intervalMillisecond);
+      Thread.sleep(aLong);
     }
   }
   
