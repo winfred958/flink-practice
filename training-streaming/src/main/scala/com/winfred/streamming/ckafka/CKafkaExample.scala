@@ -2,8 +2,6 @@ package com.winfred.streamming.ckafka
 
 import java.util.{Properties, UUID}
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.serializer.SerializerFeature
 import com.winfred.core.config.KafkaConfig
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
@@ -42,12 +40,6 @@ object CKafkaExample {
       .filter(str => {
         StringUtils.isNotBlank(str)
       })
-      .map(str => {
-        LogEntity(message = str)
-      })
-      .map(entity => {
-        JSON.toJSONString(entity, 1, SerializerFeature.SortField)
-      })
 
     // add sink
     result
@@ -56,7 +48,7 @@ object CKafkaExample {
       )
 
     executionEnvironment
-      .execute("CKakkaExapmle")
+      .execute("CKafkaExample")
   }
 
   def getKafkaSource(topic: String, groupId: String): FlinkKafkaConsumer[String] = {
