@@ -35,7 +35,7 @@ public class TestSource extends RichParallelSourceFunction<String> {
     this.intervalMillisecond = intervalMillisecond;
     
     /**
-     * session_id 10分钟更换
+     * session_id 3 秒一换
      */
     new Timer()
         .scheduleAtFixedRate(new TimerTask() {
@@ -43,10 +43,10 @@ public class TestSource extends RichParallelSourceFunction<String> {
           public void run() {
             SESSION_ID = UUID.randomUUID().toString();
           }
-        }, 0, 10 * 60 * 1000);
+        }, 0, 3 * 1000);
     
     /**
-     * visitor_id 1小时更换
+     * visitor_id 10 秒一换
      */
     new Timer()
         .scheduleAtFixedRate(new TimerTask() {
@@ -54,7 +54,7 @@ public class TestSource extends RichParallelSourceFunction<String> {
           public void run() {
             VISITOR_ID = UUID.randomUUID().toString();
           }
-        }, 0, 60 * 60 * 1000);
+        }, 0, 10 * 1000);
     
   }
   

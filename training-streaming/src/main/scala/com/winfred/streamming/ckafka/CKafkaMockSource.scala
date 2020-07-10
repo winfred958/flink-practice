@@ -5,7 +5,7 @@ import com.winfred.streamming.ckafka.CKafkaExample.sinkTopic
 import com.winfred.streamming.common.TestSource
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
-object CKafkaTestSource {
+object CKafkaMockSource {
   var auto_offset_reset: String = "earliest"
 
   val groupId: String = this.getClass.getCanonicalName
