@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="324.0">org.apache.flink.streaming.api.windowing.assigners.SlidingProcessingTimeWindows</node>
+    <node x="0.0" y="123.0">org.apache.flink.streaming.api.windowing.triggers.CountTrigger</node>
+    <node x="1020.0" y="123.0">org.apache.flink.streaming.api.windowing.triggers.EventTimeTrigger</node>
+    <node x="676.0" y="123.0">org.apache.flink.streaming.api.windowing.triggers.DeltaTrigger</node>
+    <node x="1216.0" y="123.0">org.apache.flink.streaming.api.windowing.assigners.GlobalWindows.NeverTrigger</node>
+    <node x="292.0" y="324.0">org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows</node>
+    <node x="164.0" y="123.0">org.apache.flink.streaming.api.windowing.triggers.ContinuousEventTimeTrigger</node>
+    <node x="840.0" y="123.0">org.apache.flink.streaming.api.windowing.triggers.PurgingTrigger</node>
+    <node x="592.0" y="324.0">org.apache.flink.streaming.api.windowing.assigners.SlidingEventTimeWindows</node>
+    <node x="782.0" y="0.0">org.apache.flink.streaming.api.windowing.triggers.Trigger</node>
+    <node x="1305.0" y="221.0">org.apache.flink.streaming.api.windowing.evictors.Evictor</node>
+    <node x="1285.0" y="324.0">org.apache.flink.streaming.api.windowing.evictors.CountEvictor</node>
+    <node x="1129.0" y="324.0">org.apache.flink.streaming.api.windowing.evictors.TimeEvictor</node>
+    <node x="490.0" y="221.0">org.apache.flink.streaming.api.windowing.assigners.WindowAssigner</node>
+    <node x="844.0" y="324.0">org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows</node>
+    <node x="1449.0" y="324.0">org.apache.flink.streaming.api.windowing.evictors.DeltaEvictor</node>
+    <node x="1380.0" y="123.0">org.apache.flink.streaming.api.windowing.triggers.ContinuousProcessingTimeTrigger</node>
+    <node x="439.99999999999994" y="123.0">org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="548.0" y="93.0" />
+      <point x="814.5" y="93.0" />
+      <point x="-19.5" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.triggers.CountTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="72.0" y="73.0" />
+      <point x="788.5" y="73.0" />
+      <point x="-45.5" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.assigners.SlidingProcessingTimeWindows" target="org.apache.flink.streaming.api.windowing.assigners.WindowAssigner">
+      <point x="0.0" y="-26.5" />
+      <point x="136.0" y="294.0" />
+      <point x="510.0" y="294.0" />
+      <point x="-60.0" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.triggers.DeltaTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="748.0" y="103.0" />
+      <point x="827.5" y="103.0" />
+      <point x="-6.5" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.triggers.ContinuousProcessingTimeTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="1528.0" y="73.0" />
+      <point x="879.5" y="73.0" />
+      <point x="45.5" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.evictors.CountEvictor" target="org.apache.flink.streaming.api.windowing.evictors.Evictor">
+      <point x="0.0" y="-26.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.assigners.SlidingEventTimeWindows" target="org.apache.flink.streaming.api.windowing.assigners.WindowAssigner">
+      <point x="0.0" y="-26.5" />
+      <point x="708.0" y="304.0" />
+      <point x="590.0" y="304.0" />
+      <point x="20.0" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows" target="org.apache.flink.streaming.api.windowing.assigners.WindowAssigner">
+      <point x="0.0" y="-26.5" />
+      <point x="432.0" y="304.0" />
+      <point x="550.0" y="304.0" />
+      <point x="-20.0" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.triggers.PurgingTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="920.0" y="103.0" />
+      <point x="840.5" y="103.0" />
+      <point x="6.5" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows" target="org.apache.flink.streaming.api.windowing.assigners.WindowAssigner">
+      <point x="0.0" y="-26.5" />
+      <point x="964.0" y="294.0" />
+      <point x="630.0" y="294.0" />
+      <point x="60.0" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.evictors.DeltaEvictor" target="org.apache.flink.streaming.api.windowing.evictors.Evictor">
+      <point x="0.0" y="-26.5" />
+      <point x="1521.0" y="299.0" />
+      <point x="1391.6666666666667" y="299.0" />
+      <point x="34.66666666666674" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.triggers.EventTimeTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="1108.0" y="93.0" />
+      <point x="853.5" y="93.0" />
+      <point x="19.5" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.assigners.GlobalWindows.NeverTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="1288.0" y="83.0" />
+      <point x="866.5" y="83.0" />
+      <point x="32.5" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.evictors.TimeEvictor" target="org.apache.flink.streaming.api.windowing.evictors.Evictor">
+      <point x="0.0" y="-26.5" />
+      <point x="1197.0" y="299.0" />
+      <point x="1322.3333333333333" y="299.0" />
+      <point x="-34.66666666666674" y="26.5" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.windowing.triggers.ContinuousEventTimeTrigger" target="org.apache.flink.streaming.api.windowing.triggers.Trigger">
+      <point x="0.0" y="-26.5" />
+      <point x="292.0" y="83.0" />
+      <point x="801.5" y="83.0" />
+      <point x="-32.5" y="26.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="911.5" y="515.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

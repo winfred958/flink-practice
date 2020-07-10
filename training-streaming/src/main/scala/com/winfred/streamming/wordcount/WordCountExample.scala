@@ -5,8 +5,10 @@ import java.util.UUID
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
-import org.apache.flink.streaming.api.windowing.assigners.SlidingProcessingTimeWindows
+import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
+import org.apache.flink.streaming.api.windowing.evictors.DeltaEvictor
 import org.apache.flink.streaming.api.windowing.time.Time
+import org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger
 
 object WordCountExample {
 
@@ -17,7 +19,20 @@ object WordCountExample {
 
     val wordCountStream: DataStream[Word] = wordCount(socketDataStream)
 
+    import org.apache.flink.streaming.api.scala._
+
+    wordCountStream
+      .map(entity => {
+        (entity.word, entity.count)
+      })
+      .keyBy(0)
+      .reduce((a, b) => {
+        (a._1, a._2 + b._2)
+      })
+      .print()
+
     wordCountStream.print()
+
 
     executionEnvironment.execute("Socket Window WordCount")
   }
@@ -40,10 +55,22 @@ object WordCountExample {
         Word(term, 1L)
       })
       .keyBy("word")
-      .window(SlidingProcessingTimeWindows.of(Time.seconds(30), Time.seconds(10)))
-      .sum("count")
+      .window(TumblingProcessingTimeWindows.of(Time.seconds(10)))
+      .trigger(ProcessingTimeTrigger.create())
+      .reduce((a, b) => {
+        Word(a.word, b.count + a.count)
+      })
   }
 
+  /**
+   * need install netcat;
+   * nc -l -p 9999
+   *
+   * @param executionEnvironment
+   * @param hostname
+   * @param port
+   * @return
+   */
   def getDataStreamFromLocalSocket(
                                     executionEnvironment: StreamExecutionEnvironment,
                                     hostname: String = "127.0.0.1",
@@ -51,7 +78,8 @@ object WordCountExample {
                                   ): DataStream[SocketTestEntity] = {
     import org.apache.flink.streaming.api.scala._
 
-    executionEnvironment.socketTextStream(hostname, port)
+    executionEnvironment
+      .socketTextStream(hostname, port)
       .map(str => {
         SocketTestEntity(
           text = str
@@ -59,7 +87,7 @@ object WordCountExample {
       })
       .assignTimestampsAndWatermarks(new AscendingTimestampExtractor[SocketTestEntity] {
         override def extractAscendingTimestamp(element: SocketTestEntity): Long = {
-          element.server_time - 5000
+          element.server_time
         }
       })
   }
