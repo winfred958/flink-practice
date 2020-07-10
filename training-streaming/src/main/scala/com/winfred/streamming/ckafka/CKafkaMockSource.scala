@@ -22,7 +22,6 @@ object CKafkaMockSource {
     dataStream
       .addSink(FlinkKafkaSink.getKafkaSink(topic = sourceTopic))
 
-
     executionEnvironment
       .execute("CKafkaMockSource")
   }
