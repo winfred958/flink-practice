@@ -36,7 +36,7 @@ git pull
 git log -3
 
 # 开始编译打包
-MODEL_NAME=tranning-streaming
+MODEL_NAME=training-streaming
 
 CMD=$(cat << EOF
 mvn package --projects ${MODEL_NAME} --also-make --also-make-dependents
