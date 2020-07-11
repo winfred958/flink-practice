@@ -15,7 +15,6 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
-import java.nio.charset.StandardCharsets;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -72,21 +71,15 @@ public class TestSource extends RichParallelSourceFunction<String> {
   @Override
   public void run(SourceContext<String> ctx) throws Exception {
     while (isRun) {
-//      buildDataList(true)
-//          .stream()
-//          .map(entity -> {
-//            return JSON.toJSONString(entity, SerializerFeature.SortField);
-//          })
-//          .forEach(ctx::collect);
-      
-      for (Object obj : buildDataList(true)) {
-        String str = new String(JSON.toJSONString(obj, SerializerFeature.SortField).getBytes(), StandardCharsets.UTF_8);
-        ctx.collect(str);
-      }
+      buildDataList(true)
+          .stream()
+          .map(entity -> {
+            return JSON.toJSONString(entity, SerializerFeature.SortField);
+          })
+          .forEach(ctx::collect);
       Thread.sleep(RandomUtils.nextLong(intervalMillisecondMin, intervalMillisecondMax));
     }
   }
-  
   
   @Override
   public void cancel() {
