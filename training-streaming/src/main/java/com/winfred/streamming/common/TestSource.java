@@ -70,15 +70,18 @@ public class TestSource extends RichParallelSourceFunction<String> {
   
   @Override
   public void run(SourceContext<String> ctx) throws Exception {
-  
-    long aLong = RandomUtils.nextLong(intervalMillisecondMin, intervalMillisecondMax);
     while (isRun) {
-      buildDataList(true)
-          .stream()
-          .map(entity -> {
-            return JSON.toJSONString(entity, SerializerFeature.SortField);
-          }).forEach(ctx::collect);
-      Thread.sleep(aLong);
+//      buildDataList(true)
+//          .stream()
+//          .map(entity -> {
+//            return JSON.toJSONString(entity, SerializerFeature.SortField);
+//          })
+//          .forEach(ctx::collect);
+      for (Object obj : buildDataList(true)) {
+        String str = JSON.toJSONString(obj, SerializerFeature.SortField);
+        ctx.collect(str);
+      }
+      Thread.sleep(RandomUtils.nextLong(intervalMillisecondMin, intervalMillisecondMax));
     }
   }
   
