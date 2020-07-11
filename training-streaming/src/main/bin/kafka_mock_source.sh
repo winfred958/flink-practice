@@ -1,11 +1,11 @@
 #!/bin/bash
 
 FLINK_HOME=/usr/local/service/flink
-
+HOME_PATH=$(cd "$(dirname "$0")"; cd ..; pwd)
 
 CMD=$(cat << EOF
 ${FLINK_HOME}/bin/flink run \
-  --class com.tencent.pcg.main.FlinkHangout \
+  --class com.winfred.streamming.ckafka.CKafkaMockSource \
   --jobmanager yarn-cluster \
   --yarncontainer 3 \
   --yarnslots 4 \
@@ -14,11 +14,11 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 12 \
   --yarnstreaming \
   --detached \
-  --yarnname FlinkHangoutTest \
-  /data/home/itil/lib/flink_hangout-1.0-SNAPSHOT-jar-with-dependencies.jar 4512 146
+  --yarnname CKafkaMockSource \
+  ${HOME_PATH}/lib/training-streaming.jar
 EOF
 )
 
-echo -e "CMD:\n${CMD}"
+echo -e "CMD:\n${CMD}\n"
 
 ${CMD}
