@@ -13,10 +13,11 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 12 \
   --detached \
   --yarnname CKafkaExample \
-  ${HOME_PATH}/lib/training-streaming.jar
+  ${HOME_PATH}/lib/training-streaming.jar \
+    --target-path "cosn://emr-streamming-test-1258469122/tmp/parquet-streamming-sink"
 EOF
 )
-# parallelism 12 ~~~ 吞吐 2900000/min
+
 echo -e "CMD:\n${CMD}\n"
 
 ${CMD}

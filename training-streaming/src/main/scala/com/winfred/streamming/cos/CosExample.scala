@@ -6,6 +6,7 @@ import java.util.{Properties, UUID}
 import com.alibaba.fastjson.JSON
 import com.winfred.core.config.KafkaConfig
 import com.winfred.core.utils.ArgsHandler
+import com.winfred.streamming.entity.log.EventEntity
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.core.fs.Path
@@ -22,7 +23,7 @@ import scala.beans.BeanProperty
 object CosExample {
 
   var auto_offset_reset: String = "earliest"
-  val sourceTopic: String = "ckafka_test_target"
+  val sourceTopic: String = "ckafka_test_raw"
   val groupId: String = this.getClass.getCanonicalName
 
   def main(args: Array[String]): Unit = {
@@ -30,11 +31,11 @@ object CosExample {
 
     import org.apache.flink.streaming.api.scala._
 
-
     var basePath = ArgsHandler.getArgsParam(args = args, "target-path")
     if (StringUtils.isBlank(basePath)) {
       basePath = "/tmp/CosExample"
     }
+    println(s"output basePath = ${basePath}")
 
     // source
     val sourceData: DataStream[String] = executionEnvironment
@@ -43,7 +44,16 @@ object CosExample {
 
     val result = sourceData
       .map(str => {
-        JSON.parseObject(str, classOf[LogEntity])
+        JSON.parseObject(str, classOf[EventEntity])
+      })
+      .map(entity => {
+        LogEntity(
+          uuid = entity.getUuid,
+          server_time = entity.getServer_time,
+          token = entity.getHeader.getToken,
+          visitor_id = entity.getHeader.getVisitor_id,
+          platform = entity.getHeader.getPlatform
+        )
       })
 
     // sink
@@ -99,8 +109,10 @@ object CosExample {
 
   case class LogEntity(
                         @BeanProperty uuid: String = UUID.randomUUID().toString,
-                        @BeanProperty event_time: Long = System.currentTimeMillis(),
-                        @BeanProperty message: String = ""
+                        @BeanProperty server_time: Long = System.currentTimeMillis(),
+                        @BeanProperty token: String = "",
+                        @BeanProperty visitor_id: String = "",
+                        @BeanProperty platform: String = ""
                       )
 
 }
