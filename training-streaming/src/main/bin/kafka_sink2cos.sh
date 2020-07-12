@@ -5,14 +5,14 @@ HOME_PATH=$(cd "$(dirname "$0")"; cd ..; pwd)
 
 CMD=$(cat << EOF
 ${FLINK_HOME}/bin/flink run \
-  --class com.winfred.streamming.ckafka.CKafkaExample \
+  --class com.winfred.streamming.cos.CosSinkExample \
   --jobmanager yarn-cluster \
-  --yarnslots 4 \
+  --yarnslots 1 \
   --yarnjobManagerMemory 4096 \
   --yarntaskManagerMemory 4096 \
-  --parallelism 12 \
+  --parallelism 3 \
   --detached \
-  --yarnname CKafkaExample \
+  --yarnname CosSinkExample \
   ${HOME_PATH}/lib/training-streaming.jar \
     --target-path "cosn://emr-streamming-test-1258469122/tmp/parquet-streamming-sink"
 EOF

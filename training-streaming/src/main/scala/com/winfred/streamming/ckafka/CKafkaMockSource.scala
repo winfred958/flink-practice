@@ -19,7 +19,7 @@ object CKafkaMockSource {
     import org.apache.flink.streaming.api.scala._
 
     val dataStream: DataStream[String] = executionEnvironment
-      .addSource(new TestSource(20, 500))
+      .addSource(new TestSource(2, 20))
 
     dataStream
       .addSink(FlinkKafkaSink.getKafkaSink(topic = sourceTopic))

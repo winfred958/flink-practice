@@ -20,7 +20,7 @@ import org.apache.kafka.common.serialization.StringDeserializer
 
 import scala.beans.BeanProperty
 
-object CosExample {
+object CosSinkExample {
 
   var auto_offset_reset: String = "earliest"
   val sourceTopic: String = "ckafka_test_raw"
@@ -42,7 +42,7 @@ object CosExample {
       .addSource(getKafkaSource(topic = sourceTopic, groupId = groupId))
 
 
-    val result = sourceData
+    val result: DataStream[LogEntity] = sourceData
       .map(str => {
         JSON.parseObject(str, classOf[EventEntity])
       })
