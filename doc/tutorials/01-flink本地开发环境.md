@@ -6,7 +6,7 @@
     - IntelliJ IDEA
     - or 其他
 - 如果用scala开发flink, 请配置 scala 2.11 or 2.12环境
-    - **注意**: EMR flink 依赖的scala版本为 2.11
+    - **注意**: EMR flink 默认的scala版本为 2.11
 
 ## 2. 编写 [Hello word (Streaming API)](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#read-the-code)
 - ### 2.1 maven plugin 配置**请看本文末**

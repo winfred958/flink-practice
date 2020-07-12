@@ -1,9 +1,13 @@
-package com.winfred.streamming.ckafka
-
+# Flink 读写 ckafka
+## 1. 网络互通
+- 确保EMR和ckafka在同一个vpc或配置路由转发策略
+## 2. ckafka client 选择
+- 目前大多使用kafka 0.11.0.2 + 版本, 可以和无缝ckafka兼容, 详细请看[CKafka 与开源 Kafka 兼容性说明](https://cloud.tencent.com/document/product/597/11173)
+## 3. demo (kafka client 2.2.x)
+```scala 3
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Properties}
 
-import com.winfred.core.annotation.PassTest
 import com.winfred.core.config.KafkaConfig
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
@@ -15,7 +19,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 
-@PassTest
+
 object CKafkaExample {
 
   var auto_offset_reset: String = "earliest"
@@ -100,5 +104,4 @@ object CKafkaExample {
       .execute("CKafkaExample")
   }
 
-
-}
+```
