@@ -76,8 +76,6 @@ object CKafkaExample {
     val bootstrapServers = kafkaConfigEntity.getKafka.getProducer.getBootstrapServers
     val properties = new Properties()
     properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getCanonicalName)
-    properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getCanonicalName)
     properties.setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, "900000")
     properties.setProperty(ProducerConfig.ACKS_CONFIG, "0")
     properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "16384")
