@@ -87,10 +87,10 @@ public class TestSource extends RichParallelSourceFunction<String> {
   }
   
   
-  private List<Object> buildDataList(boolean isNested) {
+  private List<?> buildDataList(boolean isNested) {
     int iterator = 1 + (int) (Math.random() * 100);
     
-    List<Object> dataList = new ArrayList<>(iterator);
+    List dataList = new ArrayList<>(iterator);
     
     if (isNested) {
       for (int i = 0; i < iterator; i++) {
@@ -104,7 +104,7 @@ public class TestSource extends RichParallelSourceFunction<String> {
     return dataList;
   }
   
-  private Object buildDataNested(int partition) {
+  private EventEntity buildDataNested(int partition) {
     EventEntity entity = new EventEntity();
     
     entity.setSource("test-source");
