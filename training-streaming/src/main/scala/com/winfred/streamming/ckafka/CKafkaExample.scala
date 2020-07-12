@@ -1,15 +1,18 @@
 package com.winfred.streamming.ckafka
 
-import java.util.{Properties, UUID}
+import java.text.SimpleDateFormat
+import java.util.{Calendar, Properties, UUID}
 
 import com.winfred.core.config.KafkaConfig
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
+import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
+import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
-import org.apache.kafka.common.serialization.{StringDeserializer, StringSerializer}
+import org.apache.kafka.common.serialization.StringDeserializer
 
 import scala.beans.BeanProperty
 
@@ -34,11 +37,24 @@ object CKafkaExample {
           topic = sourceTopic, groupId = groupId
         )
       )
+      .filter(str => {
+        StringUtils.isNotBlank(str)
+      })
 
     // data process
     val result: DataStream[String] = dataSource
-      .filter(str => {
-        StringUtils.isNotBlank(str)
+      .map(str => {
+        ("str", 1L)
+      })
+      .keyBy(0)
+      .window(TumblingProcessingTimeWindows.of(Time.seconds(60)))
+      .reduce((a, b) => {
+        (a._1, a._2 + b._2)
+      })
+      .map(entity => {
+        val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val datetimeStr = dateFormat.format(Calendar.getInstance().getTime)
+        s"""{"${datetimeStr}": ${entity._2}}"""
       })
 
     // add sink

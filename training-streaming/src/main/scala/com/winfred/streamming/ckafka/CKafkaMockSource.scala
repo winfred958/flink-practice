@@ -1,9 +1,11 @@
 package com.winfred.streamming.ckafka
 
+import com.winfred.core.annotation.PassTest
 import com.winfred.core.sink.FlinkKafkaSink
 import com.winfred.streamming.common.TestSource
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
+@PassTest
 object CKafkaMockSource {
   var auto_offset_reset: String = "earliest"
 
