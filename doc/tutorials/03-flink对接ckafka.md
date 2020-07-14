@@ -65,6 +65,9 @@ object CKafkaExample {
 
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
 
+    executionEnvironment
+      .enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
+
     import org.apache.flink.streaming.api.scala._
 
     // add source

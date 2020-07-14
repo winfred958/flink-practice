@@ -7,6 +7,7 @@ import com.winfred.core.annotation.PassTest
 import com.winfred.core.config.KafkaConfig
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
+import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
 import org.apache.flink.streaming.api.windowing.time.Time
@@ -60,6 +61,9 @@ object CKafkaExample {
   def main(args: Array[String]): Unit = {
 
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+
+    executionEnvironment
+      .enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
 
     import org.apache.flink.streaming.api.scala._
 
