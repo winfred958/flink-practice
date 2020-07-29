@@ -20,7 +20,7 @@
     - flink on yarn session (不推荐, 多个job共有1个jobManager, 耦合严重)
     - flink on yarn single job
         - [官方文档](https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/deployment/yarn_setup.html#run-a-single-flink-job-on-yarn)
-        - 推荐使用长命令方式, 举例
+        - 推荐使用长命令方式, 示例
             - ```shell script
               flink run \
                 --class com.datamining.streaming.base.RealTimeRawHandler \
