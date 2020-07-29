@@ -25,16 +25,15 @@
               flink run \
                 --class com.datamining.streaming.base.RealTimeRawHandler \
                 --jobmanager yarn-cluster \
-                --yarncontainer 3 \
                 --yarnslots 4 \
                 --yarnjobManagerMemory 2048 \
                 --yarntaskManagerMemory 2048 \
                 --parallelism 12 \
-                --yarnstreaming \
                 --detached  \
                 --yarnname RealTimeRawHandler \
                 /home/hadoop/user-project/lib/xxxx.jar
               ```
+           
 ## 4. 需要您关注的Flink配置 ()
 | key | 简述 | 默认值 | 推荐 |
 | :--- | :--- | :--- | :--- |
