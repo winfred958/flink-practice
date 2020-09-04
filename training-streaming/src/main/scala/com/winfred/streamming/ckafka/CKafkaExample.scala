@@ -44,6 +44,7 @@ object CKafkaExample {
     source
   }
 
+
   def getKafkaSink(topic: String): FlinkKafkaProducer[String] = {
     val kafkaConfigEntity = KafkaConfig.getConfigEntity()
     val bootstrapServers = kafkaConfigEntity.getKafka.getProducer.getBootstrapServers
@@ -99,6 +100,7 @@ object CKafkaExample {
       .addSink(
         getKafkaSink(topic = sinkTopic)
       )
+
 
     executionEnvironment
       .execute("CKafkaExample")
