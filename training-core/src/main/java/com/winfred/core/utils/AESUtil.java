@@ -18,11 +18,11 @@ import java.security.SecureRandom;
 public class AESUtil {
   private static final String KEY_ALGORITHM = "AES";
   private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";// 默认的加密算法
-  
+
   private static final String default_passwd = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-  
+
   private static Logger logger = LoggerFactory.getLogger(AESUtil.class);
-  
+
   /**
    * AES 加密操作
    *
@@ -56,10 +56,10 @@ public class AESUtil {
     } catch (Exception ex) {
 //            logger.error("AES encrypt error", ex);
     }
-    
+
     return null;
   }
-  
+
   /**
    * AES 解密操作
    *
@@ -81,7 +81,7 @@ public class AESUtil {
     }
     return null;
   }
-  
+
   /**
    * 生成加密秘钥
    *
@@ -90,7 +90,7 @@ public class AESUtil {
   private static SecretKeySpec getSecretKey(final String password) {
     // 返回生成指定算法密钥生成器的 KeyGenerator 对象
     KeyGenerator kg = null;
-    
+
     try {
       kg = KeyGenerator.getInstance(KEY_ALGORITHM);
       // 防止linux 生成随机key
@@ -107,17 +107,17 @@ public class AESUtil {
     }
     return null;
   }
-  
+
   public static void main(String[] args) {
     String s = "你好呀, 123.456";
-    
+
     System.out.println("原始数据: " + s);
-    
+
     String s1 = AESUtil.encrypt(s, "1234");
     System.out.println("加密数据: " + s1);
-    
+
     System.out.println("解密数据: " + AESUtil.decrypt(s1, "1234"));
-    
+
     System.out.println("解密数据: " + AESUtil.decrypt("b7xeubPo9lcJ4rz7+iW0hA==", "ZHvTxIxketar28U46lvcUI7oS6g="));
   }
 }

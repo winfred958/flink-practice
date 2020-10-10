@@ -40,6 +40,7 @@ object CKafkaExample {
     properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, auto_offset_reset)
     properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
 
+
     val source: FlinkKafkaConsumer[String] = new FlinkKafkaConsumer[String](topic, new SimpleStringSchema(), properties)
     source
   }

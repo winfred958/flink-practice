@@ -8,15 +8,15 @@ public enum Agent {
   /**
    *
    */
-  
+
   ;
-  
+
   private String value;
-  
+
   public String getValue() {
     return value;
   }
-  
+
   Agent(String value) {
     this.value = value;
   }

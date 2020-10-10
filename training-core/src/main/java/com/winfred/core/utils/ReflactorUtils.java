@@ -24,7 +24,7 @@ public class ReflactorUtils {
     }
     return null;
   }
-  
+
   public static Map<String, Field> getFieldMap(Class<?> clazz) {
     Map<String, Field> result = new HashMap<>(16);
     Arrays.stream(clazz.getDeclaredFields()).forEach(field -> {
@@ -39,23 +39,23 @@ public class ReflactorUtils {
     }
     return result;
   }
-  
+
   public static void copyValue(Map<String, Object> data, Object target) {
     if (null == target) {
       return;
     }
     Class<?> clazz = target.getClass();
     Map<String, Field> targetFieldMap = getFieldMap(clazz);
-    
+
     for (Map.Entry<String, Field> entry : targetFieldMap.entrySet()) {
       String fieldName = entry.getKey();
       Field targetField = entry.getValue();
-      
+
       String targetFieldTypeName = targetField.getType().getTypeName();
-      
+
       Object fieldValue = data.get(fieldName);
       targetField.setAccessible(true);
-      
+
       try {
         if (StringUtils.containsAny(targetFieldTypeName, "java.lang.String", "String")) {
           String value = (isIllegalValue(fieldValue) ? null : String.valueOf(fieldValue));
@@ -72,10 +72,10 @@ public class ReflactorUtils {
         }
       } catch (IllegalAccessException e) {
       }
-      
+
     }
   }
-  
+
   /**
    * 是非法数据?
    *

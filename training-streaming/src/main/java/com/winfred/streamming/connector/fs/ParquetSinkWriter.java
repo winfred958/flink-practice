@@ -19,52 +19,52 @@ import java.io.IOException;
  * @param <T>
  */
 public class ParquetSinkWriter<T extends GenericRecord> implements Writer<T> {
-  
+
   private static final long serialVersionUID = -975302556515811398L;
-  
+
   private final CompressionCodecName compressionCodecName = CompressionCodecName.SNAPPY;
   private final int pageSize = 64 * 1024;
-  
+
   private final String schemaRepresentation;
-  
+
   private transient Schema schema;
   private transient ParquetWriter<GenericRecord> writer;
   private transient Path path;
-  
+
   private int position;
-  
+
   public ParquetSinkWriter(String schemaRepresentation) {
     this.schemaRepresentation = Preconditions.checkNotNull(schemaRepresentation);
   }
-  
+
   @Override
   public void open(FileSystem fs, Path path) throws IOException {
     this.position = 0;
     this.path = path;
-    
+
     if (writer != null) {
       writer.close();
     }
-    
+
     writer = createWriter();
   }
-  
+
   @Override
   public long flush() throws IOException {
     Preconditions.checkNotNull(writer);
     position += writer.getDataSize();
     writer.close();
     writer = createWriter();
-    
+
     return position;
   }
-  
+
   @Override
   public long getPos() throws IOException {
     Preconditions.checkNotNull(writer);
     return position + writer.getDataSize();
   }
-  
+
   @Override
   public void close() throws IOException {
     if (writer != null) {
@@ -72,28 +72,28 @@ public class ParquetSinkWriter<T extends GenericRecord> implements Writer<T> {
       writer = null;
     }
   }
-  
+
   @Override
   public void write(T element) throws IOException {
     Preconditions.checkNotNull(writer);
     writer.write(element);
   }
-  
+
   @Override
   public Writer<T> duplicate() {
     return new ParquetSinkWriter<>(schemaRepresentation);
   }
-  
+
   private ParquetWriter<GenericRecord> createWriter() throws IOException {
     if (schema == null) {
       schema = new Schema.Parser().parse(schemaRepresentation);
     }
-    
+
     return AvroParquetWriter.<GenericRecord>builder(path)
-        .withSchema(schema)
-        .withDataModel(new GenericData())
-        .withCompressionCodec(compressionCodecName)
-        .withPageSize(pageSize)
-        .build();
+            .withSchema(schema)
+            .withDataModel(new GenericData())
+            .withCompressionCodec(compressionCodecName)
+            .withPageSize(pageSize)
+            .build();
   }
 }
