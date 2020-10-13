@@ -1,4 +1,4 @@
-package com.winfred.streamming.cos
+package com.winfred.streamming.example
 
 import java.time.ZoneId
 import java.util.{Properties, UUID}

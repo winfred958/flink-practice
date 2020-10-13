@@ -1,4 +1,4 @@
-package com.winfred.streamming.ckafka
+package com.winfred.streamming.example
 
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Properties}

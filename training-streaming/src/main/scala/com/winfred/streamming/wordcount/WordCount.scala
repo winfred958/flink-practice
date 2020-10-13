@@ -26,7 +26,9 @@ object WordCount {
       .map(term => {
         (term, 1L)
       })
-      .keyBy(0)
+      .keyBy(e => {
+        e._1
+      })
       .window(SlidingProcessingTimeWindows.of(Time.seconds(60), Time.seconds(5)))
       .reduce(new ReduceFunction[(String, Long)] {
         override def reduce(value1: (String, Long), value2: (String, Long)): (String, Long) = {

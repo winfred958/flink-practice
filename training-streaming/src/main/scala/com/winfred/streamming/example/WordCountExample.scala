@@ -1,4 +1,4 @@
-package com.winfred.streamming.wordcount
+package com.winfred.streamming.example
 
 import java.util.UUID
 
@@ -24,7 +24,9 @@ object WordCountExample {
       .map(entity => {
         (entity.word, entity.count)
       })
-      .keyBy(0)
+      .keyBy(entity => {
+        entity._1
+      })
       .reduce((a, b) => {
         (a._1, a._2 + b._2)
       })
@@ -53,7 +55,9 @@ object WordCountExample {
       .map(term => {
         Word(term, 1L)
       })
-      .keyBy("word")
+      .keyBy(entity => {
+        entity.word
+      })
       .window(TumblingProcessingTimeWindows.of(Time.seconds(10)))
       .trigger(ProcessingTimeTrigger.create())
       .reduce((a, b) => {
