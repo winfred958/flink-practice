@@ -2,7 +2,7 @@ package com.winfred.streamming.ckafka
 
 import com.winfred.core.annotation.PassTest
 import com.winfred.core.sink.FlinkKafkaSink
-import com.winfred.streamming.common.TestSource
+import com.winfred.streamming.common.TestDataMockSource
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
 @PassTest
@@ -19,7 +19,7 @@ object CKafkaMockSource {
     import org.apache.flink.streaming.api.scala._
 
     val dataStream: DataStream[String] = executionEnvironment
-      .addSource(new TestSource(2, 20))
+      .addSource(new TestDataMockSource(2, 20))
 
     dataStream
       .addSink(FlinkKafkaSink.getKafkaSink(topic = sourceTopic))

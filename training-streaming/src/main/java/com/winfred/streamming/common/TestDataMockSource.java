@@ -18,7 +18,7 @@ import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunctio
 import java.time.ZoneId;
 import java.util.*;
 
-public class TestSource extends RichParallelSourceFunction<String> {
+public class TestDataMockSource extends RichParallelSourceFunction<String> {
 
   private String SESSION_ID = UUID.randomUUID().toString();
 
@@ -34,7 +34,7 @@ public class TestSource extends RichParallelSourceFunction<String> {
    *
    * @param intervalMillisecondMin
    */
-  public TestSource(int intervalMillisecondMin, int intervalMillisecondMax) {
+  public TestDataMockSource(int intervalMillisecondMin, int intervalMillisecondMax) {
     this.intervalMillisecondMin = intervalMillisecondMin;
     this.intervalMillisecondMax = intervalMillisecondMax;
 
