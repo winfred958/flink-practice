@@ -20,6 +20,9 @@ object CKafkaMockSource {
 
     val dataStream: DataStream[String] = executionEnvironment
       .addSource(new TestDataMockSource(2, 20))
+      .assignAscendingTimestamps(s => {
+        System.currentTimeMillis()
+      })
 
     dataStream
       .addSink(FlinkKafkaSink.getKafkaSink(topic = sourceTopic))
@@ -27,5 +30,4 @@ object CKafkaMockSource {
     executionEnvironment
       .execute("CKafkaMockSource")
   }
-
 }
