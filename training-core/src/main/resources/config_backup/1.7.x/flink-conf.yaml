@@ -184,10 +184,10 @@ taskmanager.memory.preallocate: true
   # Child first classloading allows users to use different dependency/library
   # versions in their application than those in the classpath. Switching back
   # to 'parent-first' may help with debugging dependency issues.
-  #
-  # classloader.resolve-order: child-first
+#
+# classloader.resolve-order: child-first
 
-  # The amount of memory going to the network stack. These numbers usually need
+# The amount of memory going to the network stack. These numbers usually need
 # no tuning. Adjusting them may be necessary in case of an "Insufficient number
 # of network buffers" error. The default min is 64MB, the default max is 1GB.
 
