@@ -1,8 +1,13 @@
 #!/bin/bash
 
-HOME_PATH=$(cd "$(dirname "$0")"; cd ..; pwd)
+HOME_PATH=$(
+  cd "$(dirname "$0")"
+  cd ..
+  pwd
+)
 
-CMD=$(cat << EOF
+CMD=$(
+  cat <<EOF
 /usr/local/service/flink/bin/flink run \
   --class com.winfred.training.wc.WordCount \
   --jobmanager yarn-cluster \
@@ -18,5 +23,3 @@ EOF
 )
 
 echo -e "${CMD}"
-
-

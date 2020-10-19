@@ -1,9 +1,14 @@
 #!/bin/bash
 
 FLINK_HOME=/usr/local/service/flink
-HOME_PATH=$(cd "$(dirname "$0")"; cd ..; pwd)
+HOME_PATH=$(
+  cd "$(dirname "$0")"
+  cd ..
+  pwd
+)
 
-CMD=$(cat << EOF
+CMD=$(
+  cat <<EOF
 ${FLINK_HOME}/bin/flink run \
   --class com.winfred.streamming.cos.CosSinkExample \
   --jobmanager yarn-cluster \
