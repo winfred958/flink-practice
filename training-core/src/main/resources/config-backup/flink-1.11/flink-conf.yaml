@@ -34,22 +34,30 @@ jobmanager.rpc.address: 0.0.0.0
 
 # The RPC port where the JobManager is reachable.
 
-jobmanager.rpc.port: 6123
+jobmanager.rpc.port: 16123
 
 
-# The heap size for the JobManager JVM
+# The total process memory size for the JobManager.
+#
+# Note this accounts for all memory usage within the JobManager process, including JVM metaspace and other overhead.
 
-jobmanager.heap.size: 4096m
+jobmanager.memory.process.size: 1600m
 
 
-# The heap size for the TaskManager JVM
+# The total process memory size for the TaskManager.
+#
+# Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.
 
-taskmanager.heap.size: 4096m
+taskmanager.memory.process.size: 1728m
 
+# To exclude JVM metaspace and overhead, please, use total Flink memory size instead of 'taskmanager.memory.process.size'.
+# It is not recommended to set both 'taskmanager.memory.process.size' and Flink memory.
+#
+# taskmanager.memory.flink.size: 1280m
 
 # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
 
-taskmanager.numberOfTaskSlots: 4
+taskmanager.numberOfTaskSlots: 1
 
 # The parallelism used for programs that did not specify and other parallelism.
 
@@ -61,17 +69,16 @@ parallelism.default: 1
 # root file system 'file:///'. Use this to override the default and interpret
 # relative paths relative to a different file system,
 # for example 'hdfs://mynamenode:12345'
-
-fs.default-scheme: hdfs://cdh5
-fs.hdfs.hadoopconf: /home/pro/flink/hadoop_conf
+#
+# fs.default-scheme
 
 #==============================================================================
 # High Availability
 #==============================================================================
 
 # The high-availability mode. Possible options are 'NONE' or 'zookeeper'.
-
-high-availability: zookeeper
+#
+# high-availability: zookeeper
 
 # The path where metadata for master recovery is persisted. While ZooKeeper stores
 # the small ground truth for checkpoint and leader election, this location stores
@@ -79,16 +86,14 @@ high-availability: zookeeper
 # 
 # Must be a durable file system that is accessible from all nodes
 # (like HDFS, S3, Ceph, nfs, ...) 
-
-high-availability.storageDir: hdfs://cdh5/user/pro/flink
+#
+# high-availability.storageDir: hdfs:///flink/ha/
 
 # The list of ZooKeeper quorum peers that coordinate the high-availability
 # setup. This must be a list of the form:
 # "host1:clientPort,host2:clientPort,..." (default clientPort: 2181)
-
-high-availability.zookeeper.quorum: cdh-172-16-1-28:2181,cdh-172-16-1-30:2181,cdh-172-16-1-32:2181,cdh-172-16-1-35:2181,cdh-172-16-1-39:2181
-high-availability.zookeeper.path.root: /flink
-high-availability.cluster-id: /cluster_yarn_36
+#
+# high-availability.zookeeper.quorum: localhost:2181
 
 
 # ACL options are based on https://zookeeper.apache.org/doc/r3.1.2/zookeeperProgrammers.html#sc_BuiltinACLSchemes
@@ -96,9 +101,6 @@ high-availability.cluster-id: /cluster_yarn_36
 # The default value is "open" and it can be changed to "creator" if ZK security is enabled
 #
 # high-availability.zookeeper.client.acl: open
-
-heartbeat.interval: 30000
-heartbeat.timeout: 150000
 
 #==============================================================================
 # Fault tolerance and checkpointing
@@ -115,18 +117,16 @@ state.backend: rocksdb
 # Directory for checkpoints filesystem, when using any of the default bundled
 # state backends.
 
-state.checkpoints.dir: hdfs://cdh5/user/pro/flink-checkpoints
+state.checkpoints.dir: hdfs://172.17.0.14:4007/user/flink/flink-checkpoints
 
 # Default target directory for savepoints, optional.
 
-state.savepoints.dir: hdfs://cdh5/user/pro/flink-savepoints
+state.savepoints.dir: hdfs://172.17.0.14:4007/user/flink/flink-savepoints
 
 # Flag to enable/disable incremental checkpoints for backends that
 # support incremental checkpoints (like the RocksDB state backend). 
 
 state.backend.incremental: true
-
-state.checkpoints.num-retained: 2
 
 # The failover strategy, i.e., how the job computation recovers from task failures.
 # Only restart tasks that may have been affected by the task failure, which typically includes
@@ -140,16 +140,16 @@ jobmanager.execution.failover-strategy: region
 
 # The port to which the REST client connects to. If rest.bind-port has
 # not been specified, then the server will bind to this port as well.
-
-rest.port: 18081
+#
+#rest.port: 8081
 
 # The address to which the REST client will connect to
-
-rest.address: 0.0.0.0
+#
+#rest.address: 0.0.0.0
 
 # Port range for the REST and web server to bind to.
 
-rest.bind-port: 18080-18090
+rest.bind-port: 50100-50200
 
 # The address that the REST & web server binds to
 
@@ -158,7 +158,7 @@ rest.bind-address: 0.0.0.0
 # Flag to specify whether job submission is enabled from the web-based
 # runtime monitor. Uncomment to disable.
 
-web.submit.enable: false
+#web.submit.enable: false
 
 #==============================================================================
 # Advanced
@@ -178,19 +178,8 @@ web.submit.enable: false
 # thread. You can include the same directory multiple times in order to create
 # multiple I/O threads against that directory. This is for example relevant for
 # high-throughput RAIDs.
-
-io.tmp.dirs: /tmp/flink/tmp_0/:/tmp/flink/tmp_1/:/tmp/flink/tmp_2/:/tmp/flink/tmp_3/:/tmp/flink/tmp_4/:/tmp/flink/tmp_5/:/tmp/flink/tmp_6/:/tmp/flink/tmp_7/:/tmp/flink/tmp_8/:/tmp/flink/tmp_9/
-
-# Specify whether TaskManager's managed memory should be allocated when starting
-# up (true) or when memory is requested.
 #
-# We recommend to set this value to 'true' only in setups for pure batch
-# processing (DataSet API). Streaming setups currently do not use the TaskManager's
-# managed memory: The 'rocksdb' state backend uses RocksDB's own memory management,
-# while the 'memory' and 'filesystem' backends explicitly keep data as objects
-# to save on serialization cost.
-
-taskmanager.memory.preallocate: true
+# io.tmp.dirs: /tmp
 
 # The classloading resolve order. Possible values are 'child-first' (Flink's default)
 # and 'parent-first' (Java's default).
@@ -205,9 +194,9 @@ taskmanager.memory.preallocate: true
 # no tuning. Adjusting them may be necessary in case of an "Insufficient number
 # of network buffers" error. The default min is 64MB, the default max is 1GB.
 
-taskmanager.network.memory.fraction: 0.1
-taskmanager.network.memory.min: 256mb
-taskmanager.network.memory.max: 2gb
+taskmanager.memory.network.fraction: 0.1
+taskmanager.memory.network.min: 64mb
+taskmanager.memory.network.max: 1gb
 
 #==============================================================================
 # Flink Cluster Security Configuration
@@ -265,10 +254,3 @@ taskmanager.network.memory.max: 2gb
 # Interval in milliseconds for refreshing the monitored directories.
 #historyserver.archive.fs.refresh-interval: 10000
 
-# env.java.opts: -server -XX:+UseG1GC -XX:MaxGCPauseMillis=300 -XX:PrintGCDetails
-
-
-#########################
-#### yarn
-##########################
-yarn.application-attempts: 10
