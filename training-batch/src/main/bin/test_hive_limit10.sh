@@ -18,9 +18,10 @@ CMD=$(
   --detached  \
   --yarnname flink-hvie-test \
   ${HOME_PATH}/lib/training-batch.jar \
-  --hive-config-dir /usr/local/service/hive/conf \
-  --database-name flink \
-  --table-name test
+  --hive-config-dir /usr/local/service/flink/hadoop_config \
+  --catalog-name test_catalog \
+  --database-name default
+
 EOF
 )
 

@@ -21,9 +21,9 @@ object FlinkHiveTest {
       databaseName = "default"
     }
 
-    var tableName = ArgsHandler.getArgsParam(args, "table-name")
-    if (tableName == null) {
-      tableName = "test"
+    var catalogName = ArgsHandler.getArgsParam(args, "catalog-name")
+    if (catalogName == null) {
+      catalogName = "myhive"
     }
 
     var hiveConfigDir = ArgsHandler.getArgsParam(args, "hive-config-dir")
@@ -31,15 +31,20 @@ object FlinkHiveTest {
       hiveConfigDir = "/usr/local/service/hive/conf"
     }
 
-    val hiveCatalog = new HiveCatalog(tableName, databaseName, hiveConfigDir)
-    tableEnv.registerCatalog(tableName, hiveCatalog)
-    tableEnv.useCatalog(tableName)
+    println(s"hiveConfigDir=${hiveConfigDir}")
+    println(s"catalogName=${catalogName}")
+    println(s"databaseName=${databaseName}")
+
+
+    val hiveCatalog = new HiveCatalog(catalogName, databaseName, hiveConfigDir)
+    tableEnv.registerCatalog(catalogName, hiveCatalog)
+    tableEnv.useCatalog(catalogName)
 
 
     val table: Table = tableEnv
       .sqlQuery(
         s"""
-           | SELECT * FROM ${tableName} LIMIT 10
+           | SELECT * FROM ${catalogName} LIMIT 10
            |""".stripMargin)
 
     val tableResult = table.execute()
