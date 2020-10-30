@@ -30,10 +30,10 @@ object CKafkaExample {
     val bootstrapServers = kafkaConfigEntity.getKafka.getConsumer.getBootstrapServers
 
     val properties = new Properties()
-    properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500")
-    properties.setProperty(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "300000")
-    properties.setProperty(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000")
+    properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+    properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500")
+    properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "300000")
+    properties.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000")
     properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000")
     properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)
     properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)
