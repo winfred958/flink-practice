@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <property>
+    <name>yarn.scheduler.capacity.maximum-am-resource-percent</name>
+    <value>0.1</value>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.maximum-applications</name>
+    <value>1000</value>
+  </property>
+
+  <!-- 划分2队列 root.default root.destroy -->
+  <property>
+    <name>yarn.scheduler.capacity.root.queues</name>
+    <value>default,destroy</value>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.root.default.capacity</name>
+    <value>90</value>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.root.destroy.capacity</name>
+    <value>10</value>
+  </property>
+
+  <!-- 配置哪些标签可以被队列访问 -->
+  <property>
+    <name>yarn.scheduler.capacity.root.accessible-node-labels</name>
+    <value>*</value>
+    <description>root queue 可以访问所有 label, 否则, Accessible node labels for root queue will be ignored, it will be
+      automatically set to "*".
+    </description>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.root.default.accessible-node-labels</name>
+    <value></value>
+    <description>无标签的节点, 可以被 root.default 访问</description>
+  </property>
+
+  <property>
+    <name>yarn.scheduler.capacity.root.destroy.accessible-node-labels</name>
+    <value>destroy_node</value>
+    <description>destroy_node标签的节点, 可以被 root.destroy 队列访问</description>
+  </property>
+
+  <!-- 队列所占用标签的容量 -->
+  <property>
+    <name>yarn.scheduler.capacity.root.default.accessible-node-labels..capacity</name>
+    <value>100</value>
+    <description>标签 的节点, 可以被 root.default 队列访访问, 可以使用的容量, </description>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.destroy.accessible-node-labels..capacity</name>
+    <value>0</value>
+    <description>标签 的节点, 可以被 root.destroy 队列访访问, 可以使用的容量</description>
+  </property>
+
+  <!-- 队列所占用标签的容量 -->
+  <property>
+    <name>yarn.scheduler.capacity.root.default.accessible-node-labels.destroy_node.capacity</name>
+    <value>0</value>
+    <description>标签 destroy_node 的节点, 可以被 root.default 队列访访问, 可以使用的容量, </description>
+  </property>
+  <property>
+    <name>yarn.scheduler.capacity.root.destroy.accessible-node-labels.destroy_node.capacity</name>
+    <value>100</value>
+    <description>标签 destroy_node 的节点, 可以被 root.destroy 队列访访问, 可以使用的容量</description>
+  </property>
+
+</configuration>

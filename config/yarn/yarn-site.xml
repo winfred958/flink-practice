@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <property>
+    <name>yarn.resourcemanager.am.max-attempts</name>
+    <value>2</value>
+    <description>The default maximum number of application attempts, if unset by the user. Each application master can
+      specify its individual maximum number of application attempts via the API, but the individual number cannot be
+      more than the global upper bound in yarn.resourcemanager.am.global.max-attempts. The default number is set to 2,
+      to allow at least one retry for AM.
+    </description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.scheduler.monitor.enable</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.scheduler.monitor.policies</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.monitor.capacity.ProportionalCapacityPreemptionPolicy</value>
+  </property>
+
+</configuration>
