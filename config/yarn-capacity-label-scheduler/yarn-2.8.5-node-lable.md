@@ -142,7 +142,7 @@
     - yarn rmadmin -addToClusterNodeLabels "destroy_node(exclusive=true)"
   - 2.查看添加的集群的label
     - yarn cluster --list-node-labels
-  - 3. 待下线节点标记label为 destroy_node
+  - 3.待下线节点标记label为 destroy_node
     - yarn rmadmin -replaceLabelsOnNode “node1-host=destroy_node node2-host=destroy_node”
 - ### 2.3 配置容量调度, label 绑定 queue
   - 修改 yarn-site.xml, scheduler 为容量调度
