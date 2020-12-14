@@ -3,6 +3,7 @@ package com.winfred.streamming.ckafka
 import com.winfred.core.annotation.PassTest
 import com.winfred.core.sink.FlinkKafkaSink
 import com.winfred.streamming.common.TestDataMockSource
+import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
 @PassTest
@@ -15,6 +16,8 @@ object CKafkaMockSource {
 
   def main(args: Array[String]): Unit = {
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+
+    executionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
 
     import org.apache.flink.streaming.api.scala._
 
