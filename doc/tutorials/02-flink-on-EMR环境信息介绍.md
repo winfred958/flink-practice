@@ -1,4 +1,5 @@
 # Flink on EMR 环境信息
+
 ## 1. EMR & Flink & hadoop 版本对应关系
 
 | EMR | flink | hadoop | scala |
@@ -10,11 +11,15 @@
 | 2.1.0 | 1.4.2 | 2.8.4 | ? |
 
 ## 2. Flink 部署目录
+
 - EMR 上 flink 部署目录
     - FLINK_HOME=/usr/local/service/flink
 - 您可以在EMR控制台更改配置, 然后下发配置
+
 ## 3. 推荐使用方式
-- 在EMR上推荐您使用flink on yarn模式 [YARN Setup](https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/deployment/yarn_setup.html)
+
+- 在EMR上推荐您使用flink on
+  yarn模式 [YARN Setup](https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/deployment/yarn_setup.html)
     - 你可以配置自己的flink client, (编译flink版本, 配置环境变量即可)
 - job 提交方式
     - flink on yarn session (不推荐, 多个job共有1个jobManager, 耦合严重)
@@ -33,8 +38,9 @@
                 --yarnname RealTimeRawHandler \
                 /home/hadoop/user-project/lib/xxxx.jar
               ```
-           
+
 ## 4. 需要您关注的Flink配置 ()
+
 | key | 简述 | 默认值 | 推荐 |
 | :--- | :--- | :--- | :--- |
 | jobmanager.rpc.address |  | none | 0.0.0.0 |

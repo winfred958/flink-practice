@@ -1,5 +1,7 @@
 # Flink 本地开发环境准备
+
 ## 1. System environment
+
 - java 8+
 - maven 3.6.x
 - IDE
@@ -9,6 +11,7 @@
     - **注意**: EMR flink 默认的scala版本为 2.11
 
 ## 2. 编写 [Hello word (Streaming API)](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#read-the-code)
+
 - ### 2.1 maven plugin 配置**请看本文末**
 - ### 2.2 推荐的目录结构
     - ![avatar](./images/maven_dir_constract.png)
@@ -163,7 +166,8 @@
 
           ```
 
-## 3. 本地运行 Hello word 准备 (安装 netcat 插件) [Run the Example](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#run-the-example) 
+## 3. 本地运行 Hello word 准备 (安装 netcat 插件) [Run the Example](https://ci.apache.org/projects/flink/flink-docs-release-1.10/getting-started/tutorials/local_setup.html#run-the-example)
+
 - ### 3.1 安装netcat插件
     - #### CentOS 7
         - ```shell script
@@ -178,10 +182,13 @@
     - IDE 运行 WordCountExample
     - 命令行 nc下 中输入单词
         - ![avatar](./images/nc2.png)
+
 ## 4. 效果展示
+
 - ![avatar](./images/wc.png)
 
 ## 5. maven常用插件
+
 - ```xml
     <properties>
         <!--plugin-->

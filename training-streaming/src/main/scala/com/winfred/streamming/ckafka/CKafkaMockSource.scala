@@ -15,7 +15,8 @@ object CKafkaMockSource {
 
 
   def main(args: Array[String]): Unit = {
-    val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+    val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment
+      .getExecutionEnvironment
 
     executionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
 

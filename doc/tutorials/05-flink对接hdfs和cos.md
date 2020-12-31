@@ -1,5 +1,10 @@
-package com.winfred.core.sink;
+# Flink 写 Elasticsearch
 
+## [官方文档](https://ci.apache.org/projects/flink/flink-docs-master/dev/connectors/elasticsearch.html)
+
+### 示例代码(非完全)
+
+```java
 import com.alibaba.fastjson.JSON;
 import org.apache.flink.api.common.functions.RuntimeContext;
 import org.apache.flink.streaming.connectors.elasticsearch.ElasticsearchSinkBase;
@@ -54,7 +59,6 @@ public class EsSink<T> {
         sinkBuilder.setFailureHandler(new IgnoringFailureHandler());
         sinkBuilder
                 .setRestClientFactory(restClientBuilder -> {
-
                     // 认证设置
                     restClientBuilder
                             .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
@@ -65,7 +69,6 @@ public class EsSink<T> {
                                     return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
                                 }
                             });
-
                     // socket timeout 设置
                     restClientBuilder
                             .setRequestConfigCallback(requestConfigBuilder -> {
@@ -76,3 +79,4 @@ public class EsSink<T> {
         return sinkBuilder.build();
     }
 }
+```
