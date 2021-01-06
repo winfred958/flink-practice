@@ -21,7 +21,7 @@
 
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-connector-filesystem_${scala.binary.version}</artifactId>
+      <artifactId>flink-connector-files</artifactId>
     </dependency>
 
     <dependency>
