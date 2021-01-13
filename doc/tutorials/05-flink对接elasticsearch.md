@@ -59,7 +59,7 @@ public class EsSink<T> {
         sinkBuilder.setFailureHandler(new IgnoringFailureHandler());
         sinkBuilder
                 .setRestClientFactory(restClientBuilder -> {
-                    // 认证设置
+                    // http config
                     restClientBuilder
                             .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                                 @Override
@@ -69,7 +69,7 @@ public class EsSink<T> {
                                     return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
                                 }
                             });
-                    // socket timeout 设置
+                    // RequestConfig 设置
                     restClientBuilder
                             .setRequestConfigCallback(requestConfigBuilder -> {
                                 return requestConfigBuilder.setSocketTimeout(6000);

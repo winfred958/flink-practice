@@ -26,7 +26,7 @@
 - StreamGraph 生成
   ```text
   1. StreamExecutionEnvironment 根据transformations, config 等, 构造出 StreamGraphGenerator
-  2. StreamGraphGenerator 创建 StreamGraph, 并遍历 transformations 设置, 设置 StreamNode 和 StreamEdge
+  2. StreamGraphGenerator 创建 StreamGraph, 并遍历 transformations 设置 StreamNode 和 StreamEdge 组成 DAG
   ```
     - {@link StreamExecutionEnvironment}, 根据transformations, config 等, 构造出 StreamGraphGenerator
         - ```java
@@ -80,9 +80,16 @@
               shouldExecuteInBatchMode = shouldExecuteInBatchMode(runtimeExecutionMode);
               configureStreamGraph(streamGraph);
               alreadyTransformed = new HashMap<>();
+          
+              /**
+              * 1. 匹配 Transformation 实现类 xxxTransformation对应的 xxxTransformationTranslator 包装类(实现自接口TransformationTranslator Context 上下文包含StreamGraph等); 
+              * 2. 调用 xxxTransformationTranslator 父类 AbstractOneInputTransformationTranslator#translateInternal;
+              * 3. 
+              */
               for (Transformation<?> transformation: transformations) {
                   transform(transformation);
               }
+          
               final StreamGraph builtStreamGraph = streamGraph;
               alreadyTransformed.clear();
               alreadyTransformed = null;

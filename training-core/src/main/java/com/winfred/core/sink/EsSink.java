@@ -55,7 +55,7 @@ public class EsSink<T> {
         sinkBuilder
                 .setRestClientFactory(restClientBuilder -> {
 
-                    // 认证设置
+                    // http config
                     restClientBuilder
                             .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                                 @Override
@@ -66,7 +66,7 @@ public class EsSink<T> {
                                 }
                             });
 
-                    // socket timeout 设置
+                    // RequestConfig 设置
                     restClientBuilder
                             .setRequestConfigCallback(requestConfigBuilder -> {
                                 return requestConfigBuilder.setSocketTimeout(6000);
