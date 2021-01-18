@@ -36,27 +36,27 @@ public class HbaseAsyncSink extends RichAsyncFunction<Put, Void> {
   @Override
   public void asyncInvoke(Put input, ResultFuture<Void> resultFuture) throws Exception {
     CompletableFuture
-            .supplyAsync(new Supplier<Put>() {
-              @Override
-              public Put get() {
-                try {
-                  // hbase put
-                  long start = System.currentTimeMillis();
-                  table.put(input);
-                  long end = System.currentTimeMillis();
-                  log.info("[hbase] put took: {}", end - start);
-                } catch (IOException e) {
-                  log.error("[hbase] put error.", e);
-                }
-                return input;
-              }
-            })
-            .thenAccept(new Consumer<Put>() {
-              @Override
-              public void accept(Put put) {
-                log.info("[hbase] put success: {}", put.getId());
-              }
-            });
+        .supplyAsync(new Supplier<Put>() {
+          @Override
+          public Put get() {
+            try {
+              // hbase put
+              long start = System.currentTimeMillis();
+              table.put(input);
+              long end = System.currentTimeMillis();
+              log.info("[hbase] put took: {}", end - start);
+            } catch (IOException e) {
+              log.error("[hbase] put error.", e);
+            }
+            return input;
+          }
+        })
+        .thenAccept(new Consumer<Put>() {
+          @Override
+          public void accept(Put put) {
+            log.info("[hbase] put success: {}", put.getId());
+          }
+        });
   }
 
   @Override

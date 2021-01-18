@@ -1,10 +1,10 @@
 package com.winfred.core.sink
 
-import java.util.HashMap
-
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.{HBaseConfiguration, TableName}
+
+import java.util.HashMap
 
 object HbaseSinkFactory {
 

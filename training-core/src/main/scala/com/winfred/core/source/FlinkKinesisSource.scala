@@ -1,8 +1,5 @@
 package com.winfred.core.source
 
-import java.util
-import java.util.Properties
-
 import com.amazonaws.services.kinesisanalytics.runtime.KinesisAnalyticsRuntime
 import com.winfred.core.config.KinesisConfig
 import org.apache.flink.api.common.serialization.SimpleStringSchema
@@ -10,6 +7,9 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction
 import org.apache.flink.streaming.connectors.kinesis.FlinkKinesisConsumer
 import org.apache.flink.streaming.connectors.kinesis.config.{AWSConfigConstants, ConsumerConfigConstants}
 import org.apache.flink.streaming.connectors.kinesis.serialization.KinesisDeserializationSchemaWrapper
+
+import java.util
+import java.util.Properties
 
 object FlinkKinesisSource {
 

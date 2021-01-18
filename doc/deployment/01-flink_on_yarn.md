@@ -6,16 +6,20 @@
     - HADOOP_HOME
     - HADOOP_CONF_DIR
     - HADOOP_CLASSPATH=$(hadoop classpath)
-    
-- 方式二:[flink-conf.yaml](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/config.html#jvm-and-logging-options) 
-    - env.hadoop.conf.dir:
-    - env.yarn.conf.dir:
+
+-
+
+方式二:[flink-conf.yaml](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/config.html#jvm-and-logging-options)
+- env.hadoop.conf.dir:
+- env.yarn.conf.dir:
 
 ## flink on yarn 基础配置
+
 - rest.bind-address: 0.0.0.0
 - rest.bind-port: 50100-50200
 
 ## flink on yarn HA
+
 - yarn 配置, 重启后任务状态保持
     - [ResourceManger Restart](https://hadoop.apache.org/docs/r2.8.5/hadoop-yarn/hadoop-yarn-site/ResourceManagerRestart.html#Configurations)
     - ```properties

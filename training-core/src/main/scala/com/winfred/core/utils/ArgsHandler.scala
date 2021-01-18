@@ -1,11 +1,10 @@
 package com.winfred.core.utils
 
-import java.text.SimpleDateFormat
-import java.util.{Calendar, TimeZone}
-
 import org.apache.commons.cli.{CommandLine, Option, Options, PosixParser, UnrecognizedOptionException}
 import org.apache.commons.lang3.{RegExUtils, StringUtils}
 
+import java.text.SimpleDateFormat
+import java.util.{Calendar, TimeZone}
 import scala.collection.mutable.ListBuffer
 
 /**

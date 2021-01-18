@@ -1,16 +1,12 @@
 package com.winfred.streamming.connector.fs
 
-import java.time.ZoneId
-
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.serializer.SerializerFeature
 import org.apache.flink.core.fs.Path
 import org.apache.flink.formats.parquet.avro.ParquetAvroWriters
 import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink
 import org.apache.flink.streaming.api.functions.sink.filesystem.bucketassigners.DateTimeBucketAssigner
 import org.apache.flink.streaming.api.scala.DataStream
 
-
+import java.time.ZoneId
 import scala.beans.BeanProperty
 
 

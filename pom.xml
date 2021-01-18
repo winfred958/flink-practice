@@ -14,6 +14,7 @@
     <module>training-streaming</module>
     <module>training-kinesis</module>
     <module>training-batch</module>
+    <module>training-table</module>
   </modules>
 
   <properties>
@@ -136,6 +137,31 @@
         <groupId>org.apache.flink</groupId>
         <artifactId>flink-clients_${scala.binary.version}</artifactId>
         <version>${flink.version}</version>
+      </dependency>
+
+      <!-- table api -->
+      <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-table-common</artifactId>
+        <version>${flink.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-table-api-scala-bridge_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+        <scope>provided</scope>
       </dependency>
 
       <!-- kinesis -->
@@ -463,11 +489,11 @@
             </filters>
             <transformers>
               <transformer
-                      implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                 <resource>META-INF/spring.handlers</resource>
               </transformer>
               <transformer
-                      implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                 <resource>META-INF/spring.schemas</resource>
               </transformer>
             </transformers>

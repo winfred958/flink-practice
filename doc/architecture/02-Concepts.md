@@ -27,8 +27,11 @@
 ### 什么是State?
 
 - Flink 从 checkpoint 和 savepoint 获取状态, 保证容错.
-- [Queryable state](https://ci.apache.org/projects/flink/flink-docs-release-1.12/dev/stream/state/queryable_state.html) allows you to access state from outside of Flink during runtime.
-- Flink 提供了不同的 [State Backends](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/ops/state/state_backends.html) 支持存储方式和存储位置
+- [Queryable state](https://ci.apache.org/projects/flink/flink-docs-release-1.12/dev/stream/state/queryable_state.html)
+  allows you to access state from outside of Flink during runtime.
+- Flink
+  提供了不同的 [State Backends](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/ops/state/state_backends.html)
+  支持存储方式和存储位置
 
 ### Keyed State
 

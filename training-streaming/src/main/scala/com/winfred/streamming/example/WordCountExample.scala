@@ -1,13 +1,13 @@
 package com.winfred.streamming.example
 
-import java.util.UUID
-
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger
+
+import java.util.UUID
 
 object WordCountExample {
 

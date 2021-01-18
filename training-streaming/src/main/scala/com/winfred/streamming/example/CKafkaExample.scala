@@ -1,8 +1,5 @@
 package com.winfred.streamming.example
 
-import java.text.SimpleDateFormat
-import java.util.{Calendar, Properties}
-
 import com.winfred.core.annotation.PassTest
 import com.winfred.core.config.KafkaConfig
 import org.apache.commons.lang3.StringUtils
@@ -15,6 +12,9 @@ import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKaf
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
+
+import java.text.SimpleDateFormat
+import java.util.{Calendar, Properties}
 
 @PassTest
 object CKafkaExample {
