@@ -9,13 +9,16 @@ import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 
+/**
+ * @author winfred958
+ */
 public class HbaseSink extends RichSinkFunction<Put> {
 
   private Connection connection = null;
   private Table table = null;
 
-  private String zookeeperQuorum;
-  private String tableName;
+  private final String zookeeperQuorum;
+  private final String tableName;
 
   public HbaseSink(String zookeeperQuorum, String tableName) {
     this.zookeeperQuorum = zookeeperQuorum;
