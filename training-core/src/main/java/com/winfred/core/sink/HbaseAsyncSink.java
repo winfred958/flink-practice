@@ -44,7 +44,7 @@ public class HbaseAsyncSink extends RichAsyncFunction<Put, Void> {
               long start = System.currentTimeMillis();
               table.put(input);
               long end = System.currentTimeMillis();
-              log.info("[hbase] put took: {}", end - start);
+              log.debug("[hbase] put took: {}", end - start);
             } catch (IOException e) {
               log.error("[hbase] put error.", e);
             }
@@ -54,7 +54,7 @@ public class HbaseAsyncSink extends RichAsyncFunction<Put, Void> {
         .thenAccept(new Consumer<Put>() {
           @Override
           public void accept(Put put) {
-            log.info("[hbase] put success: {}", put.getId());
+            log.debug("[hbase] put success: {}", put.getId());
           }
         });
   }
