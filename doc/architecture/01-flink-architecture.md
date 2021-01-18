@@ -58,6 +58,10 @@ TaskManager（也称为 worker）执行作业流的 task，并且缓存和交换
 
 ## Flink Application Execution
 
+- **集群生命周期**
+    - 多个job共享一个JobManager
+- 一般测试用
+
 ### Flink Job Cluster (之前称为 per-job模式)
 
 - **集群生命周期**
@@ -73,5 +77,3 @@ TaskManager（也称为 worker）执行作业流的 task，并且缓存和交换
 ### Flink Application Cluster
 
 - [官网](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/concepts/flink-architecture.html#flink-application-%E9%9B%86%E7%BE%A4)
-    
-
