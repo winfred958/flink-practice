@@ -17,8 +17,12 @@ import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunctio
 
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class TestDataMockSource extends RichParallelSourceFunction<String> {
+
+  private static final ScheduledThreadPoolExecutor schedulePool = new ScheduledThreadPoolExecutor(2);
 
   private String SESSION_ID = UUID.randomUUID().toString();
 
@@ -38,34 +42,30 @@ public class TestDataMockSource extends RichParallelSourceFunction<String> {
   public TestDataMockSource(int intervalMillisecondMin, int intervalMillisecondMax) {
     this.intervalMillisecondMin = intervalMillisecondMin;
     this.intervalMillisecondMax = intervalMillisecondMax;
+  }
 
-    /**
-     * session_id 3 秒一换
-     */
-    new Timer()
-        .scheduleAtFixedRate(new TimerTask() {
-          @Override
-          public void run() {
-            SESSION_ID = UUID.randomUUID().toString();
-          }
-        }, 0, 3 * 1000);
+  public void changeSession() {
+    this.SESSION_ID = UUID.randomUUID().toString();
+  }
 
-    /**
-     * visitor_id 10 秒一换
-     */
-    new Timer()
-        .scheduleAtFixedRate(new TimerTask() {
-          @Override
-          public void run() {
-            VISITOR_ID = UUID.randomUUID().toString();
-          }
-        }, 0, 10 * 1000);
-
+  public void changeVisitor() {
+    this.VISITOR_ID = UUID.randomUUID().toString();
   }
 
   @Override
   public void open(Configuration parameters) throws Exception {
-    super.open(parameters);
+    /**
+     * session_id 3 秒一换
+     */
+    schedulePool
+        .schedule(this::changeSession, 3000, TimeUnit.MILLISECONDS);
+
+    /**
+     * visitor_id 10 秒一换
+     */
+    schedulePool
+        .schedule(this::changeVisitor, 10000, TimeUnit.MILLISECONDS);
+
     isRun = true;
   }
 

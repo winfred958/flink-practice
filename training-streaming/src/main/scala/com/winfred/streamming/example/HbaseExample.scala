@@ -14,7 +14,7 @@ import org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger
 import org.apache.hadoop.hbase.client.Put
 
 /**
- * create 'visitor_example', {NAME => 'visitor_id', VERSIONS => 3}
+ * create 'visitor_example', {NAME => 'visitor', VERSIONS => 3}
  */
 object HbaseExample {
 
@@ -22,7 +22,7 @@ object HbaseExample {
 
   private val tableName = "visitor_example"
 
-  private val family = "visitor_id"
+  private val family = "visitor"
   private val qualifier = "visitor_count"
 
 
