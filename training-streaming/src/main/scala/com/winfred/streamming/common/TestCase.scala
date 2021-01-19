@@ -1,9 +1,9 @@
 package com.winfred.streamming.common
 
-import java.util.UUID
-
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
+
+import java.util.UUID
 
 object TestCase {
 

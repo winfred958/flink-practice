@@ -6,7 +6,7 @@
 
   <groupId>com.winfred.training</groupId>
   <artifactId>flink-training</artifactId>
-  <version>1.0.0</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -14,44 +14,35 @@
     <module>training-streaming</module>
     <module>training-kinesis</module>
     <module>training-batch</module>
+    <module>training-table</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <scala.version>2.12.12</scala.version>
+    <scala.version>2.12.11</scala.version>
     <scala.binary.version>2.12</scala.binary.version>
-
+    <flink.version>1.12.0</flink.version>
     <hadoop.version>2.8.5</hadoop.version>
-    <hbase-client.version>1.4.10</hbase-client.version>
-
-    <flink.version>1.11.2</flink.version>
-
-    <maxmind.geoip2.version>2.12.0</maxmind.geoip2.version>
-
-    <google-maps-services.version>0.2.7</google-maps-services.version>
-
+    <commons-cli.version>1.3.1</commons-cli.version>
+    <hbase-client.version>1.3.5</hbase-client.version>
     <!-- other -->
     <fastjson.version>1.2.46</fastjson.version>
     <snakeyaml.version>1.25</snakeyaml.version>
     <commons-lang3.version>3.9</commons-lang3.version>
-    <commons-cli.version>1.3.1</commons-cli.version>
-
+    <maxmind.geoip2.version>2.12.0</maxmind.geoip2.version>
+    <google-maps-services.version>0.2.7</google-maps-services.version>
     <kda.version>1.1.0</kda.version>
     <lombok.version>1.18.16</lombok.version>
-
     <java-jwt.version>3.10.2</java-jwt.version>
     <!-- parquet-->
     <parquet.version>1.10.1</parquet.version>
-
     <!--db-->
     <mybatis.version>3.4.6</mybatis.version>
     <mysql-connector-java.version>5.1.46</mysql-connector-java.version>
     <druid.version>1.1.15</druid.version>
-
     <!-- hive -->
     <hive.version>3.1.1</hive.version>
-
     <!--plugin-->
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <scala-maven-plugin.version>3.4.6</scala-maven-plugin.version>
@@ -59,13 +50,11 @@
     <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
     <maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
     <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
-
     <!-- web -->
     <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
 
   </properties>
   <dependencies>
-
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -73,7 +62,6 @@
       <optional>true</optional>
     </dependency>
   </dependencies>
-
 
   <dependencyManagement>
     <dependencies>
@@ -102,6 +90,11 @@
       <!-- flink -->
       <dependency>
         <groupId>org.apache.flink</groupId>
+        <artifactId>flink-clients_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.flink</groupId>
         <artifactId>flink-scala_${scala.binary.version}</artifactId>
         <version>${flink.version}</version>
       </dependency>
@@ -119,7 +112,7 @@
       <!-- flink connector -->
       <dependency>
         <groupId>org.apache.flink</groupId>
-        <artifactId>flink-connector-filesystem_${scala.binary.version}</artifactId>
+        <artifactId>flink-connector-files</artifactId>
         <version>${flink.version}</version>
       </dependency>
       <dependency>
@@ -132,10 +125,25 @@
         <artifactId>flink-connector-elasticsearch7_${scala.binary.version}</artifactId>
         <version>${flink.version}</version>
       </dependency>
+
+      <!-- table api -->
       <dependency>
         <groupId>org.apache.flink</groupId>
-        <artifactId>flink-clients_${scala.binary.version}</artifactId>
+        <artifactId>flink-table-common</artifactId>
         <version>${flink.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-table-api-scala-bridge_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+        <scope>provided</scope>
       </dependency>
 
       <!-- kinesis -->
@@ -153,18 +161,6 @@
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-kinesisanalytics-flink</artifactId>
         <version>${kda.version}</version>
-      </dependency>
-
-      <!-- flink table api -->
-      <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-table-api-scala-bridge_${scala.binary.version}</artifactId>
-        <version>${flink.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
-        <version>${flink.version}</version>
       </dependency>
 
       <!-- hive -->
@@ -199,13 +195,7 @@
 
       <dependency>
         <groupId>org.apache.flink</groupId>
-        <artifactId>flink-clients_${scala.binary.version}</artifactId>
-        <version>${flink.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-connector-hbase_${scala.binary.version}</artifactId>
+        <artifactId>flink-connector-hbase-1.4_${scala.binary.version}</artifactId>
         <version>${flink.version}</version>
         <scope>provided</scope>
         <exclusions>
@@ -215,7 +205,7 @@
           </exclusion>
           <exclusion>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>*</artifactId>
+            <artifactId>hadoop*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -223,20 +213,24 @@
         <groupId>org.apache.hbase</groupId>
         <artifactId>hbase-server</artifactId>
         <version>${hbase-client.version}</version>
-        <scope>provided</scope>
         <exclusions>
           <exclusion>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>*</artifactId>
+            <artifactId>hadoop*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
 
-
       <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-shaded-hadoop2</artifactId>
-        <version>${flink.version}</version>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-client</artifactId>
+        <version>${hbase-client.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop*</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -256,12 +250,6 @@
             <artifactId>commons-cli</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.hbase</groupId>
-        <artifactId>hbase-client</artifactId>
-        <version>${hbase-client.version}</version>
       </dependency>
 
       <!--other utils-->
@@ -463,11 +451,11 @@
             </filters>
             <transformers>
               <transformer
-                      implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                 <resource>META-INF/spring.handlers</resource>
               </transformer>
               <transformer
-                      implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                 <resource>META-INF/spring.schemas</resource>
               </transformer>
             </transformers>

@@ -1,14 +1,14 @@
 package com.winfred.core.source
 
-import java.util
-import java.util.Properties
-import java.util.regex.Pattern
-
 import com.winfred.core.config.KafkaConfig
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
+
+import java.util
+import java.util.Properties
+import java.util.regex.Pattern
 
 /**
  * com.winfred.test.rt.source

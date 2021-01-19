@@ -30,8 +30,8 @@ public class IkAnalyzerUtils {
   public static List<String> getTerms(String text, boolean useSmart) {
     List<String> termList = new ArrayList<>(16);
     try (
-            StringReader reader = new StringReader(text);
-            TokenStream tokenStream = getAnalyzer(useSmart).tokenStream("", reader);
+        StringReader reader = new StringReader(text);
+        TokenStream tokenStream = getAnalyzer(useSmart).tokenStream("", reader);
     ) {
       tokenStream.reset();
       while (tokenStream.incrementToken()) {

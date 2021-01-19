@@ -1,12 +1,12 @@
 package com.winfred.core.sink
 
-import java.util.Properties
-
 import com.winfred.core.config.KafkaConfig
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
+
+import java.util.Properties
 
 /**
  * com.winfred.test.rt.sink

@@ -53,7 +53,7 @@
   <property>
     <name>yarn.scheduler.capacity.root.default.accessible-node-labels..capacity</name>
     <value>100</value>
-    <description>标签 的节点, 可以被 root.default 队列访访问, 可以使用的容量, </description>
+    <description>标签 的节点, 可以被 root.default 队列访访问, 可以使用的容量,</description>
   </property>
   <property>
     <name>yarn.scheduler.capacity.root.destroy.accessible-node-labels..capacity</name>
@@ -65,7 +65,7 @@
   <property>
     <name>yarn.scheduler.capacity.root.default.accessible-node-labels.destroy_node.capacity</name>
     <value>0</value>
-    <description>标签 destroy_node 的节点, 可以被 root.default 队列访访问, 可以使用的容量, </description>
+    <description>标签 destroy_node 的节点, 可以被 root.default 队列访访问, 可以使用的容量,</description>
   </property>
   <property>
     <name>yarn.scheduler.capacity.root.destroy.accessible-node-labels.destroy_node.capacity</name>

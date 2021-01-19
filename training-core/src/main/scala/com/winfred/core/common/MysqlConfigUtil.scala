@@ -1,8 +1,5 @@
 package com.winfred.core.common
 
-import java.util
-import java.util.Properties
-
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.serializer.SerializerFeature
 import com.winfred.core.entity.MysqlConfigEntity
@@ -10,6 +7,8 @@ import org.slf4j.{Logger, LoggerFactory}
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.Constructor
 
+import java.util
+import java.util.Properties
 import scala.beans.BeanProperty
 import scala.collection.mutable
 

@@ -1,8 +1,5 @@
 package com.winfred.streamming.example
 
-import java.time.ZoneId
-import java.util.{Properties, UUID}
-
 import com.alibaba.fastjson.JSON
 import com.winfred.core.config.KafkaConfig
 import com.winfred.core.utils.ArgsHandler
@@ -18,6 +15,8 @@ import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 
+import java.time.ZoneId
+import java.util.{Properties, UUID}
 import scala.beans.BeanProperty
 
 object CosSinkExample {

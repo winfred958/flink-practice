@@ -1,9 +1,9 @@
 package com.winfred.core.common
 
+import org.apache.commons.lang3.StringUtils
+
 import java.text.SimpleDateFormat
 import java.util.{Calendar, TimeZone}
-
-import org.apache.commons.lang3.StringUtils
 
 
 /**
