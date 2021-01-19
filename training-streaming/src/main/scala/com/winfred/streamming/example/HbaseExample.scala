@@ -8,19 +8,22 @@ import com.winfred.streamming.entity.log.EventEntity
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.environment.CheckpointConfig.ExternalizedCheckpointCleanup
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
+import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
+import org.apache.flink.streaming.api.windowing.time.Time
+import org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger
 import org.apache.hadoop.hbase.client.Put
 
 /**
- *    create 'flink_example', {NAME => 'text', VERSIONS => 3}
+ * create 'visitor_example', {NAME => 'visitor_id', VERSIONS => 3}
  */
 object HbaseExample {
 
   private val zookeeperQuorumKey = "zookeeper-quorum"
 
-  private val tableName = "flink_example"
+  private val tableName = "visitor_example"
 
-  private val family = "text"
-  private val qualifier = "str"
+  private val family = "visitor_id"
+  private val qualifier = "visitor_count"
 
 
   def main(args: Array[String]): Unit = {
@@ -41,20 +44,39 @@ object HbaseExample {
       .addSource(new TestDataMockSource(2, 20))
       .map(str => {
         val entity = JSON.parseObject(str, classOf[EventEntity])
-        val rowKey = entity.getUuid
+        entity.getHeader.getVisitor_id
+      })
+      .map(id => {
+        VisitorCount(id, 1L)
+      })
+      .keyBy(entity => {
+        entity.visitor_id
+      })
+      .window(TumblingProcessingTimeWindows.of(Time.seconds(10)))
+      .trigger(ProcessingTimeTrigger.create())
+      .reduce((a, b) => {
+        VisitorCount(a.visitor_id, b.count + a.count)
+      })
+      .map(visitorEntity => {
+        val rowKey = visitorEntity.visitor_id
         val put = new Put(rowKey.getBytes())
           .addColumn(
             family.getBytes(),
             qualifier.getBytes(),
             System.currentTimeMillis(),
-            str.getBytes()
+            String.valueOf(visitorEntity.count).getBytes()
           )
         put
       })
       .addSink(new HbaseSink(zookeeperQuorum, tableName))
 
     executionEnvironment
-      .execute()
+      .execute("flink2hbase_example")
   }
+
+  case class VisitorCount(
+                           visitor_id: String,
+                           count: Long
+                         )
 
 }
