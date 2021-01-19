@@ -33,7 +33,7 @@ object HbaseExample {
 
     val zookeeperQuorum = ArgsHandler.getArgsParam(args, zookeeperQuorumKey)
 
-    print(s"zookeeperQuorum: ${zookeeperQuorum}")
+    println(s"zookeeperQuorum: ${zookeeperQuorum}")
 
     import org.apache.flink.streaming.api.scala._
 
@@ -54,7 +54,7 @@ object HbaseExample {
       .addSink(new HbaseSink(zookeeperQuorum, tableName))
 
     executionEnvironment
-      .execute("hbase-test")
+      .execute()
   }
 
 }

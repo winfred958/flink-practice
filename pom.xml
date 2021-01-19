@@ -6,7 +6,7 @@
 
   <groupId>com.winfred.training</groupId>
   <artifactId>flink-training</artifactId>
-  <version>1.0.0</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -20,10 +20,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <scala.version>2.12.12</scala.version>
+    <scala.version>2.12.11</scala.version>
     <scala.binary.version>2.12</scala.binary.version>
 
     <hadoop.version>2.8.5</hadoop.version>
+    <commons-cli.version>1.2</commons-cli.version>
     <hbase-client.version>1.3.5</hbase-client.version>
 
     <flink.version>1.12.0</flink.version>
@@ -36,7 +37,6 @@
     <fastjson.version>1.2.46</fastjson.version>
     <snakeyaml.version>1.25</snakeyaml.version>
     <commons-lang3.version>3.9</commons-lang3.version>
-    <commons-cli.version>1.3.1</commons-cli.version>
 
     <kda.version>1.1.0</kda.version>
     <lombok.version>1.18.16</lombok.version>
@@ -101,6 +101,11 @@
       </dependency>
 
       <!-- flink -->
+      <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-clients_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.apache.flink</groupId>
         <artifactId>flink-scala_${scala.binary.version}</artifactId>
@@ -241,7 +246,7 @@
           </exclusion>
           <exclusion>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>*</artifactId>
+            <artifactId>hadoop*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -249,20 +254,24 @@
         <groupId>org.apache.hbase</groupId>
         <artifactId>hbase-server</artifactId>
         <version>${hbase-client.version}</version>
-        <scope>provided</scope>
         <exclusions>
           <exclusion>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>*</artifactId>
+            <artifactId>hadoop*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
 
-
       <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-shaded-hadoop2</artifactId>
-        <version>${flink.version}</version>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-client</artifactId>
+        <version>${hbase-client.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop*</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -282,12 +291,6 @@
             <artifactId>commons-cli</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.hbase</groupId>
-        <artifactId>hbase-client</artifactId>
-        <version>${hbase-client.version}</version>
       </dependency>
 
       <!--other utils-->

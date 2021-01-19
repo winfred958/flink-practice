@@ -27,11 +27,9 @@ object CKafkaMockSource {
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
       })
-
     dataStream
       .addSink(FlinkKafkaSink.getKafkaSink(topic = sourceTopic))
-
     executionEnvironment
-      .execute("CKafkaMockSource")
+      .execute()
   }
 }

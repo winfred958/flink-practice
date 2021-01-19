@@ -5,7 +5,7 @@
   <parent>
     <artifactId>flink-training</artifactId>
     <groupId>com.winfred.training</groupId>
-    <version>1.0.0</version>
+    <version>1.2.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -32,10 +32,6 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-parquet_${scala.binary.version}</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-client</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.parquet</groupId>

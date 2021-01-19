@@ -19,7 +19,7 @@ ${FLINK_HOME}/bin/flink run \
   --detached \
   --yarnname HbaseExample \
   ${HOME_PATH}/lib/training-streaming.jar \
-    --zookeeper-quorum xx,xx,xx
+    --zookeeper-quorum 10.1.2.4,10.1.2.2,10.1.2.26
 EOF
 )
 

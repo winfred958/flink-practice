@@ -1,5 +1,8 @@
 package com.winfred.streamming.example
 
+import com.alibaba.fastjson.JSON
+import com.winfred.streamming.common.TestDataMockSource
+import com.winfred.streamming.entity.log.EventEntity
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
@@ -14,9 +17,9 @@ object WordCountExample {
   def main(args: Array[String]): Unit = {
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
 
-    val socketDataStream: DataStream[SocketTestEntity] = getDataStreamFromLocalSocket(executionEnvironment = executionEnvironment)
+    val dataStream = getFromMockSource(executionEnvironment = executionEnvironment)
 
-    val wordCountStream: DataStream[Word] = wordCount(socketDataStream)
+    val wordCountStream: DataStream[Word] = wordCount(dataStream)
 
     import org.apache.flink.streaming.api.scala._
 
@@ -38,19 +41,17 @@ object WordCountExample {
     executionEnvironment.execute("Socket Window WordCount")
   }
 
-  def wordCount(dataStream: DataStream[SocketTestEntity]): DataStream[Word] = {
+  def wordCount(dataStream: DataStream[String]): DataStream[Word] = {
 
     import org.apache.flink.streaming.api.scala._
 
     dataStream
-      .map(entity => {
-        entity.text
-      })
-      .flatMap(text => {
-        text.split("\\W+")
-      })
       .filter(str => {
         StringUtils.isNotBlank(str)
+      })
+      .map(str => {
+        val entity = JSON.parseObject(str, classOf[EventEntity])
+        entity.getHeader.getVisitor_id
       })
       .map(term => {
         Word(term, 1L)
@@ -93,6 +94,12 @@ object WordCountExample {
           element.server_time
         }
       })
+  }
+
+  def getFromMockSource(executionEnvironment: StreamExecutionEnvironment): DataStream[String] = {
+    import org.apache.flink.streaming.api.scala._
+    executionEnvironment
+      .addSource(new TestDataMockSource(2, 20))
   }
 
   case class SocketTestEntity(
