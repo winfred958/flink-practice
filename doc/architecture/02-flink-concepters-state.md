@@ -53,7 +53,7 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
       ```
 
 - #### 可用的 State Backends
-    - ##### MemoryStateBackend (默认)
+    - ##### **MemoryStateBackend (默认)**
         - MemoryStateBackend 使用限制
             - 默认, 每个独立state 大小 5M, 在 MemoryStateBackend 的构造器中可以增加其大小。
             - 无论配置的最大状态内存大小（MAX_MEM_STATE_SIZE）有多大，都不能大于 akka.framesize
@@ -65,7 +65,7 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
         - 注意
             - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html) 设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
-    - ##### FsStateBackend
+    - ##### **FsStateBackend**
         - FsStateBackend 特性
             - FsStateBackend 将正在运行中的状态数据保存在 TaskManager 的内存中
             - CheckPoint 时，将状态快照写入到配置的文件系统目录中。 少量的元数据信息存储到 JobManager 的内存中（高可用模式下，将其写入到 CheckPoint 的元数据文件中）.
@@ -75,7 +75,7 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
         - 注意
           - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html) 设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
-    - ##### RocksDBStateBackend
+    - ##### **RocksDBStateBackend**
         - RocksDBStateBackend 的限制：
             - RocksDBStateBackend 只支持异步快照。
             - 由于 RocksDB 的 JNI API 构建在 byte[] 数据结构之上, 所以每个 key 和 value 最大支持 2^31 字节。 重要信息: RocksDB
