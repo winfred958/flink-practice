@@ -16,7 +16,7 @@
   提供了不同的 [State Backends](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/ops/state/state_backends.html)
   支持存储方式和存储位置
 
-#### State
+#### State [详细请看 state 的使用](../application-dev-stream/03-状态&容错的使用.md)
 
 - Raw State
     - ```text
@@ -34,7 +34,7 @@
         - KeyedStream 上的状态, 每个key对应一个state
             - 仅适用于KeyedStream算子
             - 每个key对应一个state
-        - (实现)访问方式: **重写 RichXxxFunction, 通过RuntimeContext 访问**
+        - 自定义(实现)访问方式: **重写 RichXxxFunction, 通过RuntimeContext 访问**
         - state随着key自动在多个算子上迁移
         - 支持的数据结构: ValueState, ListState, MapState, ReducingState, AggregatingState
             - ![avatar](./images/Keyed-State.png)
@@ -42,7 +42,7 @@
         - 可用在所有算子上, 每个 Operator task 共享一个状态, 流入这个算子的task数据都可以访问和更新这个状态
             - 适用所有算子(Operator)
             - 一个Operator对应一个state
-        - (实现)访问方式
+        - 自定义(实现)访问方式
             - implement **CheckpointedFunction** 等
         - 多种状态重新分配的方式
         - 支持的数据结构: ListState, BroadCastState 等

@@ -3,7 +3,7 @@ package com.winfred.streamming.example
 import com.alibaba.fastjson.JSON
 import com.winfred.core.sink.HbaseSink
 import com.winfred.core.utils.ArgsHandler
-import com.winfred.streamming.common.TestDataMockSource
+import com.winfred.streamming.common.DataMockSource
 import com.winfred.streamming.entity.log.EventEntity
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.environment.CheckpointConfig.ExternalizedCheckpointCleanup
@@ -41,7 +41,7 @@ object HbaseExample {
     import org.apache.flink.streaming.api.scala._
 
     executionEnvironment
-      .addSource(new TestDataMockSource(2, 20))
+      .addSource(new DataMockSource(2, 20))
       .map(str => {
         val entity = JSON.parseObject(str, classOf[EventEntity])
         entity.getHeader.getVisitor_id

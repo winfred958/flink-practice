@@ -52,22 +52,7 @@
               <!--scala-->
               <dependency>
                   <groupId>org.scala-lang</groupId>
-                  <artifactId>scala-compiler</artifactId>
-                  <version>${scala.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>org.scala-lang</groupId>
-                  <artifactId>scala-reflect</artifactId>
-                  <version>${scala.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>org.scala-lang</groupId>
                   <artifactId>scala-library</artifactId>
-                  <version>${scala.version}</version>
-              </dependency>
-              <dependency>
-                  <groupId>org.scala-lang</groupId>
-                  <artifactId>scalap</artifactId>
                   <version>${scala.version}</version>
               </dependency>
 

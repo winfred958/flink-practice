@@ -1,7 +1,7 @@
 package com.winfred.streamming.example
 
 import com.alibaba.fastjson.JSON
-import com.winfred.streamming.common.TestDataMockSource
+import com.winfred.streamming.common.DataMockSource
 import com.winfred.streamming.entity.log.EventEntity
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
@@ -99,7 +99,7 @@ object WordCountExample {
   def getFromMockSource(executionEnvironment: StreamExecutionEnvironment): DataStream[String] = {
     import org.apache.flink.streaming.api.scala._
     executionEnvironment
-      .addSource(new TestDataMockSource(2, 20))
+      .addSource(new DataMockSource(2, 20))
   }
 
   case class SocketTestEntity(

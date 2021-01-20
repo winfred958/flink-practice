@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class TestDataMockSource extends RichParallelSourceFunction<String> {
+public class DataMockSource extends RichParallelSourceFunction<String> {
 
   private static final ScheduledThreadPoolExecutor schedulePool = new ScheduledThreadPoolExecutor(2);
 
@@ -39,7 +39,7 @@ public class TestDataMockSource extends RichParallelSourceFunction<String> {
    * @param intervalMillisecondMin mock 数据最小时间间隔
    * @param intervalMillisecondMax mock 数据最大时间间隔
    */
-  public TestDataMockSource(int intervalMillisecondMin, int intervalMillisecondMax) {
+  public DataMockSource(int intervalMillisecondMin, int intervalMillisecondMax) {
     this.intervalMillisecondMin = intervalMillisecondMin;
     this.intervalMillisecondMax = intervalMillisecondMax;
   }
