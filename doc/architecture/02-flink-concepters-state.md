@@ -1,6 +1,10 @@
 ## [Stateful Stream Processing](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/concepts/stateful-stream-processing.html)
 
-- [state-backends-状态与容错](#state-backends-状态与容错)
+- 导航
+    - [Keyed State](#keyed-state)
+    - [state-backends-状态与容错](#state-backends-状态与容错)
+        - [checkpoint](#checkpoint-1)
+        - [savepoint](#savepoint-1)
 
 ### 什么是State?
 
@@ -11,14 +15,67 @@
   提供了不同的 [State Backends](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/ops/state/state_backends.html)
   支持存储方式和存储位置
 
+#### State
+
+- Raw State
+    - ```text
+      用户自己管理
+      用户自定义算子
+      只支持字节 byte[] 存储,
+      ```
+- Managed State (包含 **Keyed State**, **Operator State**):
+    - ```text
+      Flink Runtime托管, 自动存储, 自动恢复, 自动伸缩
+      绝大多数Flink算子 
+      常用数据结构, ListState, MapState
+      ```
+    - **Keyed State**
+        - KeyedStream 上的状态, 每个key对应一个state
+        - ```text
+          仅适用于KeyedStream算子
+          每个key对应一个state
+          (实现)访问方式: **重写 RichXxxFunction, 通过RuntimeContext 访问**
+          state随着key自动在多个算子上迁移
+          支持的数据结构: ValueState, ListState, MapState, ReducingState, AggregatingState
+          ```
+        - ![avatar](./images/Keyed-State.png)
+    - **Operator State**
+        - 可用在所有算子上, 每个 Operator task 共享一个状态, 流入这个算子的task数据都可以访问和更新这个状态
+        - ```text
+          适用所有算子(Operator)
+          一个Operator对应一个state
+          (实现)访问方式: implement **CheckpointedFunction** 等
+          多种状态重新分配的方式
+          ListState, BroadCastState 等
+          ```
+    
+
+#### State 适用场景
+
+- 去重
+    - 记录key, 去重
+- 窗口计算
+    - 每隔指定时间触发窗口的计算, 窗口中未触发数据也是一种状态
+- 机器学习&DL
+    - 训练的模型以及当前的参数也是一种状态
+    - 数据集的操作都需要状态保存
+- 访问历史数据
+    - 与昨天的历史数据对比 (用的不多, 可以从外部读取)
+
 ### Keyed State
 
-- xxx
+- Key State 是 KeyedStream 上的状态
+    - 访问 key/value state 只有在 keyed stream 上(例如, keyed/partition )
     - ![avatar](https://ci.apache.org/projects/flink/flink-docs-release-1.12/fig/state_partitioning.svg)
+- Keyed State 进一步组成所谓的 Key Groups.
 
 ### State Persistence
 
 - #### Checkpoint
+
+    - Checkpoint Barriers
+    - Snapshotting Operator State
+    - Recovery
 
 - #### State Backends
 
@@ -33,7 +90,15 @@
 ### checkpoint
 
 ```text
-checkpoint 默认情况下仅用于恢复失败作业, 默认作业结束删除, 并不保留(可配置)
+定期制作分布式快照, 对程序中的状态进行备份
+发生故障时, 将整个作业的task都回滚到最后一次成功的Checkpoint状态, 然后从那个点继续处理
+必要条件: 数据源支持重发(例如kafka)
+一致性语义: EXACTLY_ONCE, AT_LAST_ONCE
+
+checkpoint 
+Flink自动触发与管理, 主要用于task发生异常时自动恢复
+默认情况下仅用于恢复失败作业, 作业结束则删除 (可配置)
+
 checkpointConfig.enableExternalizedCheckpoints(ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION)
 checkpointConfig.enableExternalizedCheckpoints(ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION)
 
@@ -65,17 +130,19 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
             - 本地开发和调试
             - 状态很小的job, 由算子(Map, Flatmap, Filter)等 一对一算子构成的job
         - 注意
-            - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html) 设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
+          - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+          设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **FsStateBackend**
         - FsStateBackend 特性
             - FsStateBackend 将正在运行中的状态数据保存在 TaskManager 的内存中
             - CheckPoint 时，将状态快照写入到配置的文件系统目录中。 少量的元数据信息存储到 JobManager 的内存中（高可用模式下，将其写入到 CheckPoint 的元数据文件中）.
         - FsStateBackend 使用场景
-            - 状态比较大, 窗口比较长, key/value 状态比较大的job
+            - 状态比较大, 窗口比较长(分钟级别), key/value 状态比较大的job
             - 所有高可用的场景
         - 注意
-          - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html) 设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
+          - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+          设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **RocksDBStateBackend**
         - RocksDBStateBackend 的限制：
@@ -83,8 +150,10 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
             - 由于 RocksDB 的 JNI API 构建在 byte[] 数据结构之上, 所以每个 key 和 value 最大支持 2^31 字节。 重要信息: RocksDB
               合并操作的状态（例如：ListState）累积数据量大小可以超过 2^31 字节，但是会在下一次获取数据时失败。这是当前 RocksDB JNI 的限制。
         - 适用场景
-            - 状态非常大、窗口非常长、key/value 状态非常大的 Job。
+            - 状态非常大、窗口非常长(天级别)、key/value 状态非常大的 Job。
             - 所有高可用的场景。
+            - 需要开启HA的作业
+            - 对state读写性能要求不高的作业
         - 全局配置方式
             - flink-conf.yaml
                 - ```text
@@ -123,8 +192,9 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
 ### savepoint
 
 ```text
-savepoint 类似于全量备份, 手动触发.
-可以调整逻辑, 改名并行度, 以及蓝绿部署
+savepoint 类似于全量备份, 用户手动触发.
+用途: 有计划的备份, 使作业能停止后恢复, 可以调整逻辑, 改名并行度, 以及蓝绿部署
+允许代码或配置发生改变
 
 ```
 
