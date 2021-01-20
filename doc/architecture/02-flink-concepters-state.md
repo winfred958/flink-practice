@@ -1,6 +1,7 @@
 ## [Stateful Stream Processing](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/concepts/stateful-stream-processing.html)
 
 - 导航
+    - [State](#state)
     - [Keyed State](#keyed-state)
     - [state-backends-状态与容错](#state-backends-状态与容错)
         - [checkpoint](#checkpoint-1)
@@ -31,24 +32,20 @@
       ```
     - **Keyed State**
         - KeyedStream 上的状态, 每个key对应一个state
-        - ```text
-          仅适用于KeyedStream算子
-          每个key对应一个state
-          (实现)访问方式: **重写 RichXxxFunction, 通过RuntimeContext 访问**
-          state随着key自动在多个算子上迁移
-          支持的数据结构: ValueState, ListState, MapState, ReducingState, AggregatingState
-          ```
-        - ![avatar](./images/Keyed-State.png)
+            - 仅适用于KeyedStream算子
+            - 每个key对应一个state
+        - (实现)访问方式: **重写 RichXxxFunction, 通过RuntimeContext 访问**
+        - state随着key自动在多个算子上迁移
+        - 支持的数据结构: ValueState, ListState, MapState, ReducingState, AggregatingState
+            - ![avatar](./images/Keyed-State.png)
     - **Operator State**
         - 可用在所有算子上, 每个 Operator task 共享一个状态, 流入这个算子的task数据都可以访问和更新这个状态
-        - ```text
-          适用所有算子(Operator)
-          一个Operator对应一个state
-          (实现)访问方式: implement **CheckpointedFunction** 等
-          多种状态重新分配的方式
-          ListState, BroadCastState 等
-          ```
-    
+            - 适用所有算子(Operator)
+            - 一个Operator对应一个state
+        - (实现)访问方式
+            - implement **CheckpointedFunction** 等
+        - 多种状态重新分配的方式
+        - 支持的数据结构: ListState, BroadCastState 等
 
 #### State 适用场景
 
@@ -130,8 +127,8 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
             - 本地开发和调试
             - 状态很小的job, 由算子(Map, Flatmap, Filter)等 一对一算子构成的job
         - 注意
-          - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
-          设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
+            - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+            设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **FsStateBackend**
         - FsStateBackend 特性
@@ -141,8 +138,8 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
             - 状态比较大, 窗口比较长(分钟级别), key/value 状态比较大的job
             - 所有高可用的场景
         - 注意
-          - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
-          设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
+            - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+            设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **RocksDBStateBackend**
         - RocksDBStateBackend 的限制：
