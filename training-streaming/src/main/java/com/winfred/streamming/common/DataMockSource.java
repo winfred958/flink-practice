@@ -12,11 +12,19 @@ import com.winfred.streamming.entity.user.UserInfo;
 import com.winfred.streamming.entity.user.UserRole;
 import com.winfred.streamming.mock.MockUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.flink.api.common.state.ListState;
+import org.apache.flink.api.common.state.ListStateDescriptor;
+import org.apache.flink.api.common.typeutils.base.MapSerializer;
+import org.apache.flink.api.common.typeutils.base.StringSerializer;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.runtime.state.FunctionInitializationContext;
+import org.apache.flink.runtime.state.FunctionSnapshotContext;
+import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author winfred958
  */
-public class DataMockSource extends RichParallelSourceFunction<String> {
+public class DataMockSource extends RichParallelSourceFunction<String> implements CheckpointedFunction {
 
   private static final ScheduledThreadPoolExecutor schedulePool = new ScheduledThreadPoolExecutor(2, new ThreadFactory() {
     @Override
@@ -33,14 +41,22 @@ public class DataMockSource extends RichParallelSourceFunction<String> {
     }
   });
 
+  private static final String VISITOR_KEY = "visitorId";
+  private static final String SESSION_KEY = "sessionId";
+
   private String sessionId = null;
 
-  private String visitorId = UUID.randomUUID().toString();
+  private String visitorId = null;
 
   private volatile boolean isRun;
 
   private int intervalMillisecondMin;
   private int intervalMillisecondMax;
+
+
+  private ListState<Map<String, String>> state;
+
+  private Map<String, String> map;
 
   /**
    * mock 数据, interval 测试时不易过小
@@ -68,15 +84,18 @@ public class DataMockSource extends RichParallelSourceFunction<String> {
   }
 
   public void changeSession() {
-    this.sessionId = UUID.randomUUID().toString();
+    sessionId = UUID.randomUUID().toString();
+    map.put(SESSION_KEY, sessionId);
   }
 
   public void changeVisitor() {
-    this.visitorId = UUID.randomUUID().toString();
+    visitorId = UUID.randomUUID().toString();
+    map.put(VISITOR_KEY, visitorId);
   }
 
   @Override
   public void open(Configuration parameters) throws Exception {
+    map = new ConcurrentHashMap<>(16);
     /**
      * session_id 3 秒一换
      */
@@ -94,14 +113,17 @@ public class DataMockSource extends RichParallelSourceFunction<String> {
 
   @Override
   public void run(SourceContext<String> ctx) throws Exception {
+    Object lock = ctx.getCheckpointLock();
     while (isRun) {
-      buildDataList(true)
-          .stream()
-          .map(entity -> {
-            return JSON.toJSONString(entity, SerializerFeature.SortField);
-          })
-          .forEach(ctx::collect);
-      Thread.sleep(RandomUtils.nextLong(intervalMillisecondMin, intervalMillisecondMax));
+      synchronized (lock) {
+        buildDataList(true)
+            .stream()
+            .map(entity -> {
+              return JSON.toJSONString(entity, SerializerFeature.SortField);
+            })
+            .forEach(ctx::collect);
+        Thread.sleep(RandomUtils.nextLong(intervalMillisecondMin, intervalMillisecondMax));
+      }
     }
   }
 
@@ -203,5 +225,24 @@ public class DataMockSource extends RichParallelSourceFunction<String> {
     return entity;
   }
 
+  @Override
+  public void snapshotState(FunctionSnapshotContext context) throws Exception {
+    state.clear();
+    state.add(map);
+  }
 
+  @Override
+  public void initializeState(FunctionInitializationContext context) throws Exception {
+    state = context
+        .getOperatorStateStore()
+        .getListState(new ListStateDescriptor<Map<String, String>>("mapState", new MapSerializer<>(StringSerializer.INSTANCE, StringSerializer.INSTANCE)));
+
+    state
+        .get()
+        .forEach(entry -> {
+          this.visitorId = entry.get(VISITOR_KEY);
+          this.sessionId = entry.get(SESSION_KEY);
+        });
+
+  }
 }
