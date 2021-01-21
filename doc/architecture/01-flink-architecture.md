@@ -7,10 +7,10 @@
 
 ### Client
 
-- Client (例如 per job 模式)执行main() 用于准备参数配置, 依赖 等, 将 StreamExecutionEnvironment 的 List<Transformation<?>> => StreamGraph
-  =>
+- Client (例如 per job 模式) 用于准备参数配置, 依赖 等, 执行main()将 StreamExecutionEnvironment 的 List<Transformation<?>> ==> StreamGraph
+  ==>
   JobGraph, 将其发送给JobManager
-    - 注意: 1.11+ 以后的run-application 模式, main() 方法将在JobManager执行
+    - 注意: 1.11+ 以后的run-application 模式([application-mode](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/deployment/resource-providers/yarn.html#application-mode)), main() 方法将在JobManager执行
 
 ### JobManager
 
@@ -97,7 +97,7 @@ TaskManager (也称为 worker) 执行作业流的 task, 并且缓存和交换数
 
 - **产生背景**
     - ```text
-      解决 per-job 模式, client 需要上传依赖, 并且运行main(), 组装JobGraph, 造成clint io 和资源占有过大
+      解决 per-job 模式, client 需要上传依赖, 并且运行main(), 组装JobGraph, 造成client io 和资源占用过大(脚本机多用户情况这个影响会被放大)
       ```
 
 - [官网](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/concepts/flink-architecture.html#flink-application-%E9%9B%86%E7%BE%A4)

@@ -7,9 +7,8 @@
     - HADOOP_CONF_DIR
     - HADOOP_CLASSPATH=$(hadoop classpath)
 
--
-
 方式二:[flink-conf.yaml](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/config.html#jvm-and-logging-options)
+
 - env.hadoop.conf.dir:
 - env.yarn.conf.dir:
 
@@ -22,9 +21,9 @@
 
 - yarn 配置, 重启后任务状态保持
     - [ResourceManger Restart](https://hadoop.apache.org/docs/r2.8.5/hadoop-yarn/hadoop-yarn-site/ResourceManagerRestart.html#Configurations)
-    - ```properties
-      yarn.resourcemanager.recovery.enabled = true
-      yarn.resourcemanager.store.class = org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore
+    - ```yaml
+      yarn.resourcemanager.recovery.enabled: true
+      yarn.resourcemanager.store.class: org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore
       ```
 - flink on yarn HA 配置
     - [yarn-cluster-high-availability](https://ci.apache.org/projects/flink/flink-docs-release-1.11/ops/jobmanager_high_availability.html#yarn-cluster-high-availability)

@@ -217,26 +217,26 @@ savepoint 类似于全量备份, 用户手动触发.
 
 - 触发savepoint
   ```shell
-  $ bin/flink savepoint :jobId [:targetDirectory]
+  flink savepoint :jobId [:targetDirectory]
   ```
 
 - 使用Yarn触发savepoint
   ```shell
-  $ bin/flink savepoint :jobId [:targetDirectory] -yid :yarnAppId
+  flink savepoint :jobId [:targetDirectory] -yid :yarnAppId
   ```
 - 使用 Savepoint 取消作业
   ```shell
-  $ bin/flink cancel -s [:targetDirectory] :jobId
+  flink cancel -s [:targetDirectory] :jobId
   ```
 - 从 Savepoint 恢复
   ```shell
-  $ bin/flink run -s :savepointPath [:runArgs]
+  flink run -s :savepointPath [:runArgs]
   # 跳过无法映射的状态恢复
-  $ bin/flink run -s :savepointPath --allowNonRestoredState [:runArgs]
+  flink run -s :savepointPath --allowNonRestoredState [:runArgs]
   ```
 - 删除 savepoint
   ```shell
-  $ bin/flink savepoint -d :savepointPath
+  flink savepoint -d :savepointPath
   ```
 
 ### [Tuning Checkpoints and Large State](https://ci.apache.org/projects/flink/flink-docs-release-1.12/ops/state/large_state_tuning.html)
