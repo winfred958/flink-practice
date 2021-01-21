@@ -18,15 +18,24 @@ import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunctio
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author winfred958
+ */
 public class DataMockSource extends RichParallelSourceFunction<String> {
 
-  private static final ScheduledThreadPoolExecutor schedulePool = new ScheduledThreadPoolExecutor(2);
+  private static final ScheduledThreadPoolExecutor schedulePool = new ScheduledThreadPoolExecutor(2, new ThreadFactory() {
+    @Override
+    public Thread newThread(Runnable r) {
+      return new Thread(r);
+    }
+  });
 
-  private String SESSION_ID = UUID.randomUUID().toString();
+  private String sessionId = null;
 
-  private String VISITOR_ID = UUID.randomUUID().toString();
+  private String visitorId = UUID.randomUUID().toString();
 
   private volatile boolean isRun;
 
@@ -44,12 +53,26 @@ public class DataMockSource extends RichParallelSourceFunction<String> {
     this.intervalMillisecondMax = intervalMillisecondMax;
   }
 
+  public String getSessionId() {
+    if (this.sessionId == null) {
+      changeSession();
+    }
+    return sessionId;
+  }
+
+  public String getVisitorId() {
+    if (this.visitorId == null) {
+      changeVisitor();
+    }
+    return visitorId;
+  }
+
   public void changeSession() {
-    this.SESSION_ID = UUID.randomUUID().toString();
+    this.sessionId = UUID.randomUUID().toString();
   }
 
   public void changeVisitor() {
-    this.VISITOR_ID = UUID.randomUUID().toString();
+    this.visitorId = UUID.randomUUID().toString();
   }
 
   @Override
@@ -117,8 +140,8 @@ public class DataMockSource extends RichParallelSourceFunction<String> {
     header.setPlatform("website");
     header.setAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36");
 
-    header.setVisitor_id(VISITOR_ID + "." + partition);
-    header.setSession_id(SESSION_ID + "." + partition);
+    header.setVisitor_id(getVisitorId() + "." + partition);
+    header.setSession_id(getSessionId() + "." + partition);
 
     String token = getFakerToken(partition);
 
@@ -164,8 +187,8 @@ public class DataMockSource extends RichParallelSourceFunction<String> {
     entity.setServer_time(timeMillis);
     entity.setAction_time(timeMillis);
 
-    entity.setVisitor_id(VISITOR_ID + "." + partition);
-    entity.setSession_id(SESSION_ID + "." + partition);
+    entity.setVisitor_id(getVisitorId() + "." + partition);
+    entity.setSession_id(getSessionId() + "." + partition);
 
     String token = getFakerToken(partition);
     entity.setToken(token);

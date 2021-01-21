@@ -4,12 +4,27 @@
 
 - ![avatar](https://ci.apache.org/projects/flink/flink-docs-release-1.12/fig/processes.svg)
 - 一个flink集群由一个JobManager 和 一个或多个TaskManager 组成
-- Client 用于准备参数配置, 生成StreamGraph等, 将其发送给JobManager
+
+### Client
+
+- Client (例如 per job 模式)执行main() 用于准备参数配置, 依赖 等, 将 StreamExecutionEnvironment 的 List<Transformation<?>> => StreamGraph
+  =>
+  JobGraph, 将其发送给JobManager
+    - 注意: 1.11+ 以后的run-application 模式, main() 方法将在JobManager执行
 
 ### JobManager
 
+- flink work task 的协调组件. 为不同的资源管理框架提供了实现 (k8s, yarn...)
+- JobManager 主要职责:
+
 ```text
-JobManager 具有许多与协调 Flink 应用程序的分布式执行有关的职责：它决定何时调度下一个 task（或一组 task）、对完成的 task 或执行失败做出反应、协调 checkpoint、并且协调从失败中恢复等等。这个进程由三个不同的组件组成：
+由JobGraph => ExecutionGraph, 并协调task执行
+
+JobManager 具有许多与协调 Flink 应用程序的分布式执行有关的职责:
+  它决定何时调度下一个 task (或一组 task)
+  对完成的 task 或执行失败做出反应
+  协调 checkpoint、并且协调从失败中恢复等等
+这个进程由三个不同的组件组成: 
 ```
 
 - #### **ResourceManager**
@@ -24,7 +39,7 @@ JobManager 具有许多与协调 Flink 应用程序的分布式执行有关的�
 ### TaskManager
 
 ```text
-TaskManager（也称为 worker）执行作业流的 task，并且缓存和交换数据流。
+TaskManager (也称为 worker) 执行作业流的 task, 并且缓存和交换数据流.
 ```
 
 - 必须始终至少有一个 TaskManager。在 TaskManager 中资源调度的最小单位是 task slot。TaskManager 中 task slot 的数量表示并发处理 task 的数量。
@@ -58,11 +73,15 @@ TaskManager（也称为 worker）执行作业流的 task，并且缓存和交换
 
 ## Flink Application Execution
 
+### Flink Session Cluster (session 模式)
+
 - **集群生命周期**
     - 多个job共享一个JobManager
-- 一般测试用
+- **资源隔离**
+    - jobManager资源未隔离, 一个作业的原因导致jobManager崩溃, 将导致整个session cluster的崩溃
+    - 测试用
 
-### Flink Job Cluster (之前称为 per-job模式)
+### Flink Job Cluster (per-job 模式)
 
 - **集群生命周期**
     - Flink job 集群中, 可以使用yarn或k8s资源管理, 为每个提交的job(作业)启动一个集群, 并且该集群仅用于该作业.
@@ -74,6 +93,11 @@ TaskManager（也称为 worker）执行作业流的 task，并且缓存和交换
     - 由于JobManager中的ResourceManager必须等待外部资源管理器(yarn,k8s)来启动TaskManager进程和资源分配. 因此Flink job集群更适合长期运行, 且具有高稳定性,
       且对较长启动时间不敏感的大型作业.
 
-### Flink Application Cluster
+### Flink Application Cluster (application 模式)
+
+- **产生背景**
+    - ```text
+      解决 per-job 模式, client 需要上传依赖, 并且运行main(), 组装JobGraph, 造成clint io 和资源占有过大
+      ```
 
 - [官网](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/concepts/flink-architecture.html#flink-application-%E9%9B%86%E7%BE%A4)
