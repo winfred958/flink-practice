@@ -44,6 +44,18 @@ TaskManager (也称为 worker) 执行作业流的 task, 并且缓存和交换数
 
 - 必须始终至少有一个 TaskManager。在 TaskManager 中资源调度的最小单位是 task slot。TaskManager 中 task slot 的数量表示并发处理 task 的数量。
 - 请注意一个 task slot 中可以执行多个算子（请参考Tasks和 Operator Chain）
+    - flink 内部通过 SlotSharingGroup 和 CoLocationGroup 来定义哪些 task 可以共享一个 slot， 哪些 task 必须严格放到同一个 slot。
+- Flink 通过 task slot 来定义执行资源, 每个TaskManager有1到n个slots, 
+  每个 task slot 可以运行一条有多个并行task组成的pipeline.
+    - ```text
+      下图很好的阐释了这一点，一个由数据源、MapFunction 和 ReduceFunction 组成的 Flink 作业，
+      每个 TaskManager 包含 3 个 slot，整个作业的运行如下图所示。
+      
+      其中数据源和 MapFunction 的并行度为 4 ，ReduceFunction 的并行度为 3 。
+      流水线由一系列的 Source - Map - Reduce 组成，运行在 2 个 TaskManager 组成的集群上，
+      ```
+    - ![avatar](https://ci.apache.org/projects/flink/flink-docs-release-1.12/fig/slots.svg)
+
 
 ## Tasks和 Operator Chain
 
