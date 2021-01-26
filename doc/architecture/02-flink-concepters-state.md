@@ -16,7 +16,8 @@
   提供了不同的 [State Backends](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/ops/state/state_backends.html)
   支持存储方式和存储位置
 
-#### State [详细请看 state 的使用](../application-dev-stream/03-状态&容错的使用.md)
+### [详细请看 state 的使用](../application-dev-stream/03-状态&容错的使用.md)
+#### State 
 
 - Raw State
     - ```text
