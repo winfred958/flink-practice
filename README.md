@@ -14,6 +14,12 @@
     - [hdfs](./doc/tutorials/04-flink对接hdfs和cosx.md)
     - [elasticsearch](./doc/tutorials/05-flink对接elasticsearch.md)
     - [hbase](./doc/tutorials/06-flink-hbase.md)
+- 应用篇
+    - [常用 operator](./doc/application-dev-stream/07-operators.md)
+      | [自定义Function](./doc/application-dev-stream/06-自定义Function.md)
+      | [checkpoint](./doc/application-dev-stream/04-checkpoint-使用.md)
+    - [**状态与容错的应用**](./doc/application-dev-stream/03-状态&容错的使用.md)
+    - [flink test](./doc/application-dev-stream/08-flink-test.md)
 
 ## 部署环境
 
