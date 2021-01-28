@@ -3,35 +3,68 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="0.0" y="380.0">org.apache.flink.runtime.executiongraph.ExecutionGraph</node>
-    <node x="173.0" y="455.0">org.apache.flink.runtime.jobgraph.JobGraph</node>
-    <node x="76.0" y="0.0">org.apache.flink.api.dag.Pipeline</node>
-    <node x="0.0" y="230.0">org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator</node>
-    <node x="261.0" y="305.0">org.apache.flink.streaming.api.graph.StreamGraphGenerator</node>
-    <node x="0.0" y="455.0">org.apache.flink.streaming.api.datastream.DataStream</node>
-    <node x="156.0" y="80.0">org.apache.flink.api.common.Plan</node>
-    <node x="0.0" y="80.0">org.apache.flink.streaming.api.graph.StreamGraph</node>
-    <node x="205.0" y="380.0">org.apache.flink.api.dag.Transformation</node>
-    <node x="0.0" y="155.0">org.apache.flink.streaming.api.environment.StreamExecutionEnvironment</node>
-    <node x="0.0" y="305.0">org.apache.flink.runtime.executiongraph.ExecutionGraphBuilder</node>
+    <node x="0.0" y="160.0">org.apache.flink.streaming.api.datastream.IterativeStream</node>
+    <node x="52.0" y="80.0">org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator</node>
+    <node x="0.0" y="540.0">org.apache.flink.runtime.executiongraph.ExecutionGraph</node>
+    <node x="48.0" y="235.0">org.apache.flink.api.dag.Pipeline</node>
+    <node x="205.0" y="540.0">org.apache.flink.runtime.jobgraph.JobGraph</node>
+    <node x="328.0" y="80.0">org.apache.flink.streaming.api.datastream.KeyedStream</node>
+    <node x="0.0" y="390.0">org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator</node>
+    <node x="188.0" y="160.0">org.apache.flink.streaming.api.datastream.DataStreamSource</node>
+    <node x="0.0" y="465.0">org.apache.flink.streaming.api.graph.StreamGraphGenerator</node>
+    <node x="224.0" y="0.0">org.apache.flink.streaming.api.datastream.DataStream</node>
+    <node x="100.0" y="315.0">org.apache.flink.streaming.api.graph.StreamGraph</node>
+    <node x="0.0" y="315.0">org.apache.flink.api.common.Plan</node>
+    <node x="253.0" y="465.0">org.apache.flink.api.dag.Transformation</node>
+    <node x="281.0" y="235.0">org.apache.flink.streaming.api.environment.StreamExecutionEnvironment</node>
+    <node x="301.0" y="390.0">org.apache.flink.runtime.executiongraph.ExecutionGraphBuilder</node>
   </nodes>
   <notes />
   <edges>
     <edge source="org.apache.flink.streaming.api.graph.StreamGraph" target="org.apache.flink.api.dag.Pipeline">
       <point x="0.0" y="-15.0" />
-      <point x="68.0" y="55.0" />
-      <point x="104.0" y="55.0" />
-      <point x="-28.0" y="15.0" />
+      <point x="168.0" y="290.0" />
+      <point x="132.0" y="290.0" />
+      <point x="28.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.datastream.DataStreamSource" target="org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator">
+      <point x="0.0" y="-15.0" />
+      <point x="276.0" y="135.0" />
+      <point x="244.0" y="135.0" />
+      <point x="64.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator" target="org.apache.flink.streaming.api.datastream.DataStream">
+      <point x="0.0" y="-15.0" />
+      <point x="180.0" y="55.0" />
+      <point x="256.0" y="55.0" />
+      <point x="-32.0" y="15.0" />
     </edge>
     <edge source="org.apache.flink.api.common.Plan" target="org.apache.flink.api.dag.Pipeline">
       <point x="0.0" y="-15.0" />
-      <point x="196.0" y="55.0" />
-      <point x="160.0" y="55.0" />
-      <point x="28.0" y="15.0" />
+      <point x="40.0" y="290.0" />
+      <point x="76.0" y="290.0" />
+      <point x="-28.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.datastream.IterativeStream" target="org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator">
+      <point x="0.0" y="-15.0" />
+      <point x="84.0" y="135.0" />
+      <point x="116.0" y="135.0" />
+      <point x="-64.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.datastream.KeyedStream" target="org.apache.flink.streaming.api.datastream.DataStream">
+      <point x="0.0" y="-15.0" />
+      <point x="396.0" y="55.0" />
+      <point x="320.0" y="55.0" />
+      <point x="32.0" y="15.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="547.0" y="394.5" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="1.0" x="547.0" y="349.5" />
+  <SelectedNodes>
+    <node>org.apache.flink.streaming.api.datastream.IterativeStream</node>
+    <node>org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator</node>
+    <node>org.apache.flink.streaming.api.datastream.KeyedStream</node>
+    <node>org.apache.flink.streaming.api.datastream.DataStreamSource</node>
+  </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>protected</VISIBILITY>

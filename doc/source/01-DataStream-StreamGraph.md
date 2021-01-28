@@ -2,32 +2,59 @@
 
 ## version 1.12.0
 
-### DataStream & Transformation
+### DataStream & Transformation & StreamOperator
+
+```text
+DataStream –> Transformation –> StreamOperator 这样的依赖关系，就可以完成 DataStream 的转换.
+并且保留算子之间的依赖关系。
+```
 
 - UML
-    - ![avatar](images/DataStream&Env.png)
-- StreamExecutionEnvironment
-    - 是1个Stream上下文信息
+    - ![avatar](images/uml-DataStream&Env.png)
+- #### StreamExecutionEnvironment
+    - 是1个Flink 作业的上下文信息, 包含 ExecuteConfig 和 CheckPointConfig
     - 提供了控制job执行的方法,和与外界交互的链接信息
         - set parallelism
         - checkpoint 参数
 
-- DataStream 等算子操作, 会抽象成 Transformation 列表, 存到 StreamExecutionEnvironment 的 transformations列表中
+- #### DataStream & Transformation
+    - DataStream 表示了由一种类型构成的数据流
+    - 通过算子操作, 可以将一个DataStream转化为另一个DataStream, 转化的过程会抽象成 Transformation , 存到 StreamExecutionEnvironment 的
+      transformations列表中
+        - **也就是说**: 在 DataStream 上面通过算子不断进行转换，就得到了由 Transformation 构成的图。当需要执行的时候，底层的这个图就会被转换成 StreamGraph
+    - Transformation 有一系列子类
     - DataStream 的子类
-        - ![avatar](images/DataStream.png)
+        - ![avatar](images/uml-DataStream.png)
 
-## StreamGraph -> JobGraph -> ExecutionGraph
+- #### StreamOperator
+    - StreamOperator 定义了对一个具体的算子的生命周期的管理
+
+## 用户代码 -> StreamGraph -> JobGraph -> ExecutionGraph
+
+- ```text
+  StreamGraph: 从source开始, 遍历 transformations 生成 SteamNode 和 StreamEdge, 组成 StreamGraph (DAG)
+  JobGraph: 从source开始, 遍历能 chain 到一起的 operator, 
+      如果可以chain则chain到一起生成JobVertex, 不能chain的生成单独的JobVertex.
+      通过 JobEdge 链接上下游的 JobVertex, 组成 JobGraph
+  ExecutionGraph: jobVertex DAG 提交到任务以后，从 Source 节点开始排序,
+      根据 JobVertex 生成ExecutionJobVertex，根据 jobVertex的IntermediateDataSet 构建IntermediateResult，
+      然后 IntermediateResult 构建上下游的依赖关系， 形成 ExecutionJobVertex 层面的 DAG 即 ExecutionGraph。
+  ```
 
 ### StreamGraph 的生成
 
-- UML
+- 图: StreamGraph -> JobGraph -> ExecutionGraph
     - ![avatar](images/StreamGraph-JobGraph-ExecutionGraph.png)
+- UML
+    - ![avatar](images/uml-StreamGraph-JobGraph-ExecutionGraph.png)
 
-- StreamGraph 生成
-  ```text
-  1. StreamExecutionEnvironment 根据transformations, config 等, 构造出 StreamGraphGenerator
-  2. StreamGraphGenerator 创建 StreamGraph, 并遍历 transformations 设置 StreamNode 和 StreamEdge 组成 DAG
-  ```
+- #### StreamGraph 生成
+    - StreamExecutionEnvironment.execute() 开始执行, 根据transformations, config 等, 构造出 StreamGraphGenerator
+    - StreamGraphGenerator 创建 StreamGraph, 并遍历 transformations 构造出 StreamNode 和 StreamEdge 组成 DAG
+        - StreamNode 是来描述 operator 的逻辑节点, 关键属性有 inEdges, outEdges , Class<? extends AbstractInvokable> jobVertexClass,
+          slotSharingGroup slotSharingGroup
+            - 每个StreamNode对象都携带有parallelism, slotSharingGroup, 执行类信息
+        - StreamEge 是用来描述两个 operator 边(关系), 关键属性有 StreamNode sourceVertex, StreamNode targetVertex
     - {@link StreamExecutionEnvironment}, 根据transformations, config 等, 构造出 StreamGraphGenerator
         - ```java
           /** The execution configuration for this environment. */
@@ -97,3 +124,5 @@
               return builtStreamGraph;
           }
           ```
+
+### JobGraph 的生成
