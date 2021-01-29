@@ -53,8 +53,8 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
     - ![avatar](images/uml-StreamGraph-JobGraph-ExecutionGraph.png)
 
 - #### StreamGraph 生成
-    - StreamExecutionEnvironment.execute() 开始执行, 根据transformations, config 等, 构造出 StreamGraphGenerator
-    - StreamGraphGenerator 创建 StreamGraph, 并遍历 transformations 构造出 StreamNode 和 StreamEdge 组成 DAG
+    - 1.StreamExecutionEnvironment.execute() 开始执行, 根据transformations, config 等, **构造出 StreamGraphGenerator**
+    - 2.StreamGraphGenerator 遍历 transformations 构造出 StreamNode 和 StreamEdge 组成 DAG, 即 StreamGraph
         - StreamNode 是来描述 operator 的逻辑节点, 关键属性有 inEdges, outEdges , Class<? extends AbstractInvokable> jobVertexClass,
           slotSharingGroup slotSharingGroup
             - 每个StreamNode对象都携带有parallelism, slotSharingGroup, 执行类信息
