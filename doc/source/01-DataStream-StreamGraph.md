@@ -1,13 +1,12 @@
 # DataStream & StreamGraph 生成
 
+- [DataStream & Transformation & StreamOperator](#datastream--transformation--streamoperator)
+- [StreamGraph 的生成](#streamgraph-的生成)
+- [JobGraph 的生成](#jobgraph-的生成)
+
 ## version 1.12.0
 
 ### DataStream & Transformation & StreamOperator
-
-```text
-DataStream –> Transformation –> StreamOperator 这样的依赖关系，就可以完成 DataStream 的转换.
-并且保留算子之间的依赖关系。
-```
 
 - UML
     - ![avatar](images/uml-DataStream&Env.png)
@@ -28,6 +27,11 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
 
 - #### StreamOperator
     - StreamOperator 定义了对一个具体的算子的生命周期的管理
+
+```text
+DataStream –> Transformation –> StreamOperator 这样的依赖关系，就可以完成 DataStream 的转换.
+并且保留算子之间的依赖关系。
+```
 
 ## 用户代码 -> StreamGraph -> JobGraph -> ExecutionGraph
 
