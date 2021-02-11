@@ -37,7 +37,7 @@ trigger 定义了window何时被  WindowFunction 处理.
 
 interface Trigger
 
-| 方法 | 描述 |
+| 方法 <img width=450/>| 描述 |
 | :---- | :---- |
 | TriggerResult onElement() | method is called for each element that is added to a window |
 | TriggerResult onEventTime() | method is called when a registered event-time timer fires |
