@@ -44,9 +44,6 @@ object FileSystemConnector {
       )
       .withBucketAssigner(new DateTimeBucketAssigner[LogEntity]("yyyy/MM/dd/HH", ZoneId.of("Asia/Shanghai")))
       .withBucketCheckInterval(bucketCheckInterval)
-      .withRollingPolicy(
-        policy
-      )
       .build()
 
     data

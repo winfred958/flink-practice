@@ -24,34 +24,25 @@ object ApmCommonUtils {
 
 
   def getMysqlDateFormat(): SimpleDateFormat = {
-    var df: SimpleDateFormat = threadLocal_mysql_df.get()
-    if (null == df) {
-      df = new SimpleDateFormat(date_format_str_mysql)
-      df.setTimeZone(timeZoneLosAngeles)
-      threadLocal_mysql_df.set(df)
-    }
-    df
+    buildDateFormat(threadLocal_mysql_df, date_format_str_mysql)
   }
 
+  private def buildDateFormat(threadLocal_df: ThreadLocal[SimpleDateFormat], formatStr: String): SimpleDateFormat = {
+    var simpleDateFormat = threadLocal_df.get()
+    if (null == simpleDateFormat) {
+      simpleDateFormat = new SimpleDateFormat(formatStr)
+      simpleDateFormat.setTimeZone(timeZoneLosAngeles)
+      threadLocal_df.set(simpleDateFormat)
+    }
+    simpleDateFormat
+  }
 
   def getMinutesDateFormat(): SimpleDateFormat = {
-    var df: SimpleDateFormat = threadLocal_minute_df.get()
-    if (null == df) {
-      df = new SimpleDateFormat(data_format_str_minutes)
-      df.setTimeZone(timeZoneLosAngeles)
-      threadLocal_minute_df.set(df)
-    }
-    df
+    buildDateFormat(threadLocal_minute_df, data_format_str_minutes)
   }
 
   def getDayDateFormat(): SimpleDateFormat = {
-    var df: SimpleDateFormat = threadLocal_day_df.get()
-    if (null == df) {
-      df = new SimpleDateFormat(data_format_str_day)
-      df.setTimeZone(timeZoneLosAngeles)
-      threadLocal_day_df.set(df)
-    }
-    df
+    buildDateFormat(threadLocal_day_df, data_format_str_day)
   }
 
   /**

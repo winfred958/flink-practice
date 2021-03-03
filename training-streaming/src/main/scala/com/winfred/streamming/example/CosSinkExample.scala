@@ -1,22 +1,18 @@
 package com.winfred.streamming.example
 
 import com.alibaba.fastjson.JSON
-import com.winfred.core.config.KafkaConfig
+import com.winfred.core.source.FlinkKafkaSource
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.streamming.entity.log.EventEntity
 import org.apache.commons.lang3.StringUtils
-import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.core.fs.Path
 import org.apache.flink.formats.parquet.avro.ParquetAvroWriters
 import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink
 import org.apache.flink.streaming.api.functions.sink.filesystem.bucketassigners.DateTimeBucketAssigner
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
-import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.common.serialization.StringDeserializer
 
 import java.time.ZoneId
-import java.util.{Properties, UUID}
+import java.util.UUID
 import scala.beans.BeanProperty
 
 object CosSinkExample {
@@ -38,8 +34,7 @@ object CosSinkExample {
 
     // source
     val sourceData: DataStream[String] = executionEnvironment
-      .addSource(getKafkaSource(topic = sourceTopic, groupId = groupId))
-
+      .addSource(FlinkKafkaSource.getKafkaSource(topics = sourceTopic, groupId = groupId))
 
     val result: DataStream[LogEntity] = sourceData
       .map(str => {
@@ -67,24 +62,6 @@ object CosSinkExample {
 
   }
 
-  def getKafkaSource(topic: String, groupId: String): FlinkKafkaConsumer[String] = {
-    val kafkaConfigEntity = KafkaConfig.getConfigEntity()
-    val bootstrapServers = kafkaConfigEntity.getKafka.getConsumer.getBootstrapServers
-
-    val properties = new Properties()
-    properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500")
-    properties.setProperty(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "300000")
-    properties.setProperty(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000")
-    properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000")
-    properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)
-    properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)
-    properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, auto_offset_reset)
-    properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
-
-    val source: FlinkKafkaConsumer[String] = new FlinkKafkaConsumer[String](topic, new SimpleStringSchema(), properties)
-    source
-  }
 
   def streamingFileSink(
                          data: DataStream[LogEntity],

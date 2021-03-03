@@ -41,17 +41,6 @@ object FlinkKafkaSource {
     source
   }
 
-
-  def getKafkaSource(topics: String, groupId: String, properties: Properties): FlinkKafkaConsumer[String] = {
-    properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
-    val topicList: util.List[String] = new util.ArrayList[String]()
-    for (topic <- topics.split(",")) {
-      topicList.add(topic)
-    }
-    val source: FlinkKafkaConsumer[String] = new FlinkKafkaConsumer[String](topicList, new SimpleStringSchema(), properties)
-    source
-  }
-
   /**
    *
    * @param topicRegex topic 正则表达式

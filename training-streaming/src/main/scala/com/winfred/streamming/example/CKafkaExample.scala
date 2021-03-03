@@ -1,20 +1,16 @@
 package com.winfred.streamming.example
 
 import com.winfred.core.annotation.PassTest
-import com.winfred.core.config.KafkaConfig
+import com.winfred.core.sink.FlinkKafkaSink
+import com.winfred.core.source.FlinkKafkaSource
 import org.apache.commons.lang3.StringUtils
-import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
 import org.apache.flink.streaming.api.windowing.time.Time
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
-import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.producer.ProducerConfig
-import org.apache.kafka.common.serialization.StringDeserializer
 
 import java.text.SimpleDateFormat
-import java.util.{Calendar, Properties}
+import java.util.Calendar
 
 @PassTest
 object CKafkaExample {
@@ -25,40 +21,6 @@ object CKafkaExample {
   val sourceTopic: String = "ckafka_test_raw"
   val sinkTopic: String = "ckafka_test_target"
 
-  def getKafkaSource(topic: String, groupId: String): FlinkKafkaConsumer[String] = {
-    val kafkaConfigEntity = KafkaConfig.getConfigEntity()
-    val bootstrapServers = kafkaConfigEntity.getKafka.getConsumer.getBootstrapServers
-
-    val properties = new Properties()
-    properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500")
-    properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "300000")
-    properties.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000")
-    properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000")
-    properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)
-    properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getCanonicalName)
-    properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, auto_offset_reset)
-    properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
-
-
-    val source: FlinkKafkaConsumer[String] = new FlinkKafkaConsumer[String](topic, new SimpleStringSchema(), properties)
-    source
-  }
-
-
-  def getKafkaSink(topic: String): FlinkKafkaProducer[String] = {
-    val kafkaConfigEntity = KafkaConfig.getConfigEntity()
-    val bootstrapServers = kafkaConfigEntity.getKafka.getProducer.getBootstrapServers
-    val properties = new Properties()
-    properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    properties.setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, "900000")
-    properties.setProperty(ProducerConfig.ACKS_CONFIG, "0")
-    properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "16384")
-
-    val sink: FlinkKafkaProducer[String] = new FlinkKafkaProducer[String](topic, new SimpleStringSchema(), properties)
-    sink.setWriteTimestampToKafka(true)
-    sink
-  }
 
   def main(args: Array[String]): Unit = {
 
@@ -72,8 +34,8 @@ object CKafkaExample {
     // add source
     val dataSource: DataStream[String] = executionEnvironment
       .addSource(
-        getKafkaSource(
-          topic = sourceTopic, groupId = groupId
+        FlinkKafkaSource.getKafkaSource(
+          topics = sourceTopic, groupId = groupId
         )
       )
       .filter(str => {
@@ -99,7 +61,7 @@ object CKafkaExample {
     // add sink
     result
       .addSink(
-        getKafkaSink(topic = sinkTopic)
+        FlinkKafkaSink.getKafkaSink(topic = sinkTopic)
       )
 
 
