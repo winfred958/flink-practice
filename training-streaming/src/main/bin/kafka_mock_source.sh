@@ -18,7 +18,8 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 6 \
   --detached \
   --yarnname CKafkaMockSource \
-  ${HOME_PATH}/lib/training-streaming.jar
+  ${HOME_PATH}/lib/training-streaming.jar \
+  --topic-name kafka_test_raw
 EOF
 )
 

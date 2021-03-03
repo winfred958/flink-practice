@@ -3,6 +3,7 @@ package com.winfred.streamming.example
 import com.winfred.core.annotation.PassTest
 import com.winfred.core.sink.FlinkKafkaSink
 import com.winfred.core.source.FlinkKafkaSource
+import com.winfred.core.utils.ArgsHandler
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -18,8 +19,8 @@ object CKafkaExample {
   var auto_offset_reset: String = "earliest"
 
   val groupId: String = this.getClass.getCanonicalName
-  val sourceTopic: String = "ckafka_test_raw"
-  val sinkTopic: String = "ckafka_test_target"
+  val sourceTopic: String = "kafka_test_raw"
+  val sinkTopic: String = "kafka_test_target"
 
 
   def main(args: Array[String]): Unit = {
@@ -31,11 +32,17 @@ object CKafkaExample {
 
     import org.apache.flink.streaming.api.scala._
 
+    var sourceTopicName = ArgsHandler.getArgsParam(args, "source-topic")
+    var sinkTopicName = ArgsHandler.getArgsParam(args, "sink-topic")
+
+    if (StringUtils.isBlank(sourceTopicName)) sourceTopicName = sourceTopic
+    if (StringUtils.isBlank(sinkTopicName)) sourceTopicName = sinkTopic
+
     // add source
     val dataSource: DataStream[String] = executionEnvironment
       .addSource(
         FlinkKafkaSource.getKafkaSource(
-          topics = sourceTopic, groupId = groupId
+          topics = sourceTopicName, groupId = groupId
         )
       )
       .filter(str => {
@@ -61,7 +68,7 @@ object CKafkaExample {
     // add sink
     result
       .addSink(
-        FlinkKafkaSink.getKafkaSink(topic = sinkTopic)
+        FlinkKafkaSink.getKafkaSink(topic = sinkTopicName)
       )
 
 

@@ -18,7 +18,9 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 12 \
   --detached \
   --yarnname CKafkaExample \
-  ${HOME_PATH}/lib/training-streaming.jar
+  ${HOME_PATH}/lib/training-streaming.jar \
+  --source-topic kafka_test_raw \
+  --sink-topic kafka_test_target
 EOF
 )
 # parallelism 12 ~~~ 吞吐 2900000/min
