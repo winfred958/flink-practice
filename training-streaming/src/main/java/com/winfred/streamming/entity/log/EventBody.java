@@ -9,36 +9,36 @@ import java.util.List;
 
 public class EventBody {
 
-  @Getter
-  @Setter
-  private String event_name;
+    @Getter
+    @Setter
+    private String event_name;
 
-  @Getter
-  @Setter
-  private String event_type;
-  /**
-   * 业务相关参数
-   */
+    @Getter
+    @Setter
+    private String event_type;
+    /**
+     * 业务相关参数
+     */
 
-  @Getter
-  @Setter
-  private List<Parameter> parameters;
+    @Getter
+    @Setter
+    private List<Parameter> parameters;
 
-  @Setter
-  private Utm utm;
+    @Setter
+    private Utm utm;
 
-  @Data
-  @AllArgsConstructor
-  public static class Parameter {
-    private String name;
-    private String value;
-  }
-
-
-  public Utm getUtm() {
-    if (this.utm == null) {
-      this.utm = new Utm();
+    @Data
+    @AllArgsConstructor
+    public static class Parameter {
+        private String name;
+        private String value;
     }
-    return utm;
-  }
+
+
+    public Utm getUtm() {
+        if (this.utm == null) {
+            this.utm = new Utm();
+        }
+        return utm;
+    }
 }

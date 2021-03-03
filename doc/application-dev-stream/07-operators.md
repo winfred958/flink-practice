@@ -1,6 +1,6 @@
 # 算子
 
-##                  
+##                   
 
 ## [Windows](https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/stream/operators/windows.html)
 

@@ -17,7 +17,8 @@
   支持存储方式和存储位置
 
 ### [详细请看 state 的使用](../application-dev-stream/03-状态&容错的使用.md)
-#### State 
+
+#### State
 
 - Raw State
     - ```text
@@ -128,7 +129,8 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
             - 本地开发和调试
             - 状态很小的job, 由算子(Map, Flatmap, Filter)等 一对一算子构成的job
         - 注意
-            - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+            -
+            建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
             设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **FsStateBackend**
@@ -139,7 +141,8 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
             - 状态比较大, 窗口比较长(分钟级别), key/value 状态比较大的job
             - 所有高可用的场景
         - 注意
-            - 建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+            -
+            建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
             设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **RocksDBStateBackend**

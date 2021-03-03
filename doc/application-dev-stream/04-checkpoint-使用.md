@@ -1,6 +1,7 @@
 # checkpoint
 
 ## 开启checkpoint
+
 - 默认情况 checkpoint 是禁用的. 开启方式 StreamExecutionEnvironment.enableCheckpointing(interval, CheckpointingMode)
     - ```java
       StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -24,6 +25,7 @@
       // 开启在 job 中止后仍然保留的 externalized checkpoints
       env.getCheckpointConfig().enableExternalizedCheckpoints(ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
       ```
+
 ## 设置checkpoint State Backend
 
 ## task failover
@@ -51,7 +53,7 @@ Flink 通过 restart-strategy 和 failover strategy 来控制Task重启:
       restart-strategy.fixed-delay.delay: 10s
       ```
       | key | default | type | description |
-                                                                              | :--- | :--- | :--- | :--- |
+                                                                                    | :--- | :--- | :--- | :--- |
       | restart-strategy.fixed-delay.attempts | 1 | Integer | 重启次数 |
       | restart-strategy.fixed-delay.delay | 1s | Duration | 重启间隔 |
     - 程序中独立配置
@@ -73,7 +75,7 @@ Flink 通过 restart-strategy 和 failover strategy 来控制Task重启:
       restart-strategy.failure-rate.failure-rate-interval: 5 min
       ```
       | key | default | type | description |
-                                                      | :--- | :--- | :--- | :--- |
+                                                            | :--- | :--- | :--- | :--- |
       | restart-strategy.failure-rate.delay | 1s | Integer | restart 间隔 |
       | restart-strategy.failure-rate.failure-rate-interval | 1 min | Duration | 周期 |
       | restart-strategy.failure-rate.max-failures-per-interval | 1 | Duration | 周期中restart阈值 |

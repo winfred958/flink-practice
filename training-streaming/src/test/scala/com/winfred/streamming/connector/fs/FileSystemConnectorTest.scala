@@ -54,13 +54,13 @@ object FileSystemConnectorTest {
         }
       })
 
-//    logDataStream
-//      .addSink(new SinkFunction[LogEntity] {
-//
-//        override def invoke(value: LogEntity, context: SinkFunction.Context[_]): Unit = {
-//          println("========", value.server_time, value.event_name, value.uuid)
-//        }
-//      })
+    //    logDataStream
+    //      .addSink(new SinkFunction[LogEntity] {
+    //
+    //        override def invoke(value: LogEntity, context: SinkFunction.Context[_]): Unit = {
+    //          println("========", value.server_time, value.event_name, value.uuid)
+    //        }
+    //      })
 
     FileSystemConnector
       .streamingFileSink(
