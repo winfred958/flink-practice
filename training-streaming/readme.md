@@ -8,7 +8,8 @@
       ```
     - build 完毕 会在 flink-practice/training-streaming/target/releases 目录下生成压缩包
 - 解压
-    - 解压 flink-practice/training-streaming/target/releases/xxx.gzip
+    - 解压 flink-practice/training-streaming/target/releases/xxx.tar.gz
+       - tar -zxvf xxx.tar.gz
     - 目录结构
       ```text
       training-streaming/bin #执行脚本
@@ -18,6 +19,6 @@
 
       | 名称 | 入口类 | 功能 |
       | :---- | :---- | :---- |
-      | kafka_mock_source.sh | [CKafkaMockSource](src/main/scala/com/winfred/streamming/ckafka/CKafkaMockSource.scala) | mock 测试数据 sink 到kafka (脚本中需要指定topic) |
-      | kafka_source_sink_test.sh | [CKafkaExample](src/main/scala/com/winfred/streamming/example/CKafkaExample.scala) | 测试kafka source sink (同上)|
-      | hbase-sink-example.sh | [HbaseExample](src/main/scala/com/winfred/streamming/example/HbaseExample.scala) | 测试hbase sink (需要提前建表, 脚本中指定 zookeeper地址) |
+      | bin/kafka_mock_source.sh | [CKafkaMockSource](src/main/scala/com/winfred/streamming/ckafka/CKafkaMockSource.scala) | mock 测试数据 sink 到kafka (脚本中需要指定topic) |
+      | bin/kafka_source_sink_test.sh | [CKafkaExample](src/main/scala/com/winfred/streamming/example/CKafkaExample.scala) | 测试kafka source sink (同上)|
+      | bin/hbase-sink-example.sh | [HbaseExample](src/main/scala/com/winfred/streamming/example/HbaseExample.scala) | 测试hbase sink (需要提前建表, 脚本中指定 zookeeper地址) |
