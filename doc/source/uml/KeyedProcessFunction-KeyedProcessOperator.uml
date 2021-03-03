@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="276.0" y="0.0">org.apache.flink.streaming.api.operators.StreamOperator</node>
+    <node x="244.0" y="80.0">org.apache.flink.streaming.api.operators.TwoInputStreamOperator</node>
+    <node x="252.0" y="160.0">org.apache.flink.streaming.api.operators.KeyedProcessOperator</node>
+    <node x="253.0" y="235.0">org.apache.flink.api.dag.Transformation</node>
+    <node x="0.0" y="80.0">org.apache.flink.streaming.api.operators.OneInputStreamOperator</node>
+    <node x="0.0" y="235.0">org.apache.flink.streaming.api.functions.KeyedProcessFunction</node>
+    <node x="488.0" y="80.0">org.apache.flink.streaming.api.operators.AbstractStreamOperator</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.flink.streaming.api.operators.AbstractStreamOperator" target="org.apache.flink.streaming.api.operators.StreamOperator">
+      <point x="0.0" y="-15.0" />
+      <point x="600.0" y="55.0" />
+      <point x="409.33333333333337" y="55.0" />
+      <point x="53.33333333333337" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.operators.KeyedProcessOperator" target="org.apache.flink.streaming.api.operators.OneInputStreamOperator">
+      <point x="-52.0" y="-15.0" />
+      <point x="304.0" y="135.0" />
+      <point x="112.0" y="135.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.operators.TwoInputStreamOperator" target="org.apache.flink.streaming.api.operators.StreamOperator">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.operators.OneInputStreamOperator" target="org.apache.flink.streaming.api.operators.StreamOperator">
+      <point x="0.0" y="-15.0" />
+      <point x="112.0" y="55.0" />
+      <point x="302.6666666666667" y="55.0" />
+      <point x="-53.333333333333314" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.operators.KeyedProcessOperator" target="org.apache.flink.streaming.api.operators.AbstractStreamOperator">
+      <point x="52.0" y="-15.0" />
+      <point x="408.0" y="135.0" />
+      <point x="600.0" y="135.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="458.0" y="85.0" />
+  <SelectedNodes>
+    <node>org.apache.flink.api.dag.Transformation</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -4,9 +4,9 @@
 - [StreamGraph 的生成](#streamgraph-的生成)
 - [JobGraph 的生成](#jobgraph-的生成)
 
-## version 1.12.0
+(current version 1.12.0)
 
-### DataStream & Transformation & StreamOperator
+## DataStream & Transformation & StreamOperator
 
 - UML
     - ![avatar](images/uml-DataStream&Env.png)
@@ -99,7 +99,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
                   .setDefaultBufferTimeout(bufferTimeout);
           }
           ```
-    - {@link StreamGraphGenerator#generate} 方法生成 StreamGraph, 并且
+    - {@link StreamGraphGenerator#generate} 方法生成 StreamGraph, 并且获得transformationId 列表
         - ```java
           /**
            * {@link StreamGraphGenerator#generate}
@@ -113,9 +113,9 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
               alreadyTransformed = new HashMap<>();
           
               /**
-              * 1. 匹配 Transformation 实现类 xxxTransformation对应的 xxxTransformationTranslator 包装类(实现自接口TransformationTranslator Context 上下文包含StreamGraph等); 
+              * 1. 策略模式 匹配 xxxTransformation对应的 xxxTransformationTranslator 包装类(实现自接口TransformationTranslator Context 上下文包含StreamGraph等); 
               * 2. 调用 xxxTransformationTranslator 父类 AbstractOneInputTransformationTranslator#translateInternal;
-              * 3. 
+              *    - StreamGraph 添加 Operator
               */
               for (Transformation<?> transformation: transformations) {
                   transform(transformation);
@@ -128,5 +128,77 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
               return builtStreamGraph;
           }
           ```
+        - 最终调用 AbstractOneInputTransformationTranslator#translateInternal
+          ```java
+          protected Collection<Integer> translateInternal(
+          final Transformation<OUT> transformation,
+          final StreamOperatorFactory<OUT> operatorFactory,
+          final TypeInformation<IN> inputType,
+          @Nullable final KeySelector<IN, ?> stateKeySelector,
+          @Nullable final TypeInformation<?> stateKeyType,
+          final Context context) {
+          checkNotNull(transformation);
+          checkNotNull(operatorFactory);
+          checkNotNull(inputType);
+          checkNotNull(context);
+        
+            final StreamGraph streamGraph = context.getStreamGraph();
+            final String slotSharingGroup = context.getSlotSharingGroup();
+            final int transformationId = transformation.getId();
+            final ExecutionConfig executionConfig = streamGraph.getExecutionConfig();
+        
+            streamGraph.addOperator(
+                transformationId,
+                slotSharingGroup,
+                transformation.getCoLocationGroupKey(),
+                operatorFactory,
+                inputType,
+                transformation.getOutputType(),
+                transformation.getName());
+        
+            if (stateKeySelector != null) {
+                TypeSerializer<?> keySerializer = stateKeyType.createSerializer(executionConfig);
+                streamGraph.setOneInputStateKey(transformationId, stateKeySelector, keySerializer);
+            }
+        
+            int parallelism = transformation.getParallelism() != ExecutionConfig.PARALLELISM_DEFAULT
+                ? transformation.getParallelism()
+                : executionConfig.getParallelism();
+            streamGraph.setParallelism(transformationId, parallelism);
+            streamGraph.setMaxParallelism(transformationId, transformation.getMaxParallelism());
+        
+            final List<Transformation<?>> parentTransformations = transformation.getInputs();
+            checkState(
+                parentTransformations.size() == 1,
+                "Expected exactly one input transformation but found " + parentTransformations.size());
+        
+            for (Integer inputId: context.getStreamNodeIds(parentTransformations.get(0))) {
+                streamGraph.addEdge(inputId, transformationId, 0);
+            }
+        
+            return Collections.singleton(transformationId);
+          }
+          ```
 
 ### JobGraph 的生成
+
+- JobGraph 生成 PipelineExecutorUtils
+- ```java
+  	@Override
+	public CompletableFuture<JobClient> execute(@Nonnull final Pipeline pipeline, @Nonnull final Configuration configuration, @Nonnull final ClassLoader userCodeClassloader) throws Exception {
+		final JobGraph jobGraph = PipelineExecutorUtils.getJobGraph(pipeline, configuration);
+
+		try (final ClusterDescriptor<ClusterID> clusterDescriptor = clusterClientFactory.createClusterDescriptor(configuration)) {
+			final ExecutionConfigAccessor configAccessor = ExecutionConfigAccessor.fromConfiguration(configuration);
+
+			final ClusterSpecification clusterSpecification = clusterClientFactory.getClusterSpecification(configuration);
+
+			final ClusterClientProvider<ClusterID> clusterClientProvider = clusterDescriptor
+					.deployJobCluster(clusterSpecification, jobGraph, configAccessor.getDetachedMode());
+			LOG.info("Job has been submitted with JobID " + jobGraph.getJobID());
+
+			return CompletableFuture.completedFuture(
+					new ClusterClientJobClientAdapter<>(clusterClientProvider, jobGraph.getJobID(), userCodeClassloader));
+		}
+	}
+  ```

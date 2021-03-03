@@ -4,6 +4,7 @@ import org.apache.flink.core.fs.Path
 import org.apache.flink.formats.parquet.avro.ParquetAvroWriters
 import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink
 import org.apache.flink.streaming.api.functions.sink.filesystem.bucketassigners.DateTimeBucketAssigner
+import org.apache.flink.streaming.api.functions.sink.filesystem.rollingpolicies.DefaultRollingPolicy
 import org.apache.flink.streaming.api.scala.DataStream
 
 import java.time.ZoneId
@@ -30,6 +31,12 @@ object FileSystemConnector {
 
     val path = new Path(basePath)
 
+    val policy: DefaultRollingPolicy[LogEntity, String] = DefaultRollingPolicy.builder()
+      .withRolloverInterval(60 * 60 * 1000L)
+      .withInactivityInterval(60L * 1000L)
+      .withMaxPartSize(1024L * 1024L * 128L)
+      .build()
+
     val streamingFileSink: StreamingFileSink[LogEntity] = StreamingFileSink
       .forBulkFormat(
         path,
@@ -37,6 +44,9 @@ object FileSystemConnector {
       )
       .withBucketAssigner(new DateTimeBucketAssigner[LogEntity]("yyyy/MM/dd/HH", ZoneId.of("Asia/Shanghai")))
       .withBucketCheckInterval(bucketCheckInterval)
+      .withRollingPolicy(
+        policy
+      )
       .build()
 
     data

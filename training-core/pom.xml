@@ -33,6 +33,11 @@
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
     </dependency>
+    <!-- jdbc -->
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-connector-jdbc_2.11</artifactId>
+    </dependency>
     <!-- flink hbase ?-->
     <dependency>
       <groupId>org.apache.flink</groupId>
@@ -120,8 +125,8 @@
       <artifactId>fastjson</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
     </dependency>
     <!--ik analyzer -->
     <dependency>
