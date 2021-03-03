@@ -22,7 +22,6 @@ object CKafkaExample {
   val sourceTopic: String = "kafka_test_raw"
   val sinkTopic: String = "kafka_test_target"
 
-
   def main(args: Array[String]): Unit = {
 
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
