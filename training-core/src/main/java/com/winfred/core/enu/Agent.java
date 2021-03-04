@@ -1,4 +1,4 @@
-package com.winfred.streamming.enu;
+package com.winfred.core.enu;
 
 public enum Agent {
     /**

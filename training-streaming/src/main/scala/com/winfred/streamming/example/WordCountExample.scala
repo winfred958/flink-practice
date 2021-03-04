@@ -1,8 +1,8 @@
 package com.winfred.streamming.example
 
 import com.alibaba.fastjson.JSON
-import com.winfred.streamming.common.DataMockSource
-import com.winfred.streamming.entity.log.EventEntity
+import com.winfred.core.entity.log.EventEntity
+import com.winfred.core.source.DataMockSource
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}

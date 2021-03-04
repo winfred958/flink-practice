@@ -1,4 +1,4 @@
-package com.winfred.streamming.entity.log;
+package com.winfred.core.entity.log;
 
 public class EventHeader {
     private String platform;

@@ -1,16 +1,17 @@
-package com.winfred.streamming.common;
+package com.winfred.core.source;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.winfred.streamming.entity.log.EventBody;
-import com.winfred.streamming.entity.log.EventEntity;
-import com.winfred.streamming.entity.log.EventHeader;
-import com.winfred.streamming.entity.log.SimpleEventEntity;
-import com.winfred.streamming.entity.user.UserInfo;
-import com.winfred.streamming.entity.user.UserRole;
-import com.winfred.streamming.mock.MockUtils;
+
+import com.winfred.core.entity.log.EventBody;
+import com.winfred.core.entity.log.EventEntity;
+import com.winfred.core.entity.log.EventHeader;
+import com.winfred.core.entity.log.SimpleEventEntity;
+import com.winfred.core.entity.user.UserInfo;
+import com.winfred.core.entity.user.UserRole;
+import com.winfred.core.utils.MockUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;

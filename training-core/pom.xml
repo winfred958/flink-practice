@@ -134,5 +134,9 @@
       <artifactId>IKAnalyzer-lucene</artifactId>
       <version>8.0.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+    </dependency>
   </dependencies>
 </project>

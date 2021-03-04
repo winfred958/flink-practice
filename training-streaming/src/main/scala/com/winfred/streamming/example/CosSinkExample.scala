@@ -1,9 +1,9 @@
 package com.winfred.streamming.example
 
 import com.alibaba.fastjson.JSON
+import com.winfred.core.entity.log.EventEntity
 import com.winfred.core.source.FlinkKafkaSource
 import com.winfred.core.utils.ArgsHandler
-import com.winfred.streamming.entity.log.EventEntity
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.core.fs.Path
 import org.apache.flink.formats.parquet.avro.ParquetAvroWriters

@@ -15,6 +15,7 @@
     <module>training-kinesis</module>
     <module>training-batch</module>
     <module>training-table</module>
+    <module>training-pojo</module>
   </modules>
 
   <properties>
@@ -23,7 +24,7 @@
     <scala.version>2.11.12</scala.version>
     <scala.binary.version>2.11</scala.binary.version>
     <flink.version>1.10.3</flink.version>
-    <hadoop.version>2.8.5</hadoop.version>
+    <hadoop.version>3.1.2</hadoop.version>
     <commons-cli.version>1.3.1</commons-cli.version>
     <hbase-client.version>1.4.9</hbase-client.version>
     <!-- other -->

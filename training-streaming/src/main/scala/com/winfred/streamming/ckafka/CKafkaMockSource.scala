@@ -2,8 +2,8 @@ package com.winfred.streamming.ckafka
 
 import com.winfred.core.annotation.PassTest
 import com.winfred.core.sink.FlinkKafkaSink
+import com.winfred.core.source.DataMockSource
 import com.winfred.core.utils.ArgsHandler
-import com.winfred.streamming.common.DataMockSource
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment

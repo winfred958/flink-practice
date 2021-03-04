@@ -1,4 +1,4 @@
-package com.winfred.streamming.entity.user;
+package com.winfred.core.entity.user;
 
 import lombok.Getter;
 import lombok.Setter;

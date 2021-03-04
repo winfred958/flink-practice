@@ -1,4 +1,4 @@
-package com.winfred.streamming.mock;
+package com.winfred.core.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomUtils;

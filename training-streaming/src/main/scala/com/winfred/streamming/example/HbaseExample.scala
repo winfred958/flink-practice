@@ -1,10 +1,10 @@
 package com.winfred.streamming.example
 
 import com.alibaba.fastjson.JSON
+import com.winfred.core.entity.log.EventEntity
 import com.winfred.core.sink.HbaseSink
+import com.winfred.core.source.DataMockSource
 import com.winfred.core.utils.ArgsHandler
-import com.winfred.streamming.common.DataMockSource
-import com.winfred.streamming.entity.log.EventEntity
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.environment.CheckpointConfig.ExternalizedCheckpointCleanup
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
