@@ -3,92 +3,25 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="20.0" y="0.0">org.apache.flink.runtime.executiongraph.ExecutionGraph</node>
-    <node x="533.4095238095238" y="0.0">org.apache.flink.api.dag.Pipeline</node>
+    <node x="649.3888888888889" y="360.0">org.apache.flink.streaming.api.datastream.DataStream</node>
     <node x="256.91269841269843" y="0.0">org.apache.flink.runtime.jobgraph.JobGraph</node>
+    <node x="533.4095238095238" y="0.0">org.apache.flink.api.dag.Pipeline</node>
+    <node x="606.4095238095238" y="110.0">org.apache.flink.api.common.Plan</node>
+    <node x="20.0" y="0.0">org.apache.flink.runtime.executiongraph.ExecutionGraph</node>
+    <node x="430.40952380952376" y="110.0">org.apache.flink.streaming.api.graph.StreamGraph</node>
     <node x="222.7460317460317" y="240.0">org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator</node>
     <node x="386.88888888888886" y="360.0">org.apache.flink.streaming.api.graph.StreamGraphGenerator</node>
-    <node x="649.3888888888889" y="360.0">org.apache.flink.streaming.api.datastream.DataStream</node>
-    <node x="430.40952380952376" y="110.0">org.apache.flink.streaming.api.graph.StreamGraph</node>
-    <node x="606.4095238095238" y="110.0">org.apache.flink.api.common.Plan</node>
     <node x="571.3738095238095" y="240.0">org.apache.flink.api.dag.Transformation</node>
     <node x="535.2554112554112" y="500.0">org.apache.flink.streaming.api.environment.StreamExecutionEnvironment</node>
     <node x="45.33333333333337" y="110.0">org.apache.flink.runtime.executiongraph.ExecutionGraphBuilder</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment" target="org.apache.flink.streaming.api.datastream.DataStream">
-      <point x="0.0" y="-15.0" />
-      <point x="663.2554112554112" y="440.0" />
-      <point x="713.3888888888889" y="440.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.api.dag.Transformation" target="org.apache.flink.api.dag.Transformation">
-      <point x="-68.57142857142857" y="15.0" />
-      <point x="582.8023809523809" y="290.0" />
-      <point x="551.3738095238095" y="290.0" />
-      <point x="551.3738095238095" y="255.0" />
-      <point x="-80.0" y="-0.0" />
-    </edge>
-    <edge source="org.apache.flink.runtime.jobgraph.JobGraph" target="org.apache.flink.runtime.jobgraph.JobGraph">
-      <point x="-46.66666666666666" y="15.0" />
-      <point x="266.24603174603175" y="50.0" />
-      <point x="236.91269841269843" y="50.0" />
-      <point x="236.91269841269843" y="15.0" />
-      <point x="-56.0" y="-0.0" />
-    </edge>
-    <edge source="org.apache.flink.runtime.executiongraph.ExecutionGraphBuilder" target="org.apache.flink.runtime.executiongraph.ExecutionGraph">
-      <point x="0.0" y="-15.0" />
-      <point x="53.33333333333337" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraph" target="org.apache.flink.streaming.api.graph.StreamGraph">
-      <point x="-59.5" y="15.0" />
-      <point x="438.90952380952376" y="160.0" />
-      <point x="410.40952380952376" y="160.0" />
-      <point x="410.40952380952376" y="125.0" />
-      <point x="-68.0" y="-0.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.datastream.DataStream" target="org.apache.flink.streaming.api.datastream.DataStream">
-      <point x="-51.19999999999999" y="15.0" />
-      <point x="662.1888888888889" y="410.0" />
-      <point x="629.3888888888889" y="410.0" />
-      <point x="629.3888888888889" y="382.5" />
-      <point x="-64.0" y="7.5" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraph" target="org.apache.flink.runtime.jobgraph.JobGraph">
-      <point x="-34.0" y="-15.0" />
-      <point x="464.40952380952376" y="90.0" />
-      <point x="359.57936507936506" y="90.0" />
-      <point x="46.66666666666666" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraphGenerator" target="org.apache.flink.streaming.api.graph.StreamGraphGenerator">
-      <point x="-69.33333333333333" y="15.0" />
-      <point x="421.55555555555554" y="410.0" />
-      <point x="366.88888888888886" y="410.0" />
-      <point x="366.88888888888886" y="375.0" />
-      <point x="-104.0" y="-0.0" />
-    </edge>
-    <edge source="org.apache.flink.runtime.executiongraph.ExecutionGraph" target="org.apache.flink.runtime.executiongraph.ExecutionGraph">
-      <point x="-53.333333333333314" y="15.0" />
-      <point x="46.666666666666686" y="50.0" />
-      <point x="0.0" y="50.0" />
-      <point x="0.0" y="15.0" />
-      <point x="-80.0" y="-0.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment" target="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator">
-      <point x="-113.77777777777783" y="-15.0" />
-      <point x="549.4776334776334" y="480.0" />
-      <point x="348.88888888888886" y="480.0" />
-      <point x="348.88888888888886" y="340.0" />
-      <point x="350.7460317460317" y="340.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.api.common.Plan" target="org.apache.flink.api.common.Plan">
-      <point x="0.0" y="15.0" />
-      <point x="646.4095238095238" y="160.0" />
-      <point x="586.4095238095238" y="160.0" />
-      <point x="586.4095238095238" y="125.0" />
-      <point x="-40.0" y="-0.0" />
+    <edge source="org.apache.flink.streaming.api.graph.StreamGraph" target="org.apache.flink.api.dag.Pipeline">
+      <point x="34.0" y="-15.0" />
+      <point x="532.4095238095238" y="90.0" />
+      <point x="561.4095238095238" y="90.0" />
+      <point x="-28.0" y="15.0" />
     </edge>
     <edge source="org.apache.flink.api.common.Plan" target="org.apache.flink.api.dag.Pipeline">
       <point x="0.0" y="-15.0" />
@@ -96,120 +29,11 @@
       <point x="617.4095238095238" y="90.0" />
       <point x="28.0" y="15.0" />
     </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraphGenerator" target="org.apache.flink.streaming.api.graph.StreamGraph">
-      <point x="0.0" y="-15.0" />
-      <point x="490.88888888888886" y="340.0" />
-      <point x="500.2460317460317" y="340.0" />
-      <point x="500.2460317460317" y="220.0" />
-      <point x="523.9095238095238" y="220.0" />
-      <point x="25.5" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment" target="org.apache.flink.streaming.api.graph.StreamGraphGenerator">
-      <point x="-56.888888888888914" y="-15.0" />
-      <point x="606.3665223665223" y="460.0" />
-      <point x="560.2222222222222" y="460.0" />
-      <point x="69.33333333333331" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.datastream.DataStream" target="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment">
-      <point x="51.19999999999999" y="15.0" />
-      <point x="764.5888888888888" y="460.0" />
-      <point x="720.1443001443001" y="460.0" />
-      <point x="56.888888888888914" y="-15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraphGenerator" target="org.apache.flink.api.dag.Transformation">
-      <point x="59.428571428571445" y="-15.0" />
-      <point x="550.3174603174602" y="320.0" />
-      <point x="605.6595238095238" y="320.0" />
-      <point x="-45.71428571428572" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraphGenerator" target="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator">
-      <point x="-89.14285714285714" y="-15.0" />
-      <point x="51.19999999999999" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator" target="org.apache.flink.streaming.api.graph.StreamGraphGenerator">
-      <point x="102.39999999999998" y="15.0" />
-      <point x="453.14603174603167" y="340.0" />
-      <point x="431.4603174603174" y="340.0" />
-      <point x="-59.428571428571416" y="-15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraph" target="org.apache.flink.api.dag.Pipeline">
-      <point x="34.0" y="-15.0" />
-      <point x="532.4095238095238" y="90.0" />
-      <point x="561.4095238095238" y="90.0" />
-      <point x="-28.0" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator" target="org.apache.flink.runtime.jobgraph.JobGraph">
-      <point x="-63.99999999999997" y="-15.0" />
-      <point x="286.7460317460317" y="220.0" />
-      <point x="301.3247474747475" y="220.0" />
-      <point x="301.3247474747475" y="80.0" />
-      <point x="322.24603174603175" y="80.0" />
-      <point x="9.333333333333343" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.runtime.executiongraph.ExecutionGraphBuilder" target="org.apache.flink.runtime.jobgraph.JobGraph">
-      <point x="72.0" y="-15.0" />
-      <point x="225.33333333333337" y="90.0" />
-      <point x="284.91269841269843" y="90.0" />
-      <point x="-28.0" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment" target="org.apache.flink.api.dag.Transformation">
-      <point x="85.33333333333331" y="-15.0" />
-      <point x="748.5887445887446" y="470.0" />
-      <point x="787.8888888888889" y="470.0" />
-      <point x="787.8888888888889" y="330.0" />
-      <point x="719.9452380952381" y="330.0" />
-      <point x="68.57142857142861" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator" target="org.apache.flink.streaming.api.graph.StreamGraph">
-      <point x="64.0" y="-15.0" />
-      <point x="414.7460317460317" y="190.0" />
-      <point x="472.90952380952376" y="190.0" />
-      <point x="-25.5" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamGraph" target="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator">
-      <point x="-8.5" y="15.0" />
-      <point x="489.90952380952376" y="200.0" />
-      <point x="457.4126984126983" y="200.0" />
-      <point x="106.66666666666663" y="-15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment" target="org.apache.flink.streaming.api.graph.StreamGraph">
-      <point x="113.77777777777777" y="-15.0" />
-      <point x="777.033189033189" y="480.0" />
-      <point x="798.8888888888889" y="480.0" />
-      <point x="798.8888888888889" y="220.0" />
-      <point x="557.9095238095238" y="220.0" />
-      <point x="59.5" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment" target="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment">
-      <point x="0.0" y="15.0" />
-      <point x="663.2554112554112" y="550.0" />
-      <point x="515.2554112554112" y="550.0" />
-      <point x="515.2554112554112" y="515.0" />
-      <point x="-128.0" y="-0.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.datastream.DataStream" target="org.apache.flink.api.dag.Transformation">
-      <point x="-32.0" y="-15.0" />
-      <point x="681.3888888888889" y="340.0" />
-      <point x="674.2309523809524" y="340.0" />
-      <point x="22.85714285714289" y="15.0" />
-    </edge>
-    <edge source="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator" target="org.apache.flink.streaming.api.graph.StreamingJobGraphGenerator">
-      <point x="-102.4" y="15.0" />
-      <point x="248.34603174603168" y="290.0" />
-      <point x="202.7460317460317" y="290.0" />
-      <point x="202.7460317460317" y="262.5" />
-      <point x="-128.0" y="7.5" />
-    </edge>
-    <edge source="org.apache.flink.runtime.executiongraph.ExecutionGraphBuilder" target="org.apache.flink.runtime.executiongraph.ExecutionGraphBuilder">
-      <point x="0.0" y="15.0" />
-      <point x="153.33333333333337" y="160.0" />
-      <point x="25.33333333333337" y="160.0" />
-      <point x="25.33333333333337" y="125.0" />
-      <point x="-108.0" y="-0.0" />
-    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="547.0" y="349.5" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="1.0" x="547.0" y="350.0" />
+  <SelectedNodes>
+    <node>org.apache.flink.streaming.api.datastream.DataStream</node>
+  </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>protected</VISIBILITY>
