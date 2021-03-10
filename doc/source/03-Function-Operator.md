@@ -26,3 +26,5 @@
           }
       }
       ```
+    - AbstractUdfStreamOperator
+      - 抽象类, 提供自定义算子的

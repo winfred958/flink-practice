@@ -21,11 +21,55 @@
     - 通过算子操作, 可以将一个DataStream转化为另一个DataStream, 转化的过程会抽象成 Transformation , 存到 StreamExecutionEnvironment 的
       transformations列表中
         - **也就是说**: 在 DataStream 上面通过算子不断进行转换，就得到了由 Transformation 构成的图。当需要执行的时候，底层的这个图就会被转换成 StreamGraph
+        - DataStream.map 算子为例, **每个算子都会加入 StreamExecutionEnvironment 的 transformations 列表中**.
+          ```java
+          @Public
+          public class DataStream<T> {
+          
+              public <R> SingleOutputStreamOperator<R> map(
+                  MapFunction<T, R> mapper, TypeInformation<R> outputType) {
+                  return transform("Map", outputType, new StreamMap<>(clean(mapper)));
+              }
+          
+              @PublicEvolving
+              public <R> SingleOutputStreamOperator<R> transform(
+                  String operatorName,
+                  TypeInformation<R> outTypeInfo,
+                  OneInputStreamOperator<T, R> operator) {
+                  return doTransform(operatorName, outTypeInfo, SimpleOperatorFactory.of(operator));
+              }
+  
+              protected <R> SingleOutputStreamOperator<R> doTransform(
+                      String operatorName,
+                      TypeInformation<R> outTypeInfo,
+                      StreamOperatorFactory<R> operatorFactory) {
+        
+                    // read the output type of the input Transform to coax out errors about MissingTypeInfo
+                    transformation.getOutputType();
+        
+                  OneInputTransformation<T, R> resultTransform =
+                        new OneInputTransformation<>(
+                                this.transformation,
+                                operatorName,
+                                operatorFactory,
+                                outTypeInfo,
+                                environment.getParallelism());
+        
+                  @SuppressWarnings({"unchecked", "rawtypes"})
+                  SingleOutputStreamOperator<R> returnStream =
+                        new SingleOutputStreamOperator(environment, resultTransform);
+        
+                  // 算子添加到, ExecutionEnvironment 的 transformations 列表中
+                  getExecutionEnvironment().addOperator(resultTransform);
+                  return returnStream;
+              }
+          }
+          ```
     - Transformation 有一系列子类
     - DataStream 的子类
         - ![avatar](images/uml-DataStream.png)
 
-- #### StreamOperator
+- #### StreamOperator [实现细节](03-Function-Operator.md)
     - StreamOperator 定义了对一个具体的算子的生命周期的管理
 
 ```text
@@ -47,7 +91,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
 
 ### StreamGraph 的生成
 
-- 图: StreamGraph -> JobGraph -> ExecutionGraph
+- 整体图: StreamGraph -> JobGraph -> ExecutionGraph
     - ![avatar](images/StreamGraph-JobGraph-ExecutionGraph.png)
 - UML
     - ![avatar](images/uml-StreamGraph-JobGraph-ExecutionGraph.png)
@@ -192,32 +236,104 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
              .execute(streamGraph, configuration, userClassloader);
      ```
 - JobGraph 生成, [AbstractJobClusterExecutor#execute()](https://github.com/apache/flink/blob/master/flink-clients/src/main/java/org/apache/flink/client/deployment/executors/AbstractJobClusterExecutor.java)
-    - ```java
-      @Override
-      public CompletableFuture<JobClient> execute(
-            @Nonnull final Pipeline pipeline,
-            @Nonnull final Configuration configuration,
-            @Nonnull final ClassLoader userCodeClassloader)
-            throws Exception {
-      final JobGraph jobGraph = PipelineExecutorUtils.getJobGraph(pipeline, configuration);
-    
-            try (final ClusterDescriptor<ClusterID> clusterDescriptor =
-                    clusterClientFactory.createClusterDescriptor(configuration)) {
-                final ExecutionConfigAccessor configAccessor =
-                        ExecutionConfigAccessor.fromConfiguration(configuration);
-    
-                final ClusterSpecification clusterSpecification =
-                        clusterClientFactory.getClusterSpecification(configuration);
-    
-                final ClusterClientProvider<ClusterID> clusterClientProvider =
-                        clusterDescriptor.deployJobCluster(
-                                clusterSpecification, jobGraph, configAccessor.getDetachedMode());
-                LOG.info("Job has been submitted with JobID " + jobGraph.getJobID());
-    
-                return CompletableFuture.completedFuture(
-                        new ClusterClientJobClientAdapter<>(
-                                clusterClientProvider, jobGraph.getJobID(), userCodeClassloader));
-            }
+    - AbstractJobClusterExecutor 
+      ```java
+      @Internal
+      public class AbstractJobClusterExecutor<ClusterID, ClientFactory extends ClusterClientFactory<ClusterID>> implements PipelineExecutor {
+      
+        @Override
+        public CompletableFuture<JobClient> execute(
+              @Nonnull final Pipeline pipeline,
+              @Nonnull final Configuration configuration,
+              @Nonnull final ClassLoader userCodeClassloader)
+              throws Exception {
+        final JobGraph jobGraph = PipelineExecutorUtils.getJobGraph(pipeline, configuration);
+      
+              try (final ClusterDescriptor<ClusterID> clusterDescriptor =
+                      clusterClientFactory.createClusterDescriptor(configuration)) {
+                  final ExecutionConfigAccessor configAccessor =
+                          ExecutionConfigAccessor.fromConfiguration(configuration);
+      
+                  final ClusterSpecification clusterSpecification =
+                          clusterClientFactory.getClusterSpecification(configuration);
+      
+                  final ClusterClientProvider<ClusterID> clusterClientProvider =
+                          clusterDescriptor.deployJobCluster(
+                                  clusterSpecification, jobGraph, configAccessor.getDetachedMode());
+                  LOG.info("Job has been submitted with JobID " + jobGraph.getJobID());
+      
+                  return CompletableFuture.completedFuture(
+                          new ClusterClientJobClientAdapter<>(
+                                  clusterClientProvider, jobGraph.getJobID(), userCodeClassloader));
+              }
+        }
       }
       ```
+        - StreamingJobGraphGenerator
+          ```java
+          @Internal
+          public class StreamGraph implements Pipeline {
+            public JobGraph getJobGraph(@Nullable JobID jobID) {
+              return StreamingJobGraphGenerator.createJobGraph(this, jobID);
+            }
+          }
+          ```
+        - 由 StreamGraph 构造 JobGraph
+          ```java
+          @Internal
+          public class StreamingJobGraphGenerator {
+          
+            public static JobGraph createJobGraph(StreamGraph streamGraph, @Nullable JobID jobID) { 
+              return new StreamingJobGraphGenerator(streamGraph, jobID).createJobGraph();
+            }
+          
+            private JobGraph createJobGraph() {
+              preValidate();
       
+              // make sure that all vertices start immediately
+              jobGraph.setScheduleMode(streamGraph.getScheduleMode());
+              jobGraph.enableApproximateLocalRecovery(
+                      streamGraph.getCheckpointConfig().isApproximateLocalRecoveryEnabled());
+      
+              // Generate deterministic hashes for the nodes in order to identify them across
+              // submission iff they didn't change.
+              Map<Integer, byte[]> hashes =
+                      defaultStreamGraphHasher.traverseStreamGraphAndGenerateHashes(streamGraph);
+      
+              // Generate legacy version hashes for backwards compatibility
+              List<Map<Integer, byte[]>> legacyHashes = new ArrayList<>(legacyStreamGraphHashers.size());
+              for (StreamGraphHasher hasher : legacyStreamGraphHashers) {
+                  legacyHashes.add(hasher.traverseStreamGraphAndGenerateHashes(streamGraph));
+              }
+      
+              setChaining(hashes, legacyHashes);
+      
+              setPhysicalEdges();
+      
+              setSlotSharingAndCoLocation();
+      
+              setManagedMemoryFraction(
+                      Collections.unmodifiableMap(jobVertices),
+                      Collections.unmodifiableMap(vertexConfigs),
+                      Collections.unmodifiableMap(chainedConfigs),
+                      id -> streamGraph.getStreamNode(id).getManagedMemoryOperatorScopeUseCaseWeights(),
+                      id -> streamGraph.getStreamNode(id).getManagedMemorySlotScopeUseCases());
+      
+              configureCheckpointing();
+      
+              jobGraph.setSavepointRestoreSettings(streamGraph.getSavepointRestoreSettings());
+      
+              JobGraphUtils.addUserArtifactEntries(streamGraph.getUserArtifacts(), jobGraph);
+      
+              // set the ExecutionConfig last when it has been finalized
+              try {
+                  jobGraph.setExecutionConfig(streamGraph.getExecutionConfig());
+              } catch (IOException e) {
+                  throw new IllegalConfigurationException(
+                          "Could not serialize the ExecutionConfig."
+                                  + "This indicates that non-serializable types (like custom serializers) were registered");
+              }
+              return jobGraph;
+            }
+          }
+          ```
