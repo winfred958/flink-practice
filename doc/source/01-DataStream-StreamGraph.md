@@ -109,7 +109,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
 - UML
     - ![avatar](images/uml-StreamGraph-JobGraph-ExecutionGraph.png)
 
-- #### StreamGraph [数据结构](02-StreamNode-JobVertex.md)
+- #### StreamGraph [数据结构](02-StreamNode-JobVertex.md#streamgraph--streamnode)
 
 - #### StreamGraph 生成
 
