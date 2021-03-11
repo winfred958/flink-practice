@@ -294,6 +294,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
           ```
 
 ### JobGraph 的生成
+- #### [JobGraph & JobVertex 数据结构](02-StreamNode-JobVertex.md#jobgraph--jobvertex)
 - StreamExecutionEnvironment#executeAsync
      ```java
      @Public

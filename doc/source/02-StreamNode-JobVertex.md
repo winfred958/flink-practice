@@ -120,5 +120,75 @@
       ```
 - JobVertex
     - ```java
-
+      /** The base class for job vertexes. */
+      public class JobVertex implements java.io.Serializable {
+          /** The ID of the vertex. */
+          private final JobVertexID id;
+        
+          /**
+           * The IDs of all operators contained in this vertex.
+           *
+           * <p>The ID pairs are stored depth-first post-order; for the forking chain below the ID's would
+           * be stored as [D, E, B, C, A]. A - B - D \ \ C E This is the same order that operators are
+           * stored in the {@code StreamTask}.
+           */
+          private final List<OperatorIDPair> operatorIDs;
+      
+          /** List of produced data sets, one per writer. */
+          private final ArrayList<IntermediateDataSet> results = new ArrayList<>();
+        
+          /** List of edges with incoming data. One per Reader. */
+          private final ArrayList<JobEdge> inputs = new ArrayList<>();
+        
+          /** The list of factories for operator coordinators. */
+          private final ArrayList<SerializedValue<OperatorCoordinator.Provider>> operatorCoordinators = new ArrayList<>();
+          
+          /** The class of the invokable. */
+          private String invokableClassName;
+      
+          /** Indicates of this job vertex is stoppable or not. */
+          private boolean isStoppable = false;
+        
+          /** Optionally, a source of input splits. */
+          private InputSplitSource<?> inputSplitSource;
+        
+          /**
+           * The name of the vertex. This will be shown in runtime logs and will be in the runtime
+           * environment.
+           */
+          private String name;
+        
+          /**
+           * Optionally, a sharing group that allows subtasks from different job vertices to run
+           * concurrently in one slot.
+           */
+          @Nullable private SlotSharingGroup slotSharingGroup;
+        
+          /** The group inside which the vertex subtasks share slots. */
+          @Nullable private CoLocationGroup coLocationGroup;
+        
+          /**
+           * Optional, the name of the operator, such as 'Flat Map' or 'Join', to be included in the JSON
+           * plan.
+           */
+          private String operatorName;
+      
+          /**
+           * Optional, the description of the operator, like 'Hash Join', or 'Sorted Group Reduce', to be
+           * included in the JSON plan.
+           */
+          private String operatorDescription;
+        
+          /** Optional, pretty name of the operator, to be displayed in the JSON plan. */
+          private String operatorPrettyName;
+        
+          /**
+           * Optional, the JSON for the optimizer properties of the operator result, to be included in the
+           * JSON plan.
+           */
+          private String resultOptimizerProperties;
+        
+          /** The input dependency constraint to schedule this vertex. */
+          private InputDependencyConstraint inputDependencyConstraint = InputDependencyConstraint.ANY;
+      }
       ```
