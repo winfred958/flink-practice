@@ -9,6 +9,7 @@
 - 用户自定义MapFunction最终被调用源码位置为
   [StreamMap](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/operators/StreamMap.java#L26)
     - ```java
+      /** A {@link StreamOperator} for executing {@link MapFunction MapFunctions}. */
       @Internal
       public class StreamMap<IN, OUT> extends AbstractUdfStreamOperator<OUT, MapFunction<IN, OUT>>
             implements OneInputStreamOperator<IN, OUT> {
@@ -27,4 +28,4 @@
       }
       ```
     - AbstractUdfStreamOperator
-      - 抽象类, 提供自定义算子的
+        - 抽象类, 提供自定义算子的生命周期, 例如: open -> processElement -> close 等
