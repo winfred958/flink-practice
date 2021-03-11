@@ -78,16 +78,16 @@
 - JobGraph
     - ```java
       /**
-      * The JobGraph represents a Flink dataflow program, at the low level that the JobManager accepts.
-      * All programs from higher level APIs are transformed into JobGraphs.
-      *
-      * <p>The JobGraph is a graph of vertices and intermediate results that are connected together to
-      * form a DAG. Note that iterations (feedback edges) are currently not encoded inside the JobGraph
-      * but inside certain special vertices that establish the feedback channel amongst themselves.
-      *
-      * <p>The JobGraph defines the job-wide configuration settings, while each vertex and intermediate
-      * result define the characteristics of the concrete operation and intermediate data.
-        */
+       * The JobGraph represents a Flink dataflow program, at the low level that the JobManager accepts.
+       * All programs from higher level APIs are transformed into JobGraphs.
+       *
+       * <p>The JobGraph is a graph of vertices and intermediate results that are connected together to
+       * form a DAG. Note that iterations (feedback edges) are currently not encoded inside the JobGraph
+       * but inside certain special vertices that establish the feedback channel amongst themselves.
+       *
+       * <p>The JobGraph defines the job-wide configuration settings, while each vertex and intermediate
+       * result define the characteristics of the concrete operation and intermediate data.
+       */
       public class JobGraph implements Serializable {
       
           /** jobId -> JobVertex */
