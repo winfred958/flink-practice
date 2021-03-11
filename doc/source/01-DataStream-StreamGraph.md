@@ -21,8 +21,19 @@
     - 通过算子操作, 可以将一个DataStream转化为另一个DataStream, 转化的过程会抽象成 Transformation , 存到 StreamExecutionEnvironment 的
       transformations列表中
         - **也就是说**: 在 DataStream 上面通过算子不断进行转换，就得到了由 Transformation 构成的图。当需要执行的时候，底层的这个图就会被转换成 StreamGraph
-        - DataStream.map 算子为例, **每个算子都会加入 StreamExecutionEnvironment 的 transformations 列表中**.
+        - DataStream.map 算子**为例**, **每个算子都会加入 StreamExecutionEnvironment 的 transformations 列表中**.
           ```java
+          /**
+           * A DataStream represents a stream of elements of the same type. A DataStream can be transformed
+           * into another DataStream by applying a transformation as for example:
+           *
+           * <ul>
+           *   <li>{@link DataStream#map}
+           *   <li>{@link DataStream#filter}
+           * </ul>
+           *
+           * @param <T> The type of the elements in this stream.
+           */
           @Public
           public class DataStream<T> {
           
@@ -59,7 +70,9 @@
                   SingleOutputStreamOperator<R> returnStream =
                         new SingleOutputStreamOperator(environment, resultTransform);
         
-                  // 算子添加到, ExecutionEnvironment 的 transformations 列表中
+                  /** 
+                   * 算子添加到, ExecutionEnvironment 的 transformations 列表中 
+                   */
                   getExecutionEnvironment().addOperator(resultTransform);
                   return returnStream;
               }
@@ -105,6 +118,18 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
         - StreamEge 是用来描述两个 operator 边(关系), 关键属性有 StreamNode sourceVertex, StreamNode targetVertex
     - {@link [StreamExecutionEnvironment](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.java#L131) }, 根据transformations, config 等, 构造出 StreamGraphGenerator
         - ```java
+          /**
+           * The StreamExecutionEnvironment is the context in which a streaming program is executed. A {@link
+           * LocalStreamEnvironment} will cause execution in the current JVM, a {@link
+           * RemoteStreamEnvironment} will cause execution on a remote setup.
+           *
+           * <p>The environment provides methods to control the job execution (such as setting the parallelism
+           * or the fault tolerance/checkpointing parameters) and to interact with the outside world (data
+           * access).
+           *
+           * @see org.apache.flink.streaming.api.environment.LocalStreamEnvironment
+           * @see org.apache.flink.streaming.api.environment.RemoteStreamEnvironment
+           */
           @Public
           public class StreamExecutionEnvironment {
               /** The execution configuration for this environment. */
@@ -151,6 +176,32 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
     - {@link [StreamGraphGenerator#generate](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/graph/StreamGraphGenerator.java) } 
       方法生成 StreamGraph, 并且获得transformationId 列表
         - ```java
+          /**
+           * A generator that generates a {@link StreamGraph} from a graph of {@link Transformation}s.
+           *
+           * <p>This traverses the tree of {@code Transformations} starting from the sinks. At each
+           * transformation we recursively transform the inputs, then create a node in the {@code StreamGraph}
+           * and add edges from the input Nodes to our newly created node. The transformation methods return
+           * the IDs of the nodes in the StreamGraph that represent the input transformation. Several IDs can
+           * be returned to be able to deal with feedback transformations and unions.
+           *
+           * <p>Partitioning, split/select and union don't create actual nodes in the {@code StreamGraph}. For
+           * these, we create a virtual node in the {@code StreamGraph} that holds the specific property, i.e.
+           * partitioning, selector and so on. When an edge is created from a virtual node to a downstream
+           * node the {@code StreamGraph} resolved the id of the original node and creates an edge in the
+           * graph with the desired property. For example, if you have this graph:
+           *
+           * <pre>
+           *     Map-1 -&gt; HashPartition-2 -&gt; Map-3
+           * </pre>
+           *
+           * <p>where the numbers represent transformation IDs. We first recurse all the way down. {@code
+           * Map-1} is transformed, i.e. we create a {@code StreamNode} with ID 1. Then we transform the
+           * {@code HashPartition}, for this, we create virtual node of ID 4 that holds the property {@code
+           * HashPartition}. This transformation returns the ID 4. Then we transform the {@code Map-3}. We add
+           * the edge {@code 4 -> 3}. The {@code StreamGraph} resolved the actual node with ID 1 and creates
+           * and edge {@code 1 -> 3} with the property HashPartition.
+           */
           @Internal
           public class StreamGraphGenerator {
           
@@ -184,6 +235,10 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
           ```
         - 最终调用 AbstractOneInputTransformationTranslator#translateInternal()
           ```java
+          /**
+           * A utility base class for one input {@link Transformation transformations} that provides a
+           * function for configuring common graph properties.
+           */
           abstract class AbstractOneInputTransformationTranslator<IN, OUT, OP extends Transformation<OUT>> extends SimpleTransformationTranslator<OUT, OP> {
               protected Collection<Integer> translateInternal(
                   final Transformation<OUT> transformation,
