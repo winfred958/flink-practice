@@ -109,7 +109,10 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
 - UML
     - ![avatar](images/uml-StreamGraph-JobGraph-ExecutionGraph.png)
 
+- #### StreamGraph [数据结构](02-StreamNode-JobVertex.md)
+
 - #### StreamGraph 生成
+
     - 1.StreamExecutionEnvironment.execute() 开始执行, 根据transformations, config 等, **构造出 StreamGraphGenerator**
     - 2.StreamGraphGenerator 遍历 transformations 构造出 StreamNode 和 StreamEdge 组成 DAG, 即 StreamGraph
         - StreamNode 是来描述 operator 的逻辑节点, 关键属性有 inEdges, outEdges , Class<? extends AbstractInvokable> jobVertexClass,
@@ -119,9 +122,9 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
     - {@link [StreamExecutionEnvironment](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.java#L131) }, 根据transformations, config 等, 构造出 StreamGraphGenerator
         - ```java
           /**
-           * The StreamExecutionEnvironment is the context in which a streaming program is executed. A {@link
-           * LocalStreamEnvironment} will cause execution in the current JVM, a {@link
-           * RemoteStreamEnvironment} will cause execution on a remote setup.
+           * The StreamExecutionEnvironment is the context in which a streaming program is executed. 
+           * A {@link LocalStreamEnvironment} will cause execution in the current JVM,
+           * a {@link RemoteStreamEnvironment} will cause execution on a remote setup.
            *
            * <p>The environment provides methods to control the job execution (such as setting the parallelism
            * or the fault tolerance/checkpointing parameters) and to interact with the outside world (data
