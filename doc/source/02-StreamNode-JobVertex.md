@@ -192,3 +192,20 @@
           private InputDependencyConstraint inputDependencyConstraint = InputDependencyConstraint.ANY;
       }
       ```
+
+## ExecutionGraph & ExecutionJobVertex
+
+- ExecutionJobVertex
+    - ```java
+      /**
+       * An {@code ExecutionJobVertex} is part of the {@link ExecutionGraph}, and the peer to the {@link
+       * JobVertex}.
+       *
+       * <p>The {@code ExecutionJobVertex} corresponds to a parallelized operation. It contains an {@link
+       * ExecutionVertex} for each parallel instance of that operation.
+       */
+      public class ExecutionJobVertex
+          implements AccessExecutionJobVertex, Archiveable<ArchivedExecutionJobVertex> {
+          
+        }
+      ```

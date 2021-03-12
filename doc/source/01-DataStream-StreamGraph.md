@@ -11,7 +11,8 @@
 - UML
     - ![avatar](images/uml-DataStream&Env.png)
 - #### StreamExecutionEnvironment
-    - 是1个Flink 作业的上下文信息, 包含 ExecuteConfig 和 CheckPointConfig
+    - 是1个Flink 作业的上下文信息, 包含 ExecuteConfig 和 CheckPointConfig, 用户jar信息.
+    - transformations 列表.
     - 提供了控制job执行的方法,和与外界交互的链接信息
         - set parallelism
         - checkpoint 参数
@@ -294,6 +295,12 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
           ```
 
 ### JobGraph 的生成
+- ```text
+  JobGraph: 从source开始, 遍历能 chain 到一起的 operator, 
+    如果可以chain则chain到一起生成JobVertex, 不能chain的生成单独的JobVertex.
+    通过 JobEdge 链接上下游的 JobVertex, 组成 JobGraph
+  ```
+
 - #### [JobGraph & JobVertex 数据结构](02-StreamNode-JobVertex.md#jobgraph--jobvertex)
 - StreamExecutionEnvironment#executeAsync
      ```java
@@ -427,3 +434,4 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
             }
           }
           ```
+### ExecutionGraph 的生成
