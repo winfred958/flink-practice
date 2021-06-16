@@ -95,10 +95,15 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
 
 - ```text
   用户代码中的Operator添加到 transformations 列表中
+  
   StreamGraph: 从source开始, 遍历 transformations 生成 SteamNode 和 StreamEdge, 组成 StreamGraph (DAG)
+  
   JobGraph: 从source开始, 遍历能 chain 到一起的 operator, 
       如果可以chain则chain到一起生成JobVertex, 不能chain的生成单独的JobVertex.
       通过 JobEdge 链接上下游的 JobVertex, 组成 JobGraph
+  
+  以上均在flink-client完成
+  
   ExecutionGraph: jobVertex DAG 提交到任务以后，从 Source 节点开始排序,
       根据 JobVertex 生成ExecutionJobVertex，根据 jobVertex的IntermediateDataSet 构建IntermediateResult，
       然后 IntermediateResult 构建上下游的依赖关系， 形成 ExecutionJobVertex 层面的 DAG 即 ExecutionGraph。
@@ -350,6 +355,8 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
             @Nonnull final Configuration configuration,
             @Nonnull final ClassLoader userCodeClassloader)
             throws Exception {
+    
+      // streamGraph -> jobGraph 
       final JobGraph jobGraph = PipelineExecutorUtils.getJobGraph(pipeline, configuration);
     
             try (final ClusterDescriptor<ClusterID> clusterDescriptor =
