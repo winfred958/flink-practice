@@ -3,27 +3,27 @@
 ## StreamGraph & StreamNode
 
 - StreamGraph
-    - ```java
-      /**
-       * Class representing the streaming topology. It contains all the information necessary to build the
-       * jobgraph for the execution.
-       */
-      @Internal
-      public class StreamGraph implements Pipeline {
-          private String jobName;
-          
-          /**
-           * id -> StreamNode
-           */
-          private Map<Integer, StreamNode> streamNodes;
-          private Set<Integer> sources;
-          private Set<Integer> sinks;
-      
-          // 仅列举部分字段
-      }
-      ```
+  - ```java
+    /**
+      * Class representing the streaming topology. It contains all the information necessary to build the
+      * jobgraph for the execution.
+      */
+     @Internal
+     public class StreamGraph implements Pipeline {
+         private String jobName;
+         
+         /**
+          * id -> StreamNode
+          */
+         private Map<Integer, StreamNode> streamNodes;
+         private Set<Integer> sources;
+         private Set<Integer> sinks;
+     
+         // 仅列举部分字段
+     }
+    ```
 - StreamNode
-    - ```java
+  - ```java
       /** Class representing the operators in the streaming programs, with all their properties. */
       @Internal
       public class StreamNode {
@@ -71,12 +71,12 @@
 
           private final Map<Integer, StreamConfig.InputRequirement> inputRequirements = new HashMap<>();
       }
-      ```
+    ```
 
 ## JobGraph & JobVertex
 
 - JobGraph
-    - ```java
+  - ```java
       /**
        * The JobGraph represents a Flink dataflow program, at the low level that the JobManager accepts.
        * All programs from higher level APIs are transformed into JobGraphs.
@@ -117,9 +117,9 @@
       
           // 这里仅列举部分字段
       }
-      ```
+    ```
 - JobVertex
-    - ```java
+  - ```java
       /** The base class for job vertexes. */
       public class JobVertex implements java.io.Serializable {
           /** The ID of the vertex. */
@@ -191,12 +191,12 @@
           /** The input dependency constraint to schedule this vertex. */
           private InputDependencyConstraint inputDependencyConstraint = InputDependencyConstraint.ANY;
       }
-      ```
+    ```
 
 ## ExecutionGraph & ExecutionJobVertex
 
 - ExecutionJobVertex
-    - ```java
+  - ```java
       /**
        * An {@code ExecutionJobVertex} is part of the {@link ExecutionGraph}, and the peer to the {@link
        * JobVertex}.
@@ -208,4 +208,4 @@
           implements AccessExecutionJobVertex, Archiveable<ArchivedExecutionJobVertex> {
           
         }
-      ```
+    ```
