@@ -7,7 +7,7 @@
     - 用户设置MapFunction
         - 例如: DataStream.map(new MapFunction(){...})
 - 用户自定义MapFunction最终被调用源码位置为
-  [StreamMap](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/operators/StreamMap.java#L26)
+  [operators 包下的 StreamMap](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/operators/StreamMap.java#L26)
     - ```java
       /** A {@link StreamOperator} for executing {@link MapFunction MapFunctions}. */
       @Internal
