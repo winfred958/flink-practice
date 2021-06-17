@@ -104,7 +104,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
   
   以上均在flink-client完成
   
-  ExecutionGraph: jobVertex DAG 提交到任务以后，从 Source 节点开始排序,
+  ExecutionGraph: jobVertex DAG 提交到任务以后(jobManager端)，从 Source 节点开始排序,
       根据 JobVertex 生成ExecutionJobVertex，根据 jobVertex的IntermediateDataSet 构建IntermediateResult，
       然后 IntermediateResult 构建上下游的依赖关系， 形成 ExecutionJobVertex 层面的 DAG 即 ExecutionGraph。
   ```
@@ -450,6 +450,10 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
       ```
 
 ### ExecutionGraph 的生成
+
+- ```text
+  JobManager 完成 jobGraph -> ExecutionGraph 
+  ```
 
 - SchedulerBase
   - ```java
