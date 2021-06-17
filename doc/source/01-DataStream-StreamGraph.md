@@ -129,7 +129,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
   -
   {@link [StreamExecutionEnvironment](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/environment/StreamExecutionEnvironment.java#L131)
   }, 根据transformations, config 等, 构造出 StreamGraphGenerator
-    - ```java
+  - ```java
           /**
            * The StreamExecutionEnvironment is the context in which a streaming program is executed. 
            * A {@link LocalStreamEnvironment} will cause execution in the current JVM,
@@ -188,7 +188,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
   -
   {@link [StreamGraphGenerator#generate](https://github.com/apache/flink/blob/master/flink-streaming-java/src/main/java/org/apache/flink/streaming/api/graph/StreamGraphGenerator.java)
   } 方法生成 StreamGraph, 并且获得transformationId 列表
-    - ```java
+  - ```java
           /**
            * A generator that generates a {@link StreamGraph} from a graph of {@link Transformation}s.
            *
@@ -246,62 +246,62 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
               }
           }
       ```
-    - 最终调用 AbstractOneInputTransformationTranslator#translateInternal()
-      ```java
-      /**
-       * A utility base class for one input {@link Transformation transformations} that provides a
-       * function for configuring common graph properties.
-       */
-      abstract class AbstractOneInputTransformationTranslator<IN, OUT, OP extends Transformation<OUT>> extends SimpleTransformationTranslator<OUT, OP> {
-          protected Collection<Integer> translateInternal(
-              final Transformation<OUT> transformation,
-              final StreamOperatorFactory<OUT> operatorFactory,
-              final TypeInformation<IN> inputType,
-              @Nullable final KeySelector<IN, ?> stateKeySelector,
-              @Nullable final TypeInformation<?> stateKeyType,
-              final Context context) {
-          checkNotNull(transformation);
-          checkNotNull(operatorFactory);
-          checkNotNull(inputType);
-          checkNotNull(context);
-        
-            final StreamGraph streamGraph = context.getStreamGraph();
-            final String slotSharingGroup = context.getSlotSharingGroup();
-            final int transformationId = transformation.getId();
-            final ExecutionConfig executionConfig = streamGraph.getExecutionConfig();
-        
-            streamGraph.addOperator(
-                transformationId,
-                slotSharingGroup,
-                transformation.getCoLocationGroupKey(),
-                operatorFactory,
-                inputType,
-                transformation.getOutputType(),
-                transformation.getName());
-        
-            if (stateKeySelector != null) {
-                TypeSerializer<?> keySerializer = stateKeyType.createSerializer(executionConfig);
-                streamGraph.setOneInputStateKey(transformationId, stateKeySelector, keySerializer);
-            }
-        
-            int parallelism = transformation.getParallelism() != ExecutionConfig.PARALLELISM_DEFAULT
-                ? transformation.getParallelism()
-                : executionConfig.getParallelism();
-            streamGraph.setParallelism(transformationId, parallelism);
-            streamGraph.setMaxParallelism(transformationId, transformation.getMaxParallelism());
-        
-            final List<Transformation<?>> parentTransformations = transformation.getInputs();
-            checkState(
-                parentTransformations.size() == 1,
-                "Expected exactly one input transformation but found " + parentTransformations.size());
-        
-            for (Integer inputId: context.getStreamNodeIds(parentTransformations.get(0))) {
-                streamGraph.addEdge(inputId, transformationId, 0);
-            }
-            return Collections.singleton(transformationId);
+  - 最终调用 AbstractOneInputTransformationTranslator#translateInternal()
+    ```java
+    /**
+     * A utility base class for one input {@link Transformation transformations} that provides a
+     * function for configuring common graph properties.
+     */
+    abstract class AbstractOneInputTransformationTranslator<IN, OUT, OP extends Transformation<OUT>> extends SimpleTransformationTranslator<OUT, OP> {
+        protected Collection<Integer> translateInternal(
+            final Transformation<OUT> transformation,
+            final StreamOperatorFactory<OUT> operatorFactory,
+            final TypeInformation<IN> inputType,
+            @Nullable final KeySelector<IN, ?> stateKeySelector,
+            @Nullable final TypeInformation<?> stateKeyType,
+            final Context context) {
+        checkNotNull(transformation);
+        checkNotNull(operatorFactory);
+        checkNotNull(inputType);
+        checkNotNull(context);
+      
+          final StreamGraph streamGraph = context.getStreamGraph();
+          final String slotSharingGroup = context.getSlotSharingGroup();
+          final int transformationId = transformation.getId();
+          final ExecutionConfig executionConfig = streamGraph.getExecutionConfig();
+      
+          streamGraph.addOperator(
+              transformationId,
+              slotSharingGroup,
+              transformation.getCoLocationGroupKey(),
+              operatorFactory,
+              inputType,
+              transformation.getOutputType(),
+              transformation.getName());
+      
+          if (stateKeySelector != null) {
+              TypeSerializer<?> keySerializer = stateKeyType.createSerializer(executionConfig);
+              streamGraph.setOneInputStateKey(transformationId, stateKeySelector, keySerializer);
           }
-      }
-      ```
+      
+          int parallelism = transformation.getParallelism() != ExecutionConfig.PARALLELISM_DEFAULT
+              ? transformation.getParallelism()
+              : executionConfig.getParallelism();
+          streamGraph.setParallelism(transformationId, parallelism);
+          streamGraph.setMaxParallelism(transformationId, transformation.getMaxParallelism());
+      
+          final List<Transformation<?>> parentTransformations = transformation.getInputs();
+          checkState(
+              parentTransformations.size() == 1,
+              "Expected exactly one input transformation but found " + parentTransformations.size());
+      
+          for (Integer inputId: context.getStreamNodeIds(parentTransformations.get(0))) {
+              streamGraph.addEdge(inputId, transformationId, 0);
+          }
+          return Collections.singleton(transformationId);
+        }
+    }
+    ```
 
 ### JobGraph 的生成
 
@@ -367,6 +367,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
                 final ClusterSpecification clusterSpecification =
                         clusterClientFactory.getClusterSpecification(configuration);
     
+                // job 提交
                 final ClusterClientProvider<ClusterID> clusterClientProvider =
                         clusterDescriptor.deployJobCluster(
                                 clusterSpecification, jobGraph, configAccessor.getDetachedMode());
@@ -449,3 +450,34 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
       ```
 
 ### ExecutionGraph 的生成
+
+- SchedulerBase
+  - ```java
+    public abstract class SchedulerBase implements SchedulerNG, CheckpointScheduling { 
+        public SchedulerBase(
+            final Logger log,
+            final JobGraph jobGraph,
+            final Executor ioExecutor,
+            final Configuration jobMasterConfiguration,
+            final ClassLoader userCodeLoader,
+            final CheckpointRecoveryFactory checkpointRecoveryFactory,
+            final JobManagerJobMetricGroup jobManagerJobMetricGroup,
+            final ExecutionVertexVersioner executionVertexVersioner,
+            long initializationTimestamp,
+            final ComponentMainThreadExecutor mainThreadExecutor,
+            final JobStatusListener jobStatusListener,
+            final ExecutionGraphFactory executionGraphFactory)
+            throws Exception {
+                    
+            // 构造 executionGraph
+            this.executionGraph =
+                createAndRestoreExecutionGraph(
+                        completedCheckpointStore,
+                        checkpointsCleaner,
+                        checkpointIdCounter,
+                        initializationTimestamp,
+                        mainThreadExecutor,
+                        jobStatusListener);
+            }
+    }
+    ```
