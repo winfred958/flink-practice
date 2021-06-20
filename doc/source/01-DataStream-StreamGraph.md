@@ -485,3 +485,14 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
             }
     }
     ```
+
+```sequence
+Andrew -> China: Says Hello
+Note right of China: China thinks\nabout it
+China-->Andrew: How are you?
+Andrew->>China: I am good thanks!
+```
+
+## 总结
+
+- [StreamGrapph=>JobGraph=>ExecutionGraph生成过程](https://www.processon.com/view/link/5fe092f45653bb351c8495ca)
