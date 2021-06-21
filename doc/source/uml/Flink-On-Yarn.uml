@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="310.0">org.apache.hadoop.yarn.server.resourcemanager.RMAppManagerEvent</node>
+    <node x="0.0" y="235.0">org.apache.hadoop.yarn.server.resourcemanager.RMAppManager</node>
+    <node x="0.0" y="0.0">org.apache.hadoop.yarn.api.ApplicationClientProtocol</node>
+    <node x="0.0" y="155.0">org.apache.hadoop.yarn.event.EventHandler</node>
+    <node x="40.0" y="80.0">org.apache.hadoop.yarn.server.resourcemanager.ClientRMService</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.hadoop.yarn.server.resourcemanager.ClientRMService" target="org.apache.hadoop.yarn.api.ApplicationClientProtocol">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.hadoop.yarn.server.resourcemanager.RMAppManager" target="org.apache.hadoop.yarn.event.EventHandler">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9" x="448.0" y="444.0" />
+  <SelectedNodes>
+    <node>org.apache.hadoop.yarn.server.resourcemanager.RMAppManagerEvent</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>protected</VISIBILITY>
+</Diagram>
+

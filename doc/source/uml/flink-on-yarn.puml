@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+YarnClusterDescriptor -> YarnClusterDescriptor: deployInternal
+    note right of YarnClusterDescriptor
+      各种校验
+    end note
+    YarnClusterDescriptor -> YarnClusterDescriptor: startAppMaster
+    note right of YarnClusterDescriptor
+      准备 jar, 环境变量
+      job.graph 文件
+      配置文件等, 上传到hdfs
+    end note
+YarnClusterDescriptor -> YarnClient : submitApplication(appContext)
+YarnClient --> ClientRMService: submitApplication(request)
+
+    note right of ClientRMService
+        设置queue, name, type
+    end note
+ClientRMService -> RMAppManager: submitApplication
+
+RMAppManager -> RMAppManager: createAndPopulateNewRMApp
+  RMAppManager -> RMAppManager: placeApplication
+  RMAppManager -> RMAppManager: replaceQueueFromPlacementContext
+  RMAppManager -> RMAppManager: validateAndCreateResourceRequest
+  RMAppManager <-> YarnScheduler: checkAndGetApplicationPriority
+
+RMAppManager -> RMAppImpl: new RMAppImpl [维护Application生命周期]
+
+
+@enduml
