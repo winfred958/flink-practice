@@ -4,7 +4,8 @@
 autonumber
 YarnClusterDescriptor -> YarnClusterDescriptor: deployInternal
     note right of YarnClusterDescriptor
-      各种校验
+      各种校验, path, 队列等
+      当前集群free资源校验
     end note
     YarnClusterDescriptor -> YarnClusterDescriptor: startAppMaster
     note right of YarnClusterDescriptor
