@@ -4,7 +4,7 @@
 https://developer.aliyun.com/article/719262#
 ```
 
-## 1. client 端流程
+## 1. client 端流程 (flink-yarn)
 
 ### 1.1 构造 JobGraph
 
@@ -95,6 +95,10 @@ https://developer.aliyun.com/article/719262#
   yarnClient.submitApplication(appContext);
   ```
 
-## 2. ResourceManager 流程 (yarn)
+## 2. ResourceManager 流程 (yarn: hadoop-yarn-server-resourcemanager)
 
+### 2.1 ClientRMService
 
+### 2.2 RMAppManager
+
+### 2.3 RMAppImpl
