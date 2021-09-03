@@ -12,9 +12,9 @@ https://developer.aliyun.com/article/719262#
 
 - user权限
 - isReadyForDeployment
-  - jar 是否存在
-  - flink-config.yaml 是否存在
-  - VCore 够不够
+    - jar 是否存在
+    - flink-config.yaml 是否存在
+    - VCore 够不够
 - 队列
 - 集群 Memory
 
