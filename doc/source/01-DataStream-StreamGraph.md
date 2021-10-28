@@ -229,7 +229,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
                   configureStreamGraph(streamGraph);
                   alreadyTransformed = new HashMap<>();
               
-                  /**
+                  /** {@link StreamGraphGenerator} translatorMap
                   * 1. 策略模式 匹配 xxxTransformation对应的 xxxTransformationTranslator 包装类(实现自接口TransformationTranslator Context 上下文包含StreamGraph等); 
                   * 2. 调用 xxxTransformationTranslator 父类 AbstractOneInputTransformationTranslator#translateInternal;
                   *    - StreamGraph 添加 Operator
@@ -244,6 +244,35 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
                   streamGraph = null;
                   return builtStreamGraph;
               }
+      
+              private Collection<Integer> transform(Transformation<?> transform) {
+                  if (alreadyTransformed.containsKey(transform)) {
+                      return alreadyTransformed.get(transform);
+                  }
+                  /**
+                   * translator 这里使用的是策略模式:
+                   * 匹配 Transformation 对应的 TransformationTranslator
+                   */
+                  final TransformationTranslator<?, Transformation<?>> translator =
+                  (TransformationTranslator<?, Transformation<?>>)
+                          translatorMap.get(transform.getClass());
+  
+                  Collection<Integer> transformedIds;
+                  if (translator != null) {
+                      transformedIds = translate(translator, transform);
+                  } else {
+                      transformedIds = legacyTransform(transform);
+                  }
+        
+                  if (!alreadyTransformed.containsKey(transform)) {
+                      /**
+                       * 最终转换为 transform -> ids: Collection<Integer>
+                       */
+                      alreadyTransformed.put(transform, transformedIds);
+                  }  
+          
+                  return transformedIds;
+              }
           }
       ```
     - 最终调用 AbstractOneInputTransformationTranslator#translateInternal()
@@ -253,6 +282,7 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
        * function for configuring common graph properties.
        */
       abstract class AbstractOneInputTransformationTranslator<IN, OUT, OP extends Transformation<OUT>> extends SimpleTransformationTranslator<OUT, OP> {
+      
           protected Collection<Integer> translateInternal(
               final Transformation<OUT> transformation,
               final StreamOperatorFactory<OUT> operatorFactory,
@@ -400,49 +430,57 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
           
             private JobGraph createJobGraph() {
               preValidate();
-      
-              // make sure that all vertices start immediately
-              jobGraph.setScheduleMode(streamGraph.getScheduleMode());
+              jobGraph.setJobType(streamGraph.getJobType());
+        
               jobGraph.enableApproximateLocalRecovery(
-                      streamGraph.getCheckpointConfig().isApproximateLocalRecoveryEnabled());
-      
+                streamGraph.getCheckpointConfig().isApproximateLocalRecoveryEnabled());
+        
               // Generate deterministic hashes for the nodes in order to identify them across
               // submission iff they didn't change.
               Map<Integer, byte[]> hashes =
-                      defaultStreamGraphHasher.traverseStreamGraphAndGenerateHashes(streamGraph);
-      
+              defaultStreamGraphHasher.traverseStreamGraphAndGenerateHashes(streamGraph);
+        
               // Generate legacy version hashes for backwards compatibility
               List<Map<Integer, byte[]>> legacyHashes = new ArrayList<>(legacyStreamGraphHashers.size());
               for (StreamGraphHasher hasher : legacyStreamGraphHashers) {
-                  legacyHashes.add(hasher.traverseStreamGraphAndGenerateHashes(streamGraph));
+                legacyHashes.add(hasher.traverseStreamGraphAndGenerateHashes(streamGraph));
               }
-      
+        
               setChaining(hashes, legacyHashes);
-      
+        
               setPhysicalEdges();
-      
+        
               setSlotSharingAndCoLocation();
-      
+        
               setManagedMemoryFraction(
-                      Collections.unmodifiableMap(jobVertices),
-                      Collections.unmodifiableMap(vertexConfigs),
-                      Collections.unmodifiableMap(chainedConfigs),
-                      id -> streamGraph.getStreamNode(id).getManagedMemoryOperatorScopeUseCaseWeights(),
-                      id -> streamGraph.getStreamNode(id).getManagedMemorySlotScopeUseCases());
-      
+                  Collections.unmodifiableMap(jobVertices),
+                  Collections.unmodifiableMap(vertexConfigs),
+                  Collections.unmodifiableMap(chainedConfigs),
+                  id -> streamGraph.getStreamNode(id).getManagedMemoryOperatorScopeUseCaseWeights(),
+                  id -> streamGraph.getStreamNode(id).getManagedMemorySlotScopeUseCases());
+            
               configureCheckpointing();
-      
+        
               jobGraph.setSavepointRestoreSettings(streamGraph.getSavepointRestoreSettings());
-      
-              JobGraphUtils.addUserArtifactEntries(streamGraph.getUserArtifacts(), jobGraph);
-      
+        
+              final Map<String, DistributedCache.DistributedCacheEntry> distributedCacheEntries =
+              JobGraphUtils.prepareUserArtifactEntries(
+                streamGraph.getUserArtifacts().stream()
+                .collect(Collectors.toMap(e -> e.f0, e -> e.f1)),
+                jobGraph.getJobID());
+        
+              for (Map.Entry<String, DistributedCache.DistributedCacheEntry> entry :
+                  distributedCacheEntries.entrySet()) {
+                  jobGraph.addUserArtifact(entry.getKey(), entry.getValue());
+              }
+        
               // set the ExecutionConfig last when it has been finalized
               try {
-                  jobGraph.setExecutionConfig(streamGraph.getExecutionConfig());
+                jobGraph.setExecutionConfig(streamGraph.getExecutionConfig());
               } catch (IOException e) {
                   throw new IllegalConfigurationException(
-                          "Could not serialize the ExecutionConfig."
-                                  + "This indicates that non-serializable types (like custom serializers) were registered");
+                  "Could not serialize the ExecutionConfig."
+                  + "This indicates that non-serializable types (like custom serializers) were registered");
               }
               return jobGraph;
             }

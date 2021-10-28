@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="410.47727272727275" y="340.0">org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer</node>
+    <node x="376.0" y="80.0">org.apache.flink.streaming.api.functions.sink.SinkFunction</node>
+    <node x="212.0" y="170.0">org.apache.flink.streaming.api.checkpoint.CheckpointedFunction</node>
+    <node x="0.0" y="170.0">org.apache.flink.api.common.state.CheckpointListener</node>
+    <node x="293.1439393939394" y="250.0">org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction</node>
+    <node x="572.0" y="0.0">org.apache.flink.api.common.functions.RichFunction</node>
+    <node x="540.0" y="80.0">org.apache.flink.api.common.functions.AbstractRichFunction</node>
+    <node x="440.0" y="170.0">org.apache.flink.streaming.api.functions.sink.RichSinkFunction</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer" target="org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer">
+      <point x="0.0" y="15.0" />
+      <point x="506.47727272727275" y="390.0" />
+      <point x="390.47727272727275" y="390.0" />
+      <point x="390.47727272727275" y="355.0" />
+      <point x="-96.0" y="-0.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction" target="org.apache.flink.streaming.api.functions.sink.RichSinkFunction">
+      <point x="32.0" y="-15.0" />
+      <point x="453.1439393939394" y="220.0" />
+      <point x="528.0" y="220.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction" target="org.apache.flink.api.common.functions.AbstractRichFunction">
+      <point x="96.0" y="-15.0" />
+      <point x="517.1439393939394" y="230.0" />
+      <point x="672.310606060606" y="230.0" />
+      <point x="672.310606060606" y="150.0" />
+      <point x="644.0" y="150.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.RichSinkFunction" target="org.apache.flink.streaming.api.functions.sink.SinkFunction">
+      <point x="-44.0" y="-15.0" />
+      <point x="36.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.SinkFunction" target="org.apache.flink.streaming.api.functions.sink.SinkFunction">
+      <point x="-36.0" y="15.0" />
+      <point x="412.0" y="130.0" />
+      <point x="356.0" y="130.0" />
+      <point x="356.0" y="95.0" />
+      <point x="-72.0" y="-0.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer" target="org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction">
+      <point x="0.0" y="-15.0" />
+      <point x="85.33333333333331" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.RichSinkFunction" target="org.apache.flink.api.common.functions.AbstractRichFunction">
+      <point x="44.0" y="-15.0" />
+      <point x="572.0" y="150.0" />
+      <point x="574.6666666666667" y="150.0" />
+      <point x="-69.33333333333331" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction" target="org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction">
+      <point x="-85.33333333333334" y="15.0" />
+      <point x="335.81060606060606" y="300.0" />
+      <point x="273.1439393939394" y="300.0" />
+      <point x="273.1439393939394" y="265.0" />
+      <point x="-128.0" y="-0.0" />
+    </edge>
+    <edge source="org.apache.flink.api.common.functions.AbstractRichFunction" target="org.apache.flink.api.common.functions.RichFunction">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction" target="org.apache.flink.streaming.api.checkpoint.CheckpointedFunction">
+      <point x="-32.0" y="-15.0" />
+      <point x="389.1439393939394" y="220.0" />
+      <point x="316.0" y="220.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer" target="org.apache.flink.api.common.functions.AbstractRichFunction">
+      <point x="64.0" y="-15.0" />
+      <point x="570.4772727272727" y="320.0" />
+      <point x="683.310606060606" y="320.0" />
+      <point x="683.310606060606" y="150.0" />
+      <point x="713.3333333333333" y="150.0" />
+      <point x="69.33333333333331" y="15.0" />
+    </edge>
+    <edge source="org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction" target="org.apache.flink.api.common.state.CheckpointListener">
+      <point x="-96.0" y="-15.0" />
+      <point x="325.1439393939394" y="230.0" />
+      <point x="96.0" y="230.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="232.5" y="176.5" />
+  <SelectedNodes>
+    <node>org.apache.flink.streaming.api.checkpoint.CheckpointedFunction</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
