@@ -1,4 +1,4 @@
-### 用户自定义 Function 在哪里被调用的
+## 用户自定义 Function 在哪里被调用的
 
 - MapFunction 为例, 如图这里使用了adaptor模式
     - Function和实际DataStream调用使用了adaptor模式
@@ -29,3 +29,15 @@
       ```
     - AbstractUdfStreamOperator
         - 抽象类, 提供自定义算子的生命周期, 例如: open -> processElement -> close 等
+
+## Function 的包装(装饰者模式)
+
+- DataStream 对 Function的 包装
+    - ![avatar](images/Function-Wrap.jpg)
+- DataStream 对 Function 包装的 UML
+    - ![avatar](images/Oprator包装Function.jpg)
+
+
+
+
+
