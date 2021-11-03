@@ -12,7 +12,6 @@
   <modules>
     <module>training-core</module>
     <module>training-streaming</module>
-    <module>training-kinesis</module>
     <module>training-batch</module>
     <module>training-table</module>
     <module>training-pojo</module>
