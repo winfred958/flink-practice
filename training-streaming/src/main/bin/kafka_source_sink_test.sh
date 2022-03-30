@@ -13,8 +13,8 @@ ${FLINK_HOME}/bin/flink run \
   --class com.winfred.streamming.ckafka.CKafkaExample \
   --jobmanager yarn-cluster \
   --yarnslots 4 \
-  --yarnjobManagerMemory 4096 \
-  --yarntaskManagerMemory 4096 \
+  --yarnjobManagerMemory 2048 \
+  --yarntaskManagerMemory 2048 \
   --parallelism 12 \
   --detached \
   --yarnname CKafkaExample \

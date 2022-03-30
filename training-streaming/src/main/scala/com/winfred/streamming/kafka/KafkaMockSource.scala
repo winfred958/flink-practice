@@ -1,4 +1,4 @@
-package com.winfred.streamming.ckafka
+package com.winfred.streamming.kafka
 
 import com.winfred.core.annotation.PassTest
 import com.winfred.core.sink.FlinkKafkaSink
@@ -9,7 +9,7 @@ import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
 @PassTest
-object CKafkaMockSource {
+object KafkaMockSource {
   var auto_offset_reset: String = "earliest"
 
   val groupId: String = this.getClass.getCanonicalName
