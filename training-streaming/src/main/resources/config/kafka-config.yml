@@ -1,10 +1,10 @@
 kafka:
   producer:
-    bootstrapServers: 10.1.11.10:9092
+    bootstrapServers: 192.168.179.53:9092
     keySerializer: org.apache.kafka.common.serialization.StringSerializer
     valueSerializer: org.apache.kafka.common.serialization.StringSerializer
   consumer:
-    bootstrapServers: 10.1.11.10:9092
+    bootstrapServers: 192.168.179.53:9092
     groupId: flink_trainning
     enableAutoCommit: true
     keySerializer: org.apache.kafka.common.serialization.StringSerializer
