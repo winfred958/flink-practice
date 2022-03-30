@@ -12,6 +12,7 @@ CMD=$(
 ${FLINK_HOME}/bin/flink run \
   --class com.winfred.streamming.kafka.KafkaMockSource \
   --jobmanager yarn-cluster \
+  --target yarn-per-job \
   --yarnslots 2 \
   --yarnjobManagerMemory 2048 \
   --yarntaskManagerMemory 2048 \
