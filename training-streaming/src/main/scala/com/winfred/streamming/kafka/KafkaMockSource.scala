@@ -25,7 +25,7 @@ object KafkaMockSource {
     var sinkTopic = ArgsHandler.getArgsParam(args, "topic-name")
     if (StringUtils.isBlank(sinkTopic)) sinkTopic = sinkTopicName
     val dataStream: DataStream[String] = executionEnvironment
-      .addSource(new DataMockSource(2, 20))
+      .addSource(new DataMockSource(500, 1000))
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
       })
