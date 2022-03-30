@@ -29,8 +29,10 @@ object KafkaMockSource {
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
       })
+
     dataStream
-      .addSink(FlinkKafkaSink.getKafkaSink(topic = sinkTopic))
+      .sinkTo(FlinkKafkaSink.getKafkaSink(topic = sinkTopic))
+
     executionEnvironment
       .execute()
   }
