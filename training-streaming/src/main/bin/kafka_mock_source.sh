@@ -19,6 +19,7 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 6 \
   --detached \
   --yarnname KafkaMockSource \
+  --yarnqueue default \
   ${HOME_PATH}/lib/training-streaming.jar \
   --topic-name kafka_test_raw
 EOF
