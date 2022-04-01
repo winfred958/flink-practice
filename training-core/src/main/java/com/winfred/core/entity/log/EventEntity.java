@@ -6,6 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
 
+/**
+ * @author winfred
+ */
 public class EventEntity {
     @Setter
     private String uuid;

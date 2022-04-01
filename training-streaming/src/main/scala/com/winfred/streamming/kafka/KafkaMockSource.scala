@@ -33,7 +33,6 @@ object KafkaMockSource {
     dataStream
       .sinkTo(FlinkKafkaSink.getKafkaSink(topic = sinkTopic))
 
-    executionEnvironment
-      .execute()
+    executionEnvironment.execute(this.getClass.getName)
   }
 }
