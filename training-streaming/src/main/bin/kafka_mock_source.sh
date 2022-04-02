@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLINK_HOME=/usr/local/service/flink
+FLINK_HOME=/data/kai/flink
 HOME_PATH=$(
   cd "$(dirname "$0")"
   cd ..
@@ -12,11 +12,10 @@ CMD=$(
 ${FLINK_HOME}/bin/flink run \
   --class com.winfred.streamming.kafka.KafkaMockSource \
   --jobmanager yarn-cluster \
-  --target yarn-per-job \
-  --yarnslots 2 \
-  --yarnjobManagerMemory 2048 \
-  --yarntaskManagerMemory 2048 \
-  --parallelism 6 \
+  --yarnslots 1 \
+  --yarnjobManagerMemory 1024 \
+  --yarntaskManagerMemory 1024 \
+  --parallelism 3 \
   --detached \
   --yarnname KafkaMockSource \
   --yarnqueue default \
