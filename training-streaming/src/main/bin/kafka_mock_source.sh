@@ -20,7 +20,9 @@ ${FLINK_HOME}/bin/flink run \
   --yarnname KafkaMockSource \
   --yarnqueue default \
   ${HOME_PATH}/lib/training-streaming.jar \
-  --topic-name kafka_test_raw
+  --topic-name kafka_test_raw \
+  --interval-min 100 \
+  --interval-max 500
 EOF
 )
 

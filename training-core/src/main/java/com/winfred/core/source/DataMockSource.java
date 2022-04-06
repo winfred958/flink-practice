@@ -51,8 +51,8 @@ public class DataMockSource extends RichParallelSourceFunction<String> implement
 
     private volatile boolean isRun;
 
-    private int intervalMillisecondMin;
-    private int intervalMillisecondMax;
+    private long intervalMillisecondMin;
+    private long intervalMillisecondMax;
 
 
     private ListState<Map<String, String>> state;
@@ -65,7 +65,7 @@ public class DataMockSource extends RichParallelSourceFunction<String> implement
      * @param intervalMillisecondMin mock 数据最小时间间隔
      * @param intervalMillisecondMax mock 数据最大时间间隔
      */
-    public DataMockSource(int intervalMillisecondMin, int intervalMillisecondMax) {
+    public DataMockSource(long intervalMillisecondMin, long intervalMillisecondMax) {
         this.intervalMillisecondMin = intervalMillisecondMin;
         this.intervalMillisecondMax = intervalMillisecondMax;
     }
