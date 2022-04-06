@@ -23,6 +23,8 @@ object FlinkKafkaSink {
     properties.setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, "900000")
     properties.setProperty(ProducerConfig.ACKS_CONFIG, "0")
     properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "16384")
+    properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "1000")
+    properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy")
 
     val sink = KafkaSink
       .builder()
