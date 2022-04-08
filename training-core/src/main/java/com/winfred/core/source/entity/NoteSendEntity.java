@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -62,10 +63,10 @@ public class NoteSendEntity implements NoteMock {
     private Long charge_submit_num;
     @Getter
     @Setter
-    private String request_time;
+    private LocalDateTime request_time;
     @Getter
     @Setter
-    private String send_time;
+    private LocalDateTime send_time;
     @Getter
     @Setter
     private String full_name;

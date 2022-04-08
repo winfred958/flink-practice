@@ -10,7 +10,6 @@ import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunctio
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -97,8 +96,8 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
 
         send.setCharge_submit_num(RandomUtils.nextLong(1, 2000));
 
-        send.setRequest_time(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        send.setSend_time(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        send.setRequest_time(LocalDateTime.now());
+        send.setSend_time(LocalDateTime.now());
 
         send.setFull_name("xxx");
         send.setNodeid(UUID.randomUUID().toString());
@@ -111,8 +110,8 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         receipt.setReceiver(receiver);
 
         receipt.setError_code("");
-        receipt.setSend_time(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        receipt.setReceive_time(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        receipt.setSend_time(LocalDateTime.now());
+        receipt.setReceive_time(LocalDateTime.now());
 
         return receipt;
     }

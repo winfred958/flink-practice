@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -33,10 +34,10 @@ public class NoteReceiptEntity implements NoteMock {
     private String error_code;
     @Getter
     @Setter
-    private String send_time;
+    private LocalDateTime send_time;
     @Getter
     @Setter
-    private String receive_time;
+    private LocalDateTime receive_time;
     @Getter
     @Setter
     private Long bill_count;
