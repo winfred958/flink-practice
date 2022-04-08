@@ -1,9 +1,9 @@
 package com.winfred.core.source;
 
+import cn.hutool.crypto.digest.MD5;
 import com.winfred.core.source.entity.OrderEntity;
 import com.winfred.core.source.entity.OrderItemEntity;
 import com.winfred.core.source.entity.OrderJoinMock;
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
@@ -56,7 +56,7 @@ public class JoinDataMockSource extends RichParallelSourceFunction<OrderJoinMock
 
     private OrderEntity mockOrder() {
         final OrderEntity order = new OrderEntity();
-        final String userId = Md5Crypt.md5Crypt(String.valueOf(RandomUtils.nextLong(800000000, 900000000L)).getBytes(StandardCharsets.UTF_8));
+        final String userId = MD5.create().digestHex(String.valueOf(RandomUtils.nextLong(800000000, 900000000L)), StandardCharsets.UTF_8);
         order.setUserId(userId);
 
         order.setOrderStatus("PAID");
@@ -88,7 +88,7 @@ public class JoinDataMockSource extends RichParallelSourceFunction<OrderJoinMock
 
         itemEntity.setIsGift(false);
 
-        final String sku = Md5Crypt.md5Crypt(String.valueOf(RandomUtils.nextLong(50000000, 100000000L)).getBytes(StandardCharsets.UTF_8));
+        final String sku = MD5.create().digestHex(String.valueOf(RandomUtils.nextLong(50000000, 100000000L)), StandardCharsets.UTF_8);
         itemEntity.setSku(sku);
         return itemEntity;
     }

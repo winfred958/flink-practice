@@ -285,6 +285,11 @@
         <artifactId>javax.servlet-api</artifactId>
         <version>${javax.servlet-api.version}</version>
       </dependency>
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-crypto</artifactId>
+        <version>5.7.22</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>

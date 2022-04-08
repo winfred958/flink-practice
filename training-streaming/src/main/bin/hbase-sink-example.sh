@@ -7,6 +7,8 @@ HOME_PATH=$(
   pwd
 )
 
+source ~/.bash_profile
+
 CMD=$(
   cat <<EOF
 ${FLINK_HOME}/bin/flink run \

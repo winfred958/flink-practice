@@ -12,19 +12,19 @@ source ~/.bash_profile
 CMD=$(
   cat <<EOF
 ${FLINK_HOME}/bin/flink run \
-  --class com.winfred.streamming.kafka.KafkaMockSource \
+  --class com.winfred.streamming.kafka.KafkaMockJoinSource \
   --jobmanager yarn-cluster \
   --yarnslots 1 \
   --yarnjobManagerMemory 1024 \
   --yarntaskManagerMemory 1024 \
-  --parallelism 3 \
+  --parallelism 1 \
   --detached \
-  --yarnname KafkaMockSource \
+  --yarnname KafkaMockJoinSource \
   --yarnqueue default \
   ${HOME_PATH}/lib/training-streaming.jar \
   --topic-name kafka_test_raw \
-  --interval-min 100 \
-  --interval-max 500
+  --interval-min 2 \
+  --interval-max 10
 EOF
 )
 
