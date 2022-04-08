@@ -38,12 +38,15 @@ public class JoinDataMockSource extends RichParallelSourceFunction<OrderJoinMock
         while (isRun) {
             synchronized (lock) {
                 // mock order
-                final OrderEntity order = mockOrder();
-                ctx.collect(order);
-                // mock order items
-                final List<OrderItemEntity> orderItemEntities = mockOrderItems(order, 1, 10);
-                orderItemEntities
-                    .forEach(ctx::collect);
+                final int size = RandomUtils.nextInt(10, 100);
+                for (int i = 0; i < size; i++) {
+                    final OrderEntity order = mockOrder();
+                    ctx.collect(order);
+                    // mock order items
+                    final List<OrderItemEntity> orderItemEntities = mockOrderItems(order, 1, 10);
+                    orderItemEntities
+                        .forEach(ctx::collect);
+                }
             }
             Thread.sleep(RandomUtils.nextLong(intervalMillisecondMin, intervalMillisecondMax));
         }
