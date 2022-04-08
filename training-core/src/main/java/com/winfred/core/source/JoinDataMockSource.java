@@ -41,7 +41,7 @@ public class JoinDataMockSource extends RichParallelSourceFunction<OrderJoinMock
                 final OrderEntity order = mockOrder();
                 ctx.collect(order);
                 // mock order items
-                final List<OrderItemEntity> orderItemEntities = mockOrderItems(order, 1, 100);
+                final List<OrderItemEntity> orderItemEntities = mockOrderItems(order, 1, 10);
                 orderItemEntities
                     .forEach(ctx::collect);
             }
