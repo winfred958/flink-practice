@@ -1,16 +1,13 @@
 package com.winfred.streamming.kafka
 
-import com.winfred.core.source.JoinDataMockSource
+import com.winfred.core.source.NoteMessageMockSource
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.streamming.kafka.KafkaMockSource.sinkTopicName
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
-/**
- * mock join 数据
- */
-object KafkaMockJoinSource {
+object NodeMessageMock {
 
   def main(args: Array[String]): Unit = {
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment
@@ -34,18 +31,19 @@ object KafkaMockJoinSource {
 
     if (StringUtils.isBlank(sinkTopic)) sinkTopic = sinkTopicName
     val dataStreamSource = executionEnvironment
-      .addSource(new JoinDataMockSource(intervalMin, intervalMax))
+      .addSource(new NoteMessageMockSource(intervalMin, intervalMax))
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
       })
 
     // MockSourceName
-    val orderTopic = "qa_order_test"
+    val orderTopic = "note_send_test"
     SendKafkaCommon.sinkToTopic(dataStreamSource, orderTopic)
 
-    val orderItemTopic = "qa_order_item_test"
+    val orderItemTopic = "note_receipt_test"
     SendKafkaCommon.sinkToTopic(dataStreamSource, orderItemTopic)
 
     executionEnvironment.execute(this.getClass.getName)
   }
+
 }
