@@ -15,13 +15,13 @@ class SendKafkaCommon[T] {
   def sinkToTopic(dataStreamSource: DataStream[T], topicName: String) = {
     import org.apache.flink.streaming.api.scala._
     dataStreamSource
-      .filter((entity: Any) => {
+      .filter((entity: T) => {
         val clazz = entity.getClass
         val mockSourceName = clazz.getAnnotation(classOf[MockSourceName])
         val name = mockSourceName.name()
         StringUtils.equals(name, topicName)
       })
-      .map((entity: Any) => {
+      .map((entity: T) => {
         objectMapper.writeValueAsString(entity)
       })
       .sinkTo(FlinkKafkaSink.getKafkaSink(topic = topicName))
