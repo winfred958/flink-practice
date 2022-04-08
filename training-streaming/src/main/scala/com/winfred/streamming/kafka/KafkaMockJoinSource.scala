@@ -1,6 +1,7 @@
 package com.winfred.streamming.kafka
 
 import com.winfred.core.source.JoinDataMockSource
+import com.winfred.core.source.entity.OrderJoinMock
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.streamming.kafka.KafkaMockSource.sinkTopicName
 import org.apache.commons.lang3.StringUtils
@@ -33,7 +34,7 @@ object KafkaMockJoinSource {
     }
 
     if (StringUtils.isBlank(sinkTopic)) sinkTopic = sinkTopicName
-    val dataStreamSource = executionEnvironment
+    val dataStreamSource: DataStream[OrderJoinMock] = executionEnvironment
       .addSource(new JoinDataMockSource(intervalMin, intervalMax))
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
@@ -41,10 +42,10 @@ object KafkaMockJoinSource {
 
     // MockSourceName
     val orderTopic = "qa_order_test"
-    SendKafkaCommon.sinkToTopic(dataStreamSource, orderTopic)
+    SendKafkaCommon.sinkToOrderTopic(dataStreamSource, orderTopic)
 
     val orderItemTopic = "qa_order_item_test"
-    SendKafkaCommon.sinkToTopic(dataStreamSource, orderItemTopic)
+    SendKafkaCommon.sinkToOrderTopic(dataStreamSource, orderItemTopic)
 
     executionEnvironment.execute(this.getClass.getName)
   }

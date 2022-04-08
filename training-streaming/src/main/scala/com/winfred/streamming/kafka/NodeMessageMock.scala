@@ -1,6 +1,7 @@
 package com.winfred.streamming.kafka
 
 import com.winfred.core.source.NoteMessageMockSource
+import com.winfred.core.source.entity.NoteMock
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.streamming.kafka.KafkaMockSource.sinkTopicName
 import org.apache.commons.lang3.StringUtils
@@ -30,7 +31,7 @@ object NodeMessageMock {
     }
 
     if (StringUtils.isBlank(sinkTopic)) sinkTopic = sinkTopicName
-    val dataStreamSource = executionEnvironment
+    val dataStreamSource: DataStream[NoteMock] = executionEnvironment
       .addSource(new NoteMessageMockSource(intervalMin, intervalMax))
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
@@ -38,10 +39,10 @@ object NodeMessageMock {
 
     // MockSourceName
     val orderTopic = "note_send_test"
-    SendKafkaCommon.sinkToTopic(dataStreamSource, orderTopic)
+    SendKafkaCommon.sinkToNoteTopic(dataStreamSource, orderTopic)
 
     val orderItemTopic = "note_receipt_test"
-    SendKafkaCommon.sinkToTopic(dataStreamSource, orderItemTopic)
+    SendKafkaCommon.sinkToNoteTopic(dataStreamSource, orderItemTopic)
 
     executionEnvironment.execute(this.getClass.getName)
   }
