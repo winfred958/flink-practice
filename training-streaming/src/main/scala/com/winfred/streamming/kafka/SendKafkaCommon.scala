@@ -1,6 +1,6 @@
 package com.winfred.streamming.kafka
 
-import com.google.gson.GsonBuilder
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.winfred.core.annotation.MockSourceName
 import com.winfred.core.sink.FlinkKafkaSink
 import com.winfred.core.source.entity.{NoteMock, OrderJoinMock}
@@ -9,7 +9,8 @@ import org.apache.flink.streaming.api.scala.DataStream
 
 class SendKafkaCommon[T] {
 
-  private val gson = new GsonBuilder().create()
+  private val objectMapper = new ObjectMapper()
+    .findAndRegisterModules()
 
   def sinkToTopic(dataStreamSource: DataStream[T], topicName: String) = {
     import org.apache.flink.streaming.api.scala._
@@ -21,8 +22,7 @@ class SendKafkaCommon[T] {
         StringUtils.equals(name, topicName)
       })
       .map((entity: Any) => {
-        val str = gson.toJson(entity)
-        str
+        objectMapper.writeValueAsString(entity)
       })
       .sinkTo(FlinkKafkaSink.getKafkaSink(topic = topicName))
       .name(topicName)

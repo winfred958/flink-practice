@@ -1,5 +1,6 @@
 package com.winfred.core.source.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import com.winfred.core.annotation.MockSourceName;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -22,7 +24,7 @@ import java.util.UUID;
 public class NoteReceiptEntity implements NoteMock {
 
     private static final long serialVersionUID = 8713417573020650030L;
-    
+
     @JsonProperty(value = "primary_key")
     @SerializedName(value = "primary_key")
     @Setter
@@ -33,18 +35,19 @@ public class NoteReceiptEntity implements NoteMock {
     @Getter
     @Setter
     private String error_code;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
     private LocalDateTime send_time;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
     private LocalDateTime receive_time;
     @Getter
     @Setter
     private Long bill_count;
-    @Getter
-    @Setter
-    private String system_time;
 
     @Override
     public String getPrimaryKey() {

@@ -1,5 +1,6 @@
 package com.winfred.core.source.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import com.winfred.core.annotation.MockSourceName;
@@ -62,9 +63,13 @@ public class NoteSendEntity implements NoteMock {
     @Getter
     @Setter
     private Long charge_submit_num;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS", with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
     private LocalDateTime request_time;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS", with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
     private LocalDateTime send_time;
@@ -76,6 +81,7 @@ public class NoteSendEntity implements NoteMock {
     @JsonProperty(value = "campid")
     @SerializedName(value = "campid")
     private String campaign_id;
+
     @Getter
     @Setter
     private String nodeid;
