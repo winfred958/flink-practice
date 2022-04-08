@@ -8,6 +8,9 @@ import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
+/**
+ * mock 简单浏览数据
+ */
 @PassTest
 object KafkaMockSource {
   var auto_offset_reset: String = "earliest"
