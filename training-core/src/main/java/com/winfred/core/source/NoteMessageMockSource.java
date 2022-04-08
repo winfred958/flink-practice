@@ -10,6 +10,9 @@ import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunctio
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +27,7 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
 
     private volatile boolean isRun;
 
+    private static final ZoneId zoneId = ZoneId.of("Asia/Shanghai");
 
     public NoteMessageMockSource(long intervalMillisecondMin, long intervalMillisecondMax) {
         this.intervalMillisecondMin = intervalMillisecondMin;
@@ -96,8 +100,9 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
 
         send.setCharge_submit_num(RandomUtils.nextLong(1, 2000));
 
-        send.setRequest_time(LocalDateTime.now());
-        send.setSend_time(LocalDateTime.now());
+        final LocalDateTime now = LocalDateTime.now();
+        send.setRequest_time(now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
+        send.setSend_time(now.plus(RandomUtils.nextLong(1, 10), ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
 
         send.setFull_name("xxx");
         send.setNodeid(UUID.randomUUID().toString());
@@ -110,8 +115,10 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         receipt.setReceiver(receiver);
 
         receipt.setError_code("");
-        receipt.setSend_time(LocalDateTime.now());
-        receipt.setReceive_time(LocalDateTime.now());
+
+        final LocalDateTime now = LocalDateTime.now();
+        receipt.setSend_time(now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
+        receipt.setReceive_time(now.plus(RandomUtils.nextLong(1, 3), ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
 
         return receipt;
     }

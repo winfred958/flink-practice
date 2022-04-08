@@ -67,12 +67,12 @@ public class NoteSendEntity implements NoteMock {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS", with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
-    private LocalDateTime request_time;
+    private String request_time;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS", with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
-    private LocalDateTime send_time;
+    private String send_time;
     @Getter
     @Setter
     private String full_name;

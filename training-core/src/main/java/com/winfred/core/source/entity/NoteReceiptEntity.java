@@ -36,15 +36,15 @@ public class NoteReceiptEntity implements NoteMock {
     @Setter
     private String error_code;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
+    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
-    private LocalDateTime send_time;
+    private String send_time;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
+    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
-    private LocalDateTime receive_time;
+    private String receive_time;
     @Getter
     @Setter
     private Long bill_count;
