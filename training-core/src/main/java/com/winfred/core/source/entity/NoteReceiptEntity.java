@@ -19,9 +19,10 @@ import java.util.UUID;
 @MockSourceName(name = "note_receipt_test")
 @AllArgsConstructor
 @NoArgsConstructor
-@SuppressWarnings("all")
 public class NoteReceiptEntity implements NoteMock {
 
+    private static final long serialVersionUID = 8713417573020650030L;
+    
     @JsonProperty(value = "primary_key")
     @SerializedName(value = "primary_key")
     @Setter

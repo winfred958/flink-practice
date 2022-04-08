@@ -12,6 +12,8 @@ import java.util.UUID;
 @MockSourceName(name = "qa_order_test")
 public class OrderEntity implements OrderJoinMock {
 
+    private static final long serialVersionUID = 5980053617720035282L;
+    
     @Setter
     private String orderId;
 

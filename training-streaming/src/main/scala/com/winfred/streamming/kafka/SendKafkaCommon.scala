@@ -21,7 +21,8 @@ class SendKafkaCommon[T] {
         StringUtils.equals(name, topicName)
       })
       .map((entity: Any) => {
-        gson.toJson(entity)
+        val str = gson.toJson(entity)
+        str
       })
       .sinkTo(FlinkKafkaSink.getKafkaSink(topic = topicName))
       .name(topicName)
