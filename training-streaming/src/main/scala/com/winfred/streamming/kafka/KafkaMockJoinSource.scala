@@ -67,5 +67,6 @@ object KafkaMockJoinSource {
         JSON.toJSONString(entity, 1, SerializerFeature.SortField)
       })
       .sinkTo(FlinkKafkaSink.getKafkaSink(topic = orderTopic))
+      .name(orderTopic)
   }
 }
