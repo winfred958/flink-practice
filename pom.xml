@@ -15,6 +15,8 @@
     <module>training-batch</module>
     <module>training-table</module>
     <module>training-pojo</module>
+    <module>training-iceberg</module>
+    <module>iceberg-dependency</module>
   </modules>
 
   <properties>
