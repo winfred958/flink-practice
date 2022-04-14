@@ -77,7 +77,7 @@ object IcebergUpsertDemo {
            | PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
            | WITH (
-           |   'connector' = 'iceberg'
+           |   'connector' = 'iceberg',
            |   'catalog-type'='hadoop',
            |   'catalog-name' = '${catalogName}',
            |   'warehouse' = '${warehousePath}'
