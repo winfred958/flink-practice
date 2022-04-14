@@ -9,7 +9,7 @@ import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
 object IcebergUpsertDemo {
 
-  val catalogName = "hadoop_test"
+  val catalogName = "hadoop_catalog"
   val namespaceName = "ods"
   val warehousePath: String = "hdfs://spacex-hadoop-qa/iceberg/warehouse"
 
@@ -44,7 +44,8 @@ object IcebergUpsertDemo {
            | WITH (
            |    'type' = 'iceberg',
            |    'catalog-type' = 'hadoop',
-           |    'warehouse' = '${warehousePath}'
+           |    'warehouse' = '${warehousePath}',
+           |    'property-version' = '2'
            | )
            |""".stripMargin)
 
@@ -72,7 +73,6 @@ object IcebergUpsertDemo {
            |    `process_time`      timestamp,
            |    `dt`                string
            | )
-           | USING iceberg
            | PARTITIONED BY (`dt`)
            | PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
