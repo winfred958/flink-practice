@@ -9,6 +9,9 @@ import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 object IcebergUpsertDemo {
 
   val catalogName = "hadoop_catalog"
@@ -40,7 +43,10 @@ object IcebergUpsertDemo {
         StringUtils.equals(name, topicName)
       })
       .map(entity => {
-        entity.asInstanceOf[NoteSendEntity]
+        val sendEntity = entity.asInstanceOf[NoteSendEntity]
+        val dt: String = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+        sendEntity.setDt(dt)
+        sendEntity
       })
 
     tableEnvironment.createTemporaryView("input_data_stream_table", dataStreamSource)
@@ -80,7 +86,7 @@ object IcebergUpsertDemo {
            |    `send_time`         timestamp,
            |    `full_name`         string,
            |    `campaign_id`       string,
-           |    `node_id`           string,
+           |    `nodeid`           string,
            |    `process_time`      timestamp,
            |    `dt`                string
            | )
@@ -114,7 +120,7 @@ object IcebergUpsertDemo {
            |   `send_time`         ,
            |   `full_name`         ,
            |   `campaign_id`       ,
-           |   `node_id`           ,
+           |   `nodeid`           ,
            |   `process_time`      ,
            |   `dt`
            | FROM

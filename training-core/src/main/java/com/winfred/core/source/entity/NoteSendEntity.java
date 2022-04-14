@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -84,6 +85,14 @@ public class NoteSendEntity implements NoteMock {
     @Getter
     @Setter
     private String nodeid;
+
+    @Getter
+    @Setter
+    private Timestamp process_time = new Timestamp(System.currentTimeMillis());
+
+    @Getter
+    @Setter
+    private String dt;
 
     @Override
     public String getPrimaryKey() {
