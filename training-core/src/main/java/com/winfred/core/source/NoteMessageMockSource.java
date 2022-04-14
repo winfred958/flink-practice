@@ -9,8 +9,10 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -100,9 +102,12 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
 
         send.setCharge_submit_num(RandomUtils.nextLong(1, 2000));
 
+
         final LocalDateTime now = LocalDateTime.now();
-        send.setRequest_time(now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
-        send.setSend_time(now.plus(RandomUtils.nextLong(1, 10), ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
+        final Timestamp timestamp = new Timestamp(now.toInstant(ZoneOffset.UTC).toEpochMilli());
+
+        send.setRequest_time(timestamp);
+        send.setSend_time(timestamp);
 
         send.setFull_name("xxx");
         send.setNodeid(UUID.randomUUID().toString());
