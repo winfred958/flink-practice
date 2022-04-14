@@ -54,7 +54,7 @@ object IcebergUpsertDemo {
     tableEnvironment
       .executeSql(
         s"""
-           | CREATE TABLE `${catalogName}`.`${namespaceName}`.`${tableName}` (
+           | CREATE TABLE `${tableName}` (
            |    `primary_key`       string,
            |    `user_name`         string,
            |    `shop_key`          string,
@@ -87,7 +87,7 @@ object IcebergUpsertDemo {
     tableEnvironment
       .executeSql(
         s"""
-           | INSERT INTO `${catalogName}`.`${namespaceName}`.`${tableName}`
+           | INSERT INTO `${tableName}`
            | SELECT
            |   `primary_key`       ,
            |   `user_name`         ,
