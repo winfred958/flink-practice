@@ -75,7 +75,6 @@ object IcebergUpsertDemo {
            | )
            | PARTITIONED BY (`dt`)
            | PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
-           | )
            | WITH (
            |   'connector' = 'iceberg',
            |   'catalog-type'='hadoop',
