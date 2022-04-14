@@ -48,6 +48,7 @@ object IcebergUpsertDemo {
         sendEntity.setDt(dt)
         sendEntity
       })
+      .name("source-mock")
 
     tableEnvironment.createTemporaryView("input_data_stream_table", dataStreamSource)
 
