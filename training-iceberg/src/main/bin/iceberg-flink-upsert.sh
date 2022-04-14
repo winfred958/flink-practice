@@ -22,7 +22,7 @@ ${FLINK_HOME}/bin/flink run \
   --yarnname NodeMessageMock \
   --yarnqueue default \
   --yarnship ${HOME_PATH}/lib/iceberg-flink-runtime-1.14-0.13.1.jar \
-  ${HOME_PATH}/lib/training-streaming.jar \
+  ${HOME_PATH}/lib/training-iceberg.jar \
   --interval-min 2 \
   --interval-max 10
 EOF

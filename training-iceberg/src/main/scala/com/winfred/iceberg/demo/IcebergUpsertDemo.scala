@@ -42,8 +42,8 @@ object IcebergUpsertDemo {
         s"""
            | CREATE CATALOG ${catalogName}
            | WITH (
-           |    'type' = 'iceberg'
-           |    'catalog-type' = 'hadoop'
+           |    'type' = 'iceberg',
+           |    'catalog-type' = 'hadoop',
            |    'warehouse' = '${warehousePath}'
            | )
            |""".stripMargin)
@@ -79,7 +79,7 @@ object IcebergUpsertDemo {
            | WITH (
            |   'connector' = 'iceberg'
            |   'catalog-type'='hadoop',
-           |   'catalog-name' = '${catalogName}'
+           |   'catalog-name' = '${catalogName}',
            |   'warehouse' = '${warehousePath}'
            | )
            |""".stripMargin)
