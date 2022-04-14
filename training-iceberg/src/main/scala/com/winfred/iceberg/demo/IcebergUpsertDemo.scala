@@ -62,7 +62,7 @@ object IcebergUpsertDemo {
            | )
            |""".stripMargin)
 
-    //    -- PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
+    //    --
     tableEnvironment
       .executeSql(
         s"""
@@ -85,7 +85,8 @@ object IcebergUpsertDemo {
            |    `campaign_id`       string,
            |    `nodeid`           string,
            |    `process_time`      timestamp,
-           |    `dt`                string
+           |    `dt`                string,
+           |    PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
            | PARTITIONED BY (`dt`)
            | WITH (
