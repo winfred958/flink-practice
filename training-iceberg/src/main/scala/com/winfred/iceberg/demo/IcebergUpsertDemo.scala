@@ -1,7 +1,9 @@
 package com.winfred.iceberg.demo
 
+import com.winfred.core.annotation.MockSourceName
 import com.winfred.core.source.NoteMessageMockSource
-import com.winfred.core.source.entity.NoteMock
+import com.winfred.core.source.entity.NoteSendEntity
+import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -28,10 +30,17 @@ object IcebergUpsertDemo {
 
     import org.apache.flink.streaming.api.scala._
 
-    val dataStreamSource: DataStream[NoteMock] = executionEnvironment
+    val topicName = "note_send_test"
+    val dataStreamSource: DataStream[NoteSendEntity] = executionEnvironment
       .addSource(new NoteMessageMockSource(100, 200))
-      .assignAscendingTimestamps(s => {
-        System.currentTimeMillis()
+      .filter(entity => {
+        val clazz = entity.getClass
+        val mockSourceName = clazz.getAnnotation(classOf[MockSourceName])
+        val name = mockSourceName.name()
+        StringUtils.equals(name, topicName)
+      })
+      .map(entity => {
+        entity.asInstanceOf[NoteSendEntity]
       })
 
     tableEnvironment.createTemporaryView("input_data_stream_table", dataStreamSource)
@@ -50,7 +59,7 @@ object IcebergUpsertDemo {
            |""".stripMargin)
 
 
-//    -- PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
+    //    -- PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
     tableEnvironment
       .executeSql(
         s"""
