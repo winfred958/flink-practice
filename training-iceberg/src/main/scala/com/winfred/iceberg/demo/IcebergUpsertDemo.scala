@@ -17,7 +17,9 @@ object IcebergUpsertDemo {
 
   def main(args: Array[String]): Unit = {
     val configuration = new Configuration()
+    IcebergConfigCommon.setDefaultIcebergConfig(configuration)
     configuration.setBoolean("write.upsert.enabled", true)
+
 
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     executionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
