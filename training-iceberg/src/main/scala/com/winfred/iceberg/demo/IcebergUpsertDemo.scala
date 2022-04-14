@@ -49,6 +49,8 @@ object IcebergUpsertDemo {
            | )
            |""".stripMargin)
 
+
+//    -- PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
     tableEnvironment
       .executeSql(
         s"""
@@ -74,7 +76,6 @@ object IcebergUpsertDemo {
            |    `dt`                string
            | )
            | PARTITIONED BY (`dt`)
-           | PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | WITH (
            |   'connector' = 'iceberg',
            |   'catalog-type'='hadoop',
