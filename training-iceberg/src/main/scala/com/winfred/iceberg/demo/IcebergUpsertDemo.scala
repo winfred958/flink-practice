@@ -50,7 +50,29 @@ object IcebergUpsertDemo {
       .executeSql(
         s"""
            | CREATE TABLE `${catalogName}`.`${namespaceName}`.`${tableName}` (
-           |
+           |    `primary_key`       string,
+           |    `user_name`         string,
+           |    `shop_key`          string,
+           |    `business_type`     string,
+           |    `task_id`           string,
+           |    `subtask_id`        string,
+           |    `content`           string,
+           |    `receiver`          string,
+           |    `show_id`           string,
+           |    `gateway_id`        string,
+           |    `gateway_account`   string,
+           |    `charge_submit_num` long,
+           |    `request_time`      timestamp,
+           |    `send_time`         timestamp,
+           |    `full_name`         string,
+           |    `campaign_id`       string,
+           |    `node_id`           string,
+           |    `process_time`      timestamp,
+           |    `dt`                string
+           | )
+           | USING iceberg
+           | PARTITIONED BY (`dt`)
+           | PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
            | WITH (
            |   'connector' = 'iceberg'
@@ -65,7 +87,25 @@ object IcebergUpsertDemo {
         s"""
            | INSERT INTO `${catalogName}`.`${namespaceName}`.`${tableName}`
            | SELECT
-           |   xxx
+           |   `primary_key`       ,
+           |   `user_name`         ,
+           |   `shop_key`          ,
+           |   `business_type`     ,
+           |   `task_id`           ,
+           |   `subtask_id`        ,
+           |   `content`           ,
+           |   `receiver`          ,
+           |   `show_id`           ,
+           |   `gateway_id`        ,
+           |   `gateway_account`   ,
+           |   `charge_submit_num` ,
+           |   `request_time`      ,
+           |   `send_time`         ,
+           |   `full_name`         ,
+           |   `campaign_id`       ,
+           |   `node_id`           ,
+           |   `process_time`      ,
+           |   `dt`
            | FROM
            |   input_data_stream_table
            |""".stripMargin)
