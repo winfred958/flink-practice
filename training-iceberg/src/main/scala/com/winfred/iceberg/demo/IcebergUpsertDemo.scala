@@ -66,7 +66,7 @@ object IcebergUpsertDemo {
            |    `show_id`           string,
            |    `gateway_id`        string,
            |    `gateway_account`   string,
-           |    `charge_submit_num` long,
+           |    `charge_submit_num` BIGINT,
            |    `request_time`      timestamp,
            |    `send_time`         timestamp,
            |    `full_name`         string,
