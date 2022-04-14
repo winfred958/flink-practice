@@ -25,7 +25,6 @@ object IcebergUpsertDemo {
     IcebergConfigCommon.setDefaultIcebergConfig(configuration)
     configuration.setBoolean("write.upsert.enabled", true)
 
-
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     executionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
 
@@ -96,6 +95,7 @@ object IcebergUpsertDemo {
            |   'connector' = 'iceberg',
            |   'catalog-type'='hadoop',
            |   'catalog-name' = '${catalogName}',
+           |   'catalog-database'='${namespaceName}',
            |   'warehouse' = '${warehousePath}'
            | )
            |""".stripMargin)
