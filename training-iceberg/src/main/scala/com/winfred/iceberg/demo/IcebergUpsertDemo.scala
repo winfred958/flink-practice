@@ -22,7 +22,6 @@ object IcebergUpsertDemo {
 
   def main(args: Array[String]): Unit = {
     val configuration = new Configuration()
-    IcebergConfigCommon.setDefaultIcebergConfig(configuration)
     configuration.setBoolean("write.upsert.enabled", true)
 
     val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
@@ -94,7 +93,10 @@ object IcebergUpsertDemo {
            |   'catalog-type'='hadoop',
            |   'catalog-name' = '${catalogName}',
            |   'catalog-database'='${namespaceName}',
-           |   'warehouse' = '${warehousePath}'
+           |   'warehouse' = '${warehousePath}',
+           |   'format-version' = '2',
+           |   'write.wap.enabled' = 'true',
+           |   'write.metadata.delete-after-commit.enabled' = '200'
            | )
            |""".stripMargin)
 
@@ -119,7 +121,7 @@ object IcebergUpsertDemo {
            |   `send_time`         ,
            |   `full_name`         ,
            |   `campaign_id`       ,
-           |   `nodeid`           ,
+           |   `nodeid`            ,
            |   `process_time`      ,
            |   `dt`
            | FROM
