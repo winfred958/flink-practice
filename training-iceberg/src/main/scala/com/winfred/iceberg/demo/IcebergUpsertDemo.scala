@@ -51,7 +51,6 @@ object IcebergUpsertDemo {
 
     tableEnvironment.createTemporaryView("input_data_stream_table", dataStreamSource)
 
-    // 貌似多余了, 待测试
     tableEnvironment
       .executeSql(
         s"""
@@ -59,17 +58,15 @@ object IcebergUpsertDemo {
            | WITH (
            |    'type' = 'iceberg',
            |    'catalog-type' = 'hadoop',
-           |    'warehouse' = '${warehousePath}',
-           |    'property-version' = '2'
+           |    'warehouse' = '${warehousePath}'
            | )
            |""".stripMargin)
-
 
     //    -- PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
     tableEnvironment
       .executeSql(
         s"""
-           | CREATE TABLE `${tableName}` (
+           | CREATE TABLE IF NOT EXISTS `${tableName}` (
            |    `primary_key`       string,
            |    `user_name`         string,
            |    `shop_key`          string,
