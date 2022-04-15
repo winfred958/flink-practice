@@ -21,7 +21,7 @@ ${FLINK_HOME}/bin/flink run \
   --yarntaskManagerMemory 1024 \
   --parallelism 5 \
   --detached \
-  --yarnname IcebergUpsertDemo \
+  --yarnname NoteSendStreamOdsTable \
   --yarnqueue default \
   ${HOME_PATH}/lib/training-iceberg.jar \
     --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
