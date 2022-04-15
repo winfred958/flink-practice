@@ -47,8 +47,9 @@ public class NoteReceiptRaw implements NoteMock {
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
-    private LocalDateTime receive_system_time;
+    private LocalDateTime receive_system_time = LocalDateTime.now();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getPrimaryKey() {
         if (null == this.primary_key) {

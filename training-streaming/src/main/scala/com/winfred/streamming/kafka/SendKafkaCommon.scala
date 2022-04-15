@@ -1,8 +1,7 @@
 package com.winfred.streamming.kafka
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.serializer.SerializerFeature
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.winfred.core.annotation.MockSourceName
 import com.winfred.core.sink.FlinkKafkaSink
 import com.winfred.core.source.entity.{NoteMock, OrderJoinMock}
@@ -13,9 +12,7 @@ class SendKafkaCommon[T] {
 
   def sinkToTopic(dataStreamSource: DataStream[T], topicName: String) = {
     import org.apache.flink.streaming.api.scala._
-    val objectMapper = new ObjectMapper()
-    objectMapper.findAndRegisterModules()
-    dataStreamSource
+    val value = dataStreamSource
       .filter((entity: T) => {
         val clazz = entity.getClass
         val mockSourceName = clazz.getAnnotation(classOf[MockSourceName])
@@ -23,7 +20,10 @@ class SendKafkaCommon[T] {
         StringUtils.equals(name, topicName)
       })
       .map((entity: T) => {
-        JSON.toJSONString(entity, 1, SerializerFeature.SortField)
+        val objectMapper = new ObjectMapper()
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        objectMapper.writeValueAsString(entity)
       })
       .sinkTo(FlinkKafkaSink.getKafkaSink(topic = topicName))
       .name(topicName)

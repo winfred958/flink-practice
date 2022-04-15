@@ -109,10 +109,12 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
     private NoteReceiptRaw getReceipt(String primaryKey, String receiver) {
         final NoteReceiptRaw receipt = new NoteReceiptRaw();
         receipt.setPrimary_key(primaryKey);
-
+        receipt.setSp_result(String.valueOf(RandomUtils.nextBoolean()));
+        receipt.setSp_charge_submit_num(RandomUtils.nextLong(0, 999L));
         final LocalDateTime now = LocalDateTime.now(zoneId);
         receipt.setSp_send_time(now);
         receipt.setChannel_receive_time(now);
+        receipt.setReceive_system_time(now);
 
         return receipt;
     }

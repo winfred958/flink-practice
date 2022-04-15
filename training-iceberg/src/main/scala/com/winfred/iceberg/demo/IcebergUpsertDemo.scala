@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
+import org.apache.flink.table.api.Schema
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
 import java.time.LocalDate
@@ -48,7 +49,9 @@ object IcebergUpsertDemo {
       })
       .name("source-mock")
 
-    tableEnvironment.createTemporaryView("input_data_stream_table", dataStreamSource)
+
+    tableEnvironment
+      .createTemporaryView("input_data_stream_table", dataStreamSource)
 
     tableEnvironment
       .executeSql(

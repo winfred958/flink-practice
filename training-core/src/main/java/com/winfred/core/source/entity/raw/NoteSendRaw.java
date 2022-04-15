@@ -111,6 +111,7 @@ public class NoteSendRaw implements NoteMock {
 
     private String dt;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getPrimaryKey() {
         if (null == this.primary_key) {
