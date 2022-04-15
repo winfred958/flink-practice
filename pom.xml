@@ -13,7 +13,6 @@
     <module>training-core</module>
     <module>training-streaming</module>
     <module>training-batch</module>
-    <module>training-table</module>
     <module>training-pojo</module>
     <module>training-iceberg</module>
     <module>iceberg-dependency</module>
@@ -146,25 +145,6 @@
         <version>${flink.version}</version>
       </dependency>
 
-      <!-- hive -->
-      <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-connector-hive_${scala.binary.version}</artifactId>
-        <version>${flink.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.hive</groupId>
-        <artifactId>hive-exec</artifactId>
-        <version>${hive.version}</version>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <!-- flink parquet -->
       <dependency>
         <groupId>org.apache.flink</groupId>
         <artifactId>flink-parquet_${scala.binary.version}</artifactId>
