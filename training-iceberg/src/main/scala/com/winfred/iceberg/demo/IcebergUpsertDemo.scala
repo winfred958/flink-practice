@@ -96,7 +96,9 @@ object IcebergUpsertDemo {
            |   'warehouse' = '${warehousePath}',
            |   'format-version' = '2',
            |   'write.wap.enabled' = 'true',
-           |   'write.metadata.delete-after-commit.enabled' = '200'
+           |   'write.metadata.delete-after-commit.enabled' = 'true',
+           |   'write.metadata.previous-versions-max' = '200',
+           |   'write.distribution-mode' = 'hash'
            | )
            |""".stripMargin)
 
