@@ -55,8 +55,7 @@ object NoteSendStreamOdsTable {
     val rawDataStream: DataStream[NoteSendRaw] = IcebergCommonOption.getRawFromKafka[NoteSendRaw](
       streamEnvironment = streamExecutionEnvironment,
       topicNames = topicName,
-      groupId = groupId,
-      clazz = classOf[NoteSendRaw]
+      groupId = groupId
     )
 
     val odsDataStream = rawDataStream
