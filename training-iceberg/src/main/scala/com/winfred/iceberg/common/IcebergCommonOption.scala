@@ -14,8 +14,9 @@ class IcebergCommonOption {
 
     import org.apache.flink.streaming.api.scala._
 
+    val kafkaSource = FlinkKafkaSource.getKafkaSource(topics = topicNames, groupId = groupId)
     val rowDataStream: DataStream[String] = streamEnvironment
-      .fromSource(FlinkKafkaSource.getKafkaSource(topics = topicNames, groupId = groupId), WatermarkStrategy.noWatermarks(), "note send topic")
+      .fromSource(kafkaSource, WatermarkStrategy.noWatermarks[String](), "note send topic")
       .filter((str: String) => {
         StringUtils.isNotBlank(str)
       })
