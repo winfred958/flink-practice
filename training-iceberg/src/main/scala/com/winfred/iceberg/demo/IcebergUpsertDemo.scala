@@ -1,17 +1,17 @@
 package com.winfred.iceberg.demo
 
+import cn.hutool.core.bean.BeanUtil
 import com.winfred.core.annotation.MockSourceName
 import com.winfred.core.source.NoteMessageMockSource
+import com.winfred.core.source.entity.ods.NoteSendOds
 import com.winfred.core.source.entity.raw.NoteSendRaw
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
-import org.apache.flink.table.api.Schema
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 object IcebergUpsertDemo {
 
@@ -33,7 +33,7 @@ object IcebergUpsertDemo {
     import org.apache.flink.streaming.api.scala._
 
     val topicName = "note_send_test"
-    val dataStreamSource: DataStream[NoteSendRaw] = executionEnvironment
+    val dataStreamSource: DataStream[NoteSendOds] = executionEnvironment
       .addSource(new NoteMessageMockSource(100, 200))
       .filter(entity => {
         val clazz = entity.getClass
@@ -43,9 +43,10 @@ object IcebergUpsertDemo {
       })
       .map(entity => {
         val sendEntity = entity.asInstanceOf[NoteSendRaw]
-        val dt: String = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
-        sendEntity.setDt(dt)
-        sendEntity
+        val noteSendOds = new NoteSendOds
+        BeanUtil.copyProperties(sendEntity, noteSendOds, false)
+
+        noteSendOds
       })
       .name("source-mock")
 
@@ -101,7 +102,8 @@ object IcebergUpsertDemo {
            |   'write.wap.enabled' = 'true',
            |   'write.metadata.delete-after-commit.enabled' = 'true',
            |   'write.metadata.previous-versions-max' = '200',
-           |   'write.distribution-mode' = 'hash'
+           |   'write.distribution-mode' = 'hash',
+           |   'write.upsert.enabled' = 'true'
            | )
            |""".stripMargin)
 

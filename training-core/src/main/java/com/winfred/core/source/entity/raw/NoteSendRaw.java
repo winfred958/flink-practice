@@ -109,8 +109,6 @@ public class NoteSendRaw implements NoteMock {
     @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
     private LocalDateTime submit_system_time = LocalDateTime.now();
 
-    private String dt;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getPrimaryKey() {

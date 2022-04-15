@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
@@ -105,7 +106,7 @@ public class NoteSendOds implements NoteMock {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime submit_system_time = LocalDateTime.now();
 
-    private String dt;
+    private LocalDate dt;
 
     @Override
     public String getPrimaryKey() {

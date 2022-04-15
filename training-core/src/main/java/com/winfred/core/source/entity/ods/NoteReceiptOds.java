@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ import java.util.UUID;
 public class NoteReceiptOds implements NoteMock {
 
     private static final long serialVersionUID = -1731119476212623361L;
-    
+
     @JsonProperty(value = "primary_key")
     @SerializedName(value = "primary_key")
     private String primary_key;
@@ -43,6 +44,8 @@ public class NoteReceiptOds implements NoteMock {
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime receive_system_time;
+
+    private LocalDate dt;
 
     @Override
     public String getPrimaryKey() {
