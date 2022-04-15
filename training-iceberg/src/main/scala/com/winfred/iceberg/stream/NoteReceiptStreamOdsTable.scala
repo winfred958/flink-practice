@@ -13,7 +13,8 @@ import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
-import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.{LocalDateTime, ZoneId}
 
 object NoteReceiptStreamOdsTable {
 
@@ -27,6 +28,8 @@ object NoteReceiptStreamOdsTable {
 
   var topicNames = "note_receipt_test"
   var tableName = "channel_note_receipt"
+
+  private val zoneId: ZoneId = ZoneId.of("Asia/Shanghai")
 
   def main(args: Array[String]): Unit = {
 
@@ -82,11 +85,14 @@ object NoteReceiptStreamOdsTable {
         val noteReceiptOds = new NoteReceiptOds
         BeanUtil.copyProperties(raw, noteReceiptOds, false)
         // FIXME: 处理其他字段转换
-        var datetime: LocalDateTime = noteReceiptOds.getSp_send_time
+        var datetime: LocalDateTime = raw.getSp_send_time
         if (null == datetime) {
           datetime = LocalDateTime.now()
         }
         noteReceiptOds.setDt(datetime.toLocalDate)
+        noteReceiptOds.setChannel_receive_time(raw.getChannel_receive_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteReceiptOds.setSp_send_time(raw.getSp_send_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteReceiptOds.setReceive_system_time(raw.getReceive_system_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         noteReceiptOds
       })
 

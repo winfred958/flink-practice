@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -89,7 +87,7 @@ public class NoteSendOds implements NoteMock {
      */
     @JsonProperty(value = "business_request_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime business_request_time;
+    private String business_request_time;
 
     /**
      * java: OffsetDateTime
@@ -97,14 +95,14 @@ public class NoteSendOds implements NoteMock {
      */
     @JsonProperty(value = "channel_send_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime channel_send_time;
+    private String channel_send_time;
     /**
      * java: OffsetDateTime
      * flink sql: TIMESTAMP(9) WITH TIME ZONE
      */
     @JsonProperty(value = "submit_system_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime submit_system_time = LocalDateTime.now();
+    private String submit_system_time;
 
     private LocalDate dt;
 

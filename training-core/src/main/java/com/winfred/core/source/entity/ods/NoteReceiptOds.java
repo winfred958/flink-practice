@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -37,13 +36,13 @@ public class NoteReceiptOds implements NoteMock {
     private Long sp_charge_submit_num;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime sp_send_time;
+    private String sp_send_time;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime channel_receive_time;
+    private String channel_receive_time;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime receive_system_time;
+    private String receive_system_time;
 
     private LocalDate dt;
 

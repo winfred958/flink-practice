@@ -14,7 +14,8 @@ import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
-import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.{LocalDateTime, ZoneId}
 
 object NoteSendStreamOdsTable {
 
@@ -28,6 +29,8 @@ object NoteSendStreamOdsTable {
 
   var topicName = "note_send_test"
   var tableName = "channel_note_send"
+
+  private val zoneId: ZoneId = ZoneId.of("Asia/Shanghai")
 
   def main(args: Array[String]): Unit = {
 
@@ -82,11 +85,18 @@ object NoteSendStreamOdsTable {
         val noteSendOds = new NoteSendOds
         BeanUtil.copyProperties(raw, noteSendOds, false)
         // FIXME: 处理其他字段转换
-        var datetime: LocalDateTime = noteSendOds.getChannel_send_time
-        if (null == datetime) {
-          datetime = LocalDateTime.now()
+        raw.getChannel_send_time
+
+        noteSendOds.setChannel_send_time(raw.getChannel_send_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteSendOds.setBusiness_request_time(raw.getBusiness_request_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteSendOds.setSubmit_system_time(raw.getSubmit_system_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+
+        var sendTime: LocalDateTime = raw.getChannel_send_time
+        if (null == sendTime) {
+          sendTime = LocalDateTime.now()
+
         }
-        noteSendOds.setDt(datetime.toLocalDate)
+        noteSendOds.setDt(sendTime.toLocalDate)
         noteSendOds
       })
 
@@ -115,9 +125,9 @@ object NoteSendStreamOdsTable {
            |    `mobile_type`               STRING,
            |    `charge_submit_num`         BIGINT,
            |    `ext_json`                  STRING,
-           |    `business_request_time`     TIMESTAMP,
-           |    `channel_send_time`         TIMESTAMP,
-           |    `submit_system_time`        TIMESTAMP,
+           |    `business_request_time`     STRING,
+           |    `channel_send_time`         STRING,
+           |    `submit_system_time`        STRING,
            |    `dt`                        DATE,
            |    PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
