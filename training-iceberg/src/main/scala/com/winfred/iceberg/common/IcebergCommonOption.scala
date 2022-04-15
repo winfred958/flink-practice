@@ -1,7 +1,5 @@
 package com.winfred.iceberg.common
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.winfred.core.source.FlinkKafkaSource
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.eventtime.WatermarkStrategy
@@ -9,23 +7,17 @@ import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironm
 import org.apache.flink.table.api.TableResult
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
-class IcebergCommonOption[T] {
+class IcebergCommonOption {
 
   def getRawFromKafka(streamEnvironment: StreamExecutionEnvironment,
-                      topicNames: String, groupId: String): DataStream[T] = {
+                      topicNames: String, groupId: String): DataStream[String] = {
 
     import org.apache.flink.streaming.api.scala._
 
-    val rowDataStream: DataStream[T] = streamEnvironment
+    val rowDataStream: DataStream[String] = streamEnvironment
       .fromSource(FlinkKafkaSource.getKafkaSource(topics = topicNames, groupId = groupId), WatermarkStrategy.noWatermarks(), "note send topic")
       .filter((str: String) => {
         StringUtils.isNotBlank(str)
-      })
-      .map((str: String) => {
-        val objectMapper = new ObjectMapper()
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        objectMapper.readValue(str, classOf[T])
       })
     rowDataStream
   }
@@ -49,13 +41,13 @@ object IcebergCommonOption {
            |""".stripMargin)
   }
 
-  def getRawFromKafka[T](streamEnvironment: StreamExecutionEnvironment,
-                         topicNames: String, groupId: String): DataStream[T] = {
-    val common = new IcebergCommonOption[T]
-    common.getRawFromKafka(
-      streamEnvironment = streamEnvironment,
-      topicNames = topicNames,
-      groupId = groupId
-    )
+  def getRawFromKafka(streamEnvironment: StreamExecutionEnvironment,
+                      topicNames: String, groupId: String): DataStream[String] = {
+    new IcebergCommonOption()
+      .getRawFromKafka(
+        streamEnvironment = streamEnvironment,
+        topicNames = topicNames,
+        groupId = groupId
+      )
   }
 }

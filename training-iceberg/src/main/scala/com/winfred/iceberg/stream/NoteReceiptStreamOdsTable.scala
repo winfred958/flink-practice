@@ -1,6 +1,8 @@
 package com.winfred.iceberg.stream
 
 import cn.hutool.core.bean.BeanUtil
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.winfred.core.source.entity.ods.NoteReceiptOds
 import com.winfred.core.source.entity.raw.NoteReceiptRaw
 import com.winfred.core.utils.ArgsHandler
@@ -18,6 +20,8 @@ object NoteReceiptStreamOdsTable {
   val catalogName = "hadoop_catalog"
   val namespaceName = "ods"
   var warehousePath: String = "hdfs://spacex-hadoop-qa/iceberg/warehouse"
+
+  var checkpointDir: String = "hdfs://spacex-hadoop-qa/flink/checkpoiont"
 
   val groupId = this.getClass.getName
 
@@ -41,21 +45,37 @@ object NoteReceiptStreamOdsTable {
       tableName = requestTableName
     }
 
+    val requestCheckpointDir = ArgsHandler.getArgsParam(args, "checkpoiont-dir")
+    if (!StringUtils.isBlank(requestCheckpointDir)) {
+      checkpointDir = requestCheckpointDir
+    }
+
     val configuration = new Configuration()
     configuration.setBoolean("write.upsert.enabled", true)
 
-    val streamEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
-    streamEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
+    val streamExecutionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+    streamExecutionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
+    val checkpointConfig = streamExecutionEnvironment.getCheckpointConfig
+    checkpointConfig.setCheckpointStorage(s"${checkpointDir}/${tableName}")
+    checkpointConfig.setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE)
+    checkpointConfig.setTolerableCheckpointFailureNumber(3)
 
-    val tableEnvironment: StreamTableEnvironment = StreamTableEnvironment.create(executionEnvironment = streamEnvironment)
+    val tableEnvironment: StreamTableEnvironment = StreamTableEnvironment.create(executionEnvironment = streamExecutionEnvironment)
 
     import org.apache.flink.streaming.api.scala._
 
-    val rawDataStream: DataStream[NoteReceiptRaw] = IcebergCommonOption.getRawFromKafka[NoteReceiptRaw](
-      streamEnvironment = streamEnvironment,
+    val rawDataStream: DataStream[NoteReceiptRaw] = IcebergCommonOption.getRawFromKafka(
+      streamEnvironment = streamExecutionEnvironment,
       topicNames = topicNames,
       groupId = groupId
     )
+      .map((str: String) => {
+        val objectMapper = new ObjectMapper()
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        objectMapper.readValue(str, classOf[NoteReceiptRaw])
+      })
+
 
     val odsStreamSource: DataStream[NoteReceiptOds] = rawDataStream
       .map(raw => {
@@ -122,7 +142,7 @@ object NoteReceiptStreamOdsTable {
            |   ${ods_node_receipt_view}
            |""".stripMargin)
 
-    streamEnvironment.execute("iceberg note send table")
+    streamExecutionEnvironment.execute("iceberg note send table")
 
 
   }
