@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.winfred.core.annotation.MockSourceName;
 import com.winfred.core.source.entity.NoteMock;
-import com.winfred.core.source.entity.raw.LocalDateTimeDeserializer;
+import com.winfred.core.source.entity.base.LocalDateTimeDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +22,11 @@ import java.util.UUID;
 @MockSourceName(name = "note_send_test")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class NoteSendOds implements NoteMock {
 
+    private static final long serialVersionUID = -1660804793840138083L;
     /**
      * 唯一标识ID
      * <p>
@@ -33,18 +36,13 @@ public class NoteSendOds implements NoteMock {
      * 其他：message_id+receiver
      */
     @JsonProperty(value = "primary_key")
-    @Setter
     private String primary_key;
     /**
      * 租户名
      * <p>
      * 例：qiushi6
      */
-    @Getter
-    @Setter
     private String user_name;
-    @Getter
-    @Setter
     private String shop_key;
 
     /**
@@ -52,27 +50,13 @@ public class NoteSendOds implements NoteMock {
      * <p>
      * 例：TBSMS、TBSMSSINGLE、TBKSMS、SMS、SMSDYNAMIC、EDM、EDMDYNAMIC
      */
-    @Getter
-    @Setter
     @JsonProperty(value = "type")
     private String business_type;
-    @Getter
-    @Setter
     private String task_id;
-    @Getter
-    @Setter
     private String subtask_id;
-    @Getter
-    @Setter
     private String content;
-    @Getter
-    @Setter
     private String receiver;
-    @Getter
-    @Setter
     private String show_id;
-    @Getter
-    @Setter
     private String gateway_id;
 
     /**
@@ -80,8 +64,6 @@ public class NoteSendOds implements NoteMock {
      * <p>
      * 例：6SDK-YXX-6688-JCUSO
      */
-    @Getter
-    @Setter
     private String gateway_account;
 
     /**
@@ -89,12 +71,8 @@ public class NoteSendOds implements NoteMock {
      * <p>
      * 例：lt、dx、yd、other
      */
-    @Getter
-    @Setter
     private String mobile_type;
 
-    @Getter
-    @Setter
     private Long charge_submit_num;
 
     /**
@@ -102,29 +80,31 @@ public class NoteSendOds implements NoteMock {
      * <p>
      * 自定义json转为字符串格式，eg:{"full_name":"123", "campid":"1", "nodeid":"1"}
      */
-    @Getter
-    @Setter
     private Map<String, String> ext_json;
 
-    @Getter
-    @Setter
+    /**
+     * java: OffsetDateTime
+     * flink sql: TIMESTAMP(9) WITH TIME ZONE
+     */
+    @JsonProperty(value = "business_request_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime business_request_time;
 
-    @Getter
-    @Setter
+    /**
+     * java: OffsetDateTime
+     * flink sql: TIMESTAMP(9) WITH TIME ZONE
+     */
     @JsonProperty(value = "channel_send_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime channel_send_time;
-
-    @Getter
-    @Setter
+    /**
+     * java: OffsetDateTime
+     * flink sql: TIMESTAMP(9) WITH TIME ZONE
+     */
     @JsonProperty(value = "submit_system_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime submit_system_time = LocalDateTime.now();
 
-    @Getter
-    @Setter
     private String dt;
 
     @Override

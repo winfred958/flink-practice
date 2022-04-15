@@ -1,4 +1,4 @@
-package com.winfred.core.source.entity.raw;
+package com.winfred.core.source.entity.base;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

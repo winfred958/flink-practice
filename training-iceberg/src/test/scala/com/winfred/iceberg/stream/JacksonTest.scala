@@ -14,7 +14,9 @@ object JacksonTest {
     val objectMapper = new ObjectMapper()
 
     val sendRaw = objectMapper.readValue(str, classOf[NoteSendRaw])
+
     println(s"${sendRaw}")
+    println(s"${objectMapper.writeValueAsString(sendRaw)}")
   }
 
 }

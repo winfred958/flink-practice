@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.winfred.core.annotation.MockSourceName;
 import com.winfred.core.source.entity.NoteMock;
+import com.winfred.core.source.entity.base.LocalDateTimeDeserializer;
+import com.winfred.core.source.entity.base.LocalDateTimeJsonSerializer;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -20,6 +23,7 @@ import java.util.UUID;
 @MockSourceName(name = "note_send_test")
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class NoteSendRaw implements NoteMock {
 
     private static final long serialVersionUID = -5059240231248190358L;
@@ -113,150 +117,5 @@ public class NoteSendRaw implements NoteMock {
             this.primary_key = UUID.randomUUID().toString();
         }
         return primary_key;
-    }
-
-    public String getPrimary_key() {
-        return primary_key;
-    }
-
-    public void setPrimary_key(String primary_key) {
-        this.primary_key = primary_key;
-    }
-
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getShop_key() {
-        return shop_key;
-    }
-
-    public void setShop_key(String shop_key) {
-        this.shop_key = shop_key;
-    }
-
-    public String getBusiness_type() {
-        return business_type;
-    }
-
-    public void setBusiness_type(String business_type) {
-        this.business_type = business_type;
-    }
-
-    public String getTask_id() {
-        return task_id;
-    }
-
-    public void setTask_id(String task_id) {
-        this.task_id = task_id;
-    }
-
-    public String getSubtask_id() {
-        return subtask_id;
-    }
-
-    public void setSubtask_id(String subtask_id) {
-        this.subtask_id = subtask_id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public String getShow_id() {
-        return show_id;
-    }
-
-    public void setShow_id(String show_id) {
-        this.show_id = show_id;
-    }
-
-    public String getGateway_id() {
-        return gateway_id;
-    }
-
-    public void setGateway_id(String gateway_id) {
-        this.gateway_id = gateway_id;
-    }
-
-    public String getGateway_account() {
-        return gateway_account;
-    }
-
-    public void setGateway_account(String gateway_account) {
-        this.gateway_account = gateway_account;
-    }
-
-    public String getMobile_type() {
-        return mobile_type;
-    }
-
-    public void setMobile_type(String mobile_type) {
-        this.mobile_type = mobile_type;
-    }
-
-    public Long getCharge_submit_num() {
-        return charge_submit_num;
-    }
-
-    public void setCharge_submit_num(Long charge_submit_num) {
-        this.charge_submit_num = charge_submit_num;
-    }
-
-    public Map<String, String> getExt_json() {
-        return ext_json;
-    }
-
-    public void setExt_json(Map<String, String> ext_json) {
-        this.ext_json = ext_json;
-    }
-
-    public LocalDateTime getBusiness_request_time() {
-        return business_request_time;
-    }
-
-    public void setBusiness_request_time(LocalDateTime business_request_time) {
-        this.business_request_time = business_request_time;
-    }
-
-    public LocalDateTime getChannel_send_time() {
-        return channel_send_time;
-    }
-
-    public void setChannel_send_time(LocalDateTime channel_send_time) {
-        this.channel_send_time = channel_send_time;
-    }
-
-    public LocalDateTime getSubmit_system_time() {
-        return submit_system_time;
-    }
-
-
-    public void setSubmit_system_time(LocalDateTime submit_system_time) {
-        this.submit_system_time = submit_system_time;
-    }
-
-    public String getDt() {
-        return dt;
-    }
-
-    public void setDt(String dt) {
-        this.dt = dt;
     }
 }
