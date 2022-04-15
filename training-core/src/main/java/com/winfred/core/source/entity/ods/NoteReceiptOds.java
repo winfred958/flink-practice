@@ -44,7 +44,7 @@ public class NoteReceiptOds implements NoteMock {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private String receive_system_time;
 
-    private LocalDate dt;
+    private String dt;
 
     @Override
     public String getPrimaryKey() {

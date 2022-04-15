@@ -89,7 +89,7 @@ object NoteReceiptStreamOdsTable {
         if (null == datetime) {
           datetime = LocalDateTime.now()
         }
-        noteReceiptOds.setDt(datetime.toLocalDate)
+        noteReceiptOds.setDt(datetime.toLocalDate.format(DateTimeFormatter.ISO_DATE))
         noteReceiptOds.setChannel_receive_time(raw.getChannel_receive_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         noteReceiptOds.setSp_send_time(raw.getSp_send_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         noteReceiptOds.setReceive_system_time(raw.getReceive_system_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
@@ -113,7 +113,7 @@ object NoteReceiptStreamOdsTable {
            |    `sp_send_time`              TIMESTAMP,
            |    `channel_receive_time`      TIMESTAMP,
            |    `receive_system_time`       TIMESTAMP,
-           |    `dt`                        DATE,
+           |    `dt`                        STRING,
            |    PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
            | PARTITIONED BY (`dt`)

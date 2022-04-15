@@ -96,7 +96,7 @@ object NoteSendStreamOdsTable {
           sendTime = LocalDateTime.now()
 
         }
-        noteSendOds.setDt(sendTime.toLocalDate)
+        noteSendOds.setDt(sendTime.toLocalDate.format(DateTimeFormatter.ISO_DATE))
         noteSendOds
       })
 
@@ -128,7 +128,7 @@ object NoteSendStreamOdsTable {
            |    `business_request_time`     STRING,
            |    `channel_send_time`         STRING,
            |    `submit_system_time`        STRING,
-           |    `dt`                        DATE,
+           |    `dt`                        STRING,
            |    PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
            | PARTITIONED BY (`dt`)
