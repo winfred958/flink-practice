@@ -1,16 +1,14 @@
-package com.winfred.core.source.entity;
+package com.winfred.core.source.entity.ods;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import com.winfred.core.annotation.MockSourceName;
+import com.winfred.core.source.entity.NoteMock;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -21,36 +19,32 @@ import java.util.UUID;
 @MockSourceName(name = "note_receipt_test")
 @AllArgsConstructor
 @NoArgsConstructor
-public class NoteReceiptEntity implements NoteMock {
-
-    private static final long serialVersionUID = 8713417573020650030L;
+public class NoteReceiptOds implements NoteMock {
 
     @JsonProperty(value = "primary_key")
     @SerializedName(value = "primary_key")
     @Setter
     private String primary_key;
-    @Getter
-    @Setter
-    private String receiver;
-    @Getter
-    @Setter
-    private String error_code;
 
-    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
-    private String send_time;
+    private String sp_result;
 
-    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS",with = JsonFormat.Feature.WRITE_DATES_WITH_ZONE_ID, timezone = "Asia/Shanghai")
     @Getter
     @Setter
-    private String receive_time;
+    private Long sp_send_time;
+
     @Getter
     @Setter
-    private Long bill_count;
+    private Long channel_receive_time;
+
+    @Getter
+    @Setter
+    private Long receive_system_time;
 
     @Override
     public String getPrimaryKey() {
+
         if (null == this.primary_key) {
             this.primary_key = UUID.randomUUID().toString();
         }

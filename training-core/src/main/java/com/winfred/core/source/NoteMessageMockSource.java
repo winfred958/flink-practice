@@ -2,19 +2,16 @@ package com.winfred.core.source;
 
 import cn.hutool.crypto.digest.MD5;
 import com.winfred.core.source.entity.NoteMock;
-import com.winfred.core.source.entity.NoteReceiptEntity;
-import com.winfred.core.source.entity.NoteSendEntity;
+import com.winfred.core.source.entity.raw.NoteReceiptRaw;
+import com.winfred.core.source.entity.raw.NoteSendRaw;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -63,7 +60,7 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         List<NoteMock> result = new ArrayList<>(10);
         for (int i = 0; i < size; i++) {
             // mock 短信发送
-            final NoteSendEntity send = getSendEntity();
+            final NoteSendRaw send = getSendEntity();
             final String primaryKey = send.getPrimaryKey();
             final String receiver = send.getReceiver();
 
@@ -73,14 +70,14 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
             }
 
             // mock 发送短信的回执
-            final NoteReceiptEntity receipt = getReceipt(primaryKey, receiver);
+            final NoteReceiptRaw receipt = getReceipt(primaryKey, receiver);
             result.add(receipt);
         }
         return result;
     }
 
-    private NoteSendEntity getSendEntity() {
-        final NoteSendEntity send = new NoteSendEntity();
+    private NoteSendRaw getSendEntity() {
+        final NoteSendRaw send = new NoteSendRaw();
         send.setUser_name("qiushi6");
 
         final String shopKey = MD5.create().digestHex(String.valueOf(RandomUtils.nextInt(5000, 7000)), StandardCharsets.UTF_8);
@@ -102,28 +99,20 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
 
         send.setCharge_submit_num(RandomUtils.nextLong(1, 2000));
 
-
-        final LocalDateTime now = LocalDateTime.now();
-        final Timestamp timestamp = new Timestamp(now.toInstant(ZoneOffset.UTC).toEpochMilli());
-
-        send.setRequest_time(timestamp);
-        send.setSend_time(timestamp);
-
-        send.setFull_name("xxx");
-        send.setNodeid(UUID.randomUUID().toString());
+        final Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
+        final LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);
+        send.setBusiness_request_time(localDateTime);
+        send.setChannel_send_time(localDateTime);
         return send;
     }
 
-    private NoteReceiptEntity getReceipt(String primaryKey, String receiver) {
-        final NoteReceiptEntity receipt = new NoteReceiptEntity();
+    private NoteReceiptRaw getReceipt(String primaryKey, String receiver) {
+        final NoteReceiptRaw receipt = new NoteReceiptRaw();
         receipt.setPrimary_key(primaryKey);
-        receipt.setReceiver(receiver);
 
-        receipt.setError_code("");
-
-        final LocalDateTime now = LocalDateTime.now();
-        receipt.setSend_time(now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
-        receipt.setReceive_time(now.plus(RandomUtils.nextLong(1, 3), ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(zoneId)));
+        final LocalDateTime now = LocalDateTime.now(zoneId);
+        receipt.setSp_send_time(now);
+        receipt.setChannel_receive_time(now);
 
         return receipt;
     }

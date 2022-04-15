@@ -5,6 +5,7 @@ import com.winfred.core.entity.log.EventEntity
 import com.winfred.core.source.FlinkKafkaSource
 import com.winfred.core.utils.ArgsHandler
 import org.apache.commons.lang3.StringUtils
+import org.apache.flink.api.common.eventtime.WatermarkStrategy
 import org.apache.flink.core.fs.Path
 import org.apache.flink.formats.parquet.avro.ParquetAvroWriters
 import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink
@@ -34,7 +35,7 @@ object CosSinkExample {
 
     // source
     val sourceData: DataStream[String] = executionEnvironment
-      .addSource(FlinkKafkaSource.getKafkaSource(topics = sourceTopic, groupId = groupId))
+      .fromSource(FlinkKafkaSource.getKafkaSource(topics = sourceTopic, groupId = groupId), WatermarkStrategy.noWatermarks(), "kafka source")
 
     val result: DataStream[LogEntity] = sourceData
       .map(str => {

@@ -1,6 +1,7 @@
-package com.winfred.core.source.entity;
+package com.winfred.core.source.entity.raw;
 
 import com.winfred.core.annotation.MockSourceName;
+import com.winfred.core.source.entity.OrderJoinMock;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -4,9 +4,10 @@ import com.alibaba.fastjson.JSON
 import com.winfred.core.source.FlinkKafkaSource
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.streamming.connector.fs.FileSystemConnector.LogEntity
+import com.winfred.streamming.example.CosSinkExample.sourceTopic
 import org.apache.commons.lang3.StringUtils
+import org.apache.flink.api.common.eventtime.WatermarkStrategy
 import org.apache.flink.api.common.functions.MapFunction
-import org.apache.flink.streaming.api.functions.sink.SinkFunction
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.{CheckpointingMode, TimeCharacteristic}
@@ -35,7 +36,7 @@ object FileSystemConnectorTest {
     }
 
     val kafkaStrDS: DataStream[String] = streamExecutionEnvironment
-      .addSource(FlinkKafkaSource.getKafkaSource(sourceTopics, groupId))
+      .fromSource(FlinkKafkaSource.getKafkaSource(topics = sourceTopic, groupId = groupId), WatermarkStrategy.noWatermarks(), "kafka source")
       .flatMap(x => {
         for (i <- x.split("\n").toList) yield i
       }).filter(x => {

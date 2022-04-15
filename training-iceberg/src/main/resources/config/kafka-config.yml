@@ -1,0 +1,13 @@
+kafka:
+  producer:
+    bootstrapServers: 09:53kafka-pre:6667,atlas01:6667
+    keySerializer: org.apache.kafka.common.serialization.StringSerializer
+    valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+  consumer:
+    bootstrapServers: 09:53kafka-pre:6667,atlas01:6667
+    groupId: training-iceberg
+    enableAutoCommit: false
+    keySerializer: org.apache.kafka.common.serialization.StringSerializer
+    valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+    autoOffsetReset: latest
+    autoCommitInterval: 3000

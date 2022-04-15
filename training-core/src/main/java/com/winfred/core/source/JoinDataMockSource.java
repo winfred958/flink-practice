@@ -1,8 +1,8 @@
 package com.winfred.core.source;
 
 import cn.hutool.crypto.digest.MD5;
-import com.winfred.core.source.entity.OrderEntity;
-import com.winfred.core.source.entity.OrderItemEntity;
+import com.winfred.core.source.entity.raw.OrderEntity;
+import com.winfred.core.source.entity.raw.OrderItemEntity;
 import com.winfred.core.source.entity.OrderJoinMock;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.configuration.Configuration;

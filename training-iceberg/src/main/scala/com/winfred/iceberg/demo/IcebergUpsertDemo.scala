@@ -2,7 +2,7 @@ package com.winfred.iceberg.demo
 
 import com.winfred.core.annotation.MockSourceName
 import com.winfred.core.source.NoteMessageMockSource
-import com.winfred.core.source.entity.NoteSendEntity
+import com.winfred.core.source.entity.raw.NoteSendRaw
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
@@ -32,7 +32,7 @@ object IcebergUpsertDemo {
     import org.apache.flink.streaming.api.scala._
 
     val topicName = "note_send_test"
-    val dataStreamSource: DataStream[NoteSendEntity] = executionEnvironment
+    val dataStreamSource: DataStream[NoteSendRaw] = executionEnvironment
       .addSource(new NoteMessageMockSource(100, 200))
       .filter(entity => {
         val clazz = entity.getClass
@@ -41,7 +41,7 @@ object IcebergUpsertDemo {
         StringUtils.equals(name, topicName)
       })
       .map(entity => {
-        val sendEntity = entity.asInstanceOf[NoteSendEntity]
+        val sendEntity = entity.asInstanceOf[NoteSendRaw]
         val dt: String = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
         sendEntity.setDt(dt)
         sendEntity
