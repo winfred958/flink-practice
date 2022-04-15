@@ -81,7 +81,7 @@ public class NoteSendRaw implements NoteMock {
      * <p>
      * 自定义json转为字符串格式，eg:{"full_name":"123", "campid":"1", "nodeid":"1"}
      */
-    private Map<String, String> ext_json;
+    private String ext_json;
 
     /**
      * java: OffsetDateTime

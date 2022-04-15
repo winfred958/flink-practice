@@ -114,7 +114,7 @@ object NoteSendStreamOdsTable {
            |    `gateway_account`           STRING,
            |    `mobile_type`               STRING,
            |    `charge_submit_num`         BIGINT,
-           |    `ext_json`                  MAP<STRING, STRING>,
+           |    `ext_json`                  STRING,
            |    `business_request_time`     TIMESTAMP(9),
            |    `channel_send_time`         TIMESTAMP(9),
            |    `submit_system_time`        TIMESTAMP(9),
