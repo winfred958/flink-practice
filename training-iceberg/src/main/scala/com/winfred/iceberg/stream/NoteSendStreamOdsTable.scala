@@ -115,9 +115,9 @@ object NoteSendStreamOdsTable {
            |    `mobile_type`               STRING,
            |    `charge_submit_num`         BIGINT,
            |    `ext_json`                  STRING,
-           |    `business_request_time`     TIMESTAMP(9),
-           |    `channel_send_time`         TIMESTAMP(9),
-           |    `submit_system_time`        TIMESTAMP(9),
+           |    `business_request_time`     TIMESTAMP,
+           |    `channel_send_time`         TIMESTAMP,
+           |    `submit_system_time`        TIMESTAMP,
            |    `dt`                        DATE,
            |    PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )

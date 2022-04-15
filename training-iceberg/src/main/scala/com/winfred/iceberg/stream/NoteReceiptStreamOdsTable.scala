@@ -104,9 +104,9 @@ object NoteReceiptStreamOdsTable {
            |    `primary_key`               STRING,
            |    `sp_result`                 STRING,
            |    `sp_charge_submit_num`      BIGINT,
-           |    `sp_send_time`              TIMESTAMP(9),
-           |    `channel_receive_time`      TIMESTAMP(9),
-           |    `receive_system_time`       TIMESTAMP(9),
+           |    `sp_send_time`              TIMESTAMP,
+           |    `channel_receive_time`      TIMESTAMP,
+           |    `receive_system_time`       TIMESTAMP,
            |    `dt`                        DATE,
            |    PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )
