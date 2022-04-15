@@ -12,7 +12,7 @@ class SendKafkaCommon[T] {
 
   def sinkToTopic(dataStreamSource: DataStream[T], topicName: String) = {
     import org.apache.flink.streaming.api.scala._
-    val value = dataStreamSource
+    dataStreamSource
       .filter((entity: T) => {
         val clazz = entity.getClass
         val mockSourceName = clazz.getAnnotation(classOf[MockSourceName])

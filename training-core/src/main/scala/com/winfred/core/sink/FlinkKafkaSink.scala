@@ -20,11 +20,12 @@ object FlinkKafkaSink {
     val bootstrapServers = kafkaConfigEntity.getKafka.getProducer.getBootstrapServers
     val properties = new Properties()
     properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-    properties.setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, "900000")
+    properties.setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, "600000")
     properties.setProperty(ProducerConfig.ACKS_CONFIG, "0")
     properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "16384")
     properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "1000")
-    properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy")
+    properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "gzip")
+    properties.setProperty(ProducerConfig.BUFFER_MEMORY_CONFIG, String.valueOf(64 * 1024 * 1024))
 
     val sink = KafkaSink
       .builder()

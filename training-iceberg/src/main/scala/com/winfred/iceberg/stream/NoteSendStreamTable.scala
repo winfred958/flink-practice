@@ -1,13 +1,9 @@
 package com.winfred.iceberg.stream
 
 import cn.hutool.core.bean.BeanUtil
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
-import com.winfred.core.source.FlinkKafkaSource
 import com.winfred.core.source.entity.ods.NoteSendOds
 import com.winfred.core.source.entity.raw.NoteSendRaw
-import org.apache.commons.lang3.StringUtils
-import org.apache.flink.api.common.eventtime.WatermarkStrategy
+import com.winfred.iceberg.common.IcebergCommonOption
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -23,32 +19,29 @@ object NoteSendStreamTable {
 
   val groupId = this.getClass.getName
 
-  var topicName = ""
-  var tableName = ""
+  var topicName = "note_send_test"
+  var tableName = "channel_note_send"
 
   def main(args: Array[String]): Unit = {
 
     val configuration = new Configuration()
     configuration.setBoolean("write.upsert.enabled", true)
 
-    val executionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
-    executionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
+    val streamExecutionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+    streamExecutionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
 
-    val tableEnvironment: StreamTableEnvironment = StreamTableEnvironment.create(executionEnvironment = executionEnvironment)
+    val tableEnvironment: StreamTableEnvironment = StreamTableEnvironment.create(executionEnvironment = streamExecutionEnvironment)
 
     import org.apache.flink.streaming.api.scala._
 
-    val dataStreamSource: DataStream[NoteSendOds] = executionEnvironment
-      .fromSource(FlinkKafkaSource.getKafkaSource(tableName, groupId = groupId), WatermarkStrategy.noWatermarks(), "note send topic")
-      .filter(str => {
-        StringUtils.isNotBlank(str)
-      })
-      .map(str => {
-        val objectMapper = new ObjectMapper()
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        objectMapper.readValue(str, classOf[NoteSendRaw])
-      })
+    val rawDataStream: DataStream[NoteSendRaw] = IcebergCommonOption.getRawFromKafka[NoteSendRaw](
+      streamEnvironment = streamExecutionEnvironment,
+      topicName = topicName,
+      groupId = groupId,
+      clazz = classOf[NoteSendRaw]
+    )
+
+    val odsDataStream = rawDataStream
       .map(raw => {
         val noteSendOds = new NoteSendOds
         BeanUtil.copyProperties(raw, noteSendOds, false)
@@ -61,19 +54,12 @@ object NoteSendStreamTable {
         noteSendOds
       })
 
+    val note_send_ods_table = "ods_note_send_data"
     tableEnvironment
-      .createTemporaryView("raw_note_send_data", dataStreamSource)
+      .createTemporaryView(s"${note_send_ods_table}", odsDataStream)
 
-    tableEnvironment
-      .executeSql(
-        s"""
-           | CREATE CATALOG ${catalogName}
-           | WITH (
-           |    'type' = 'iceberg',
-           |    'catalog-type' = 'hadoop',
-           |    'warehouse' = '${warehousePath}'
-           | )
-           |""".stripMargin)
+    // 创建 catalog
+    IcebergCommonOption.createHadoopCatalog(tableEnvironment = tableEnvironment, catalogName = catalogName, warehousePath = warehousePath)
 
     tableEnvironment
       .executeSql(
@@ -139,10 +125,10 @@ object NoteSendStreamTable {
            |   submit_system_time                       ,
            |   dt
            | FROM
-           |   raw_note_send_data
+           |   ${note_send_ods_table}
            |""".stripMargin)
 
-    executionEnvironment.execute("iceberg note send table")
+    streamExecutionEnvironment.execute("iceberg note send table")
 
 
   }
