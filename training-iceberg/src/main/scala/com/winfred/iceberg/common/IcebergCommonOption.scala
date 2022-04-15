@@ -28,11 +28,11 @@ object IcebergCommonOption {
   }
 
   def getRawFromKafka[T](streamEnvironment: StreamExecutionEnvironment,
-                         topicName: String, groupId: String, clazz: Class[T]): DataStream[T] = {
+                         topicNames: String, groupId: String, clazz: Class[T]): DataStream[T] = {
     import org.apache.flink.streaming.api.scala._
 
     val rowDataStream: DataStream[T] = streamEnvironment
-      .fromSource(FlinkKafkaSource.getKafkaSource(topicName, groupId = groupId), WatermarkStrategy.noWatermarks(), "note send topic")
+      .fromSource(FlinkKafkaSource.getKafkaSource(topics = topicNames, groupId = groupId), WatermarkStrategy.noWatermarks(), "note send topic")
       .filter(str => {
         StringUtils.isNotBlank(str)
       })

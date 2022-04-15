@@ -3,7 +3,9 @@ package com.winfred.iceberg.stream
 import cn.hutool.core.bean.BeanUtil
 import com.winfred.core.source.entity.ods.NoteReceiptOds
 import com.winfred.core.source.entity.raw.NoteReceiptRaw
+import com.winfred.core.utils.ArgsHandler
 import com.winfred.iceberg.common.IcebergCommonOption
+import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -11,18 +13,33 @@ import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
 import java.time.LocalDateTime
 
-object NoteReceiptStreamTable {
+object NoteReceiptStreamOdsTable {
 
   val catalogName = "hadoop_catalog"
   val namespaceName = "ods"
-  val warehousePath: String = "hdfs://spacex-hadoop-qa/iceberg/warehouse"
+  var warehousePath: String = "hdfs://spacex-hadoop-qa/iceberg/warehouse"
 
   val groupId = this.getClass.getName
 
-  var topicName = "note_receipt_test"
+  var topicNames = "note_receipt_test"
   var tableName = "channel_note_receipt"
 
   def main(args: Array[String]): Unit = {
+
+    val requestWarehouse = ArgsHandler.getArgsParam(args, "warehouse-path")
+    if (!StringUtils.isBlank(requestWarehouse)) {
+      warehousePath = requestWarehouse
+    }
+
+    val requestTopics = ArgsHandler.getArgsParam(args, "topic-names")
+    if (!StringUtils.isBlank(requestTopics)) {
+      topicNames = requestTopics
+    }
+
+    val requestTableName = ArgsHandler.getArgsParam(args, "table-name")
+    if (!StringUtils.isBlank(requestTableName)) {
+      tableName = requestTableName
+    }
 
     val configuration = new Configuration()
     configuration.setBoolean("write.upsert.enabled", true)
@@ -34,10 +51,9 @@ object NoteReceiptStreamTable {
 
     import org.apache.flink.streaming.api.scala._
 
-
     val rawDataStream: DataStream[NoteReceiptRaw] = IcebergCommonOption.getRawFromKafka[NoteReceiptRaw](
       streamEnvironment = streamEnvironment,
-      topicName = topicName,
+      topicNames = topicNames,
       groupId = groupId,
       clazz = classOf[NoteReceiptRaw]
     )
@@ -55,9 +71,9 @@ object NoteReceiptStreamTable {
         noteReceiptOds
       })
 
-    val receipt_send_ods_table = "ods_receipt_send_data"
+    val ods_node_receipt_view = "ods_note_receipt_tmp"
     tableEnvironment
-      .createTemporaryView(s"${receipt_send_ods_table}", odsStreamSource)
+      .createTemporaryView(s"${ods_node_receipt_view}", odsStreamSource)
 
     // 创建 catalog
     IcebergCommonOption.createHadoopCatalog(tableEnvironment = tableEnvironment, catalogName = catalogName, warehousePath = warehousePath)
@@ -104,7 +120,7 @@ object NoteReceiptStreamTable {
            |   receive_system_time      ,
            |   dt
            | FROM
-           |   ${receipt_send_ods_table}
+           |   ${ods_node_receipt_view}
            |""".stripMargin)
 
     streamEnvironment.execute("iceberg note send table")
