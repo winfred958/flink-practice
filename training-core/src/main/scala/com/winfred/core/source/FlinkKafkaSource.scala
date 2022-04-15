@@ -40,6 +40,7 @@ object FlinkKafkaSource {
       .setProperties(properties)
       .setTopics(topicList)
       .setGroupId(groupId)
+      .setValueOnlyDeserializer(new SimpleStringSchema())
       .build()
     source
   }
