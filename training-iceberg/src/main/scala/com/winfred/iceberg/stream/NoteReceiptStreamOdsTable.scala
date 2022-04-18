@@ -91,9 +91,9 @@ object NoteReceiptStreamOdsTable {
         }
         noteReceiptOds.setDt(datetime.toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
 
-        noteReceiptOds.setSp_send_time(raw.getSp_send_time)
-        noteReceiptOds.setChannel_receive_time(raw.getChannel_receive_time)
-        noteReceiptOds.setReceive_system_time(raw.getReceive_system_time)
+        noteReceiptOds.setChannel_receive_time(raw.getChannel_receive_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteReceiptOds.setSp_send_time(raw.getSp_send_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteReceiptOds.setReceive_system_time(raw.getReceive_system_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         noteReceiptOds
       })
 
@@ -111,9 +111,9 @@ object NoteReceiptStreamOdsTable {
            |    `primary_key`               STRING,
            |    `sp_result`                 STRING,
            |    `sp_charge_submit_num`      BIGINT,
-           |    `sp_send_time`              TIMESTAMP,
-           |    `channel_receive_time`      TIMESTAMP,
-           |    `receive_system_time`       TIMESTAMP,
+           |    `sp_send_time`              STRING,
+           |    `channel_receive_time`      STRING,
+           |    `receive_system_time`       STRING,
            |    `dt`                        STRING,
            |    PRIMARY KEY (`dt`, `primary_key`) NOT ENFORCED
            | )

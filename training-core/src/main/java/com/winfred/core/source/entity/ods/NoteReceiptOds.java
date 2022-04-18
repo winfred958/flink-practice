@@ -36,17 +36,14 @@ public class NoteReceiptOds implements NoteMock {
     private String sp_result;
     private Long sp_charge_submit_num;
 
-    @DataTypeHint(value = "TIMESTAMP(9)", bridgedTo = java.time.LocalDateTime.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime sp_send_time;
+    private String sp_send_time;
 
-    @DataTypeHint(value = "TIMESTAMP(9)", bridgedTo = java.time.LocalDateTime.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime channel_receive_time;
+    private String channel_receive_time;
 
-    @DataTypeHint(value = "TIMESTAMP(9)", bridgedTo = java.time.LocalDateTime.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime receive_system_time;
+    private String receive_system_time;
 
     private String dt;
 
