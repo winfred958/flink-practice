@@ -89,7 +89,7 @@ object NoteReceiptStreamOdsTable {
         if (null == datetime) {
           datetime = LocalDateTime.now()
         }
-        noteReceiptOds.setDt(datetime.toLocalDate.format(DateTimeFormatter.ISO_DATE))
+        noteReceiptOds.setDt(datetime.toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
 
         noteReceiptOds.setSp_send_time(raw.getSp_send_time)
         noteReceiptOds.setChannel_receive_time(raw.getChannel_receive_time)
