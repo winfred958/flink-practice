@@ -7,7 +7,6 @@ import com.winfred.core.source.entity.ods.NoteSendOds
 import com.winfred.core.source.entity.raw.NoteSendRaw
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.iceberg.common.IcebergCommonOption
-import com.winfred.iceberg.stream.NoteReceiptStreamOdsTable.topicNames
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
@@ -27,7 +26,7 @@ object NoteSendStreamOdsTable {
 
   val groupId = this.getClass.getName
 
-  var topicName = "note_send_test"
+  var topicNames = "note_send_test"
   var tableName = "channel_note_send"
 
   private val zoneId: ZoneId = ZoneId.of("Asia/Shanghai")
@@ -71,7 +70,7 @@ object NoteSendStreamOdsTable {
 
     val rawDataStream: DataStream[NoteSendRaw] = IcebergCommonOption.getRawFromKafka(
       streamEnvironment = streamExecutionEnvironment,
-      topicNames = topicName,
+      topicNames = topicNames,
       groupId = groupId)
       .map((str: String) => {
         val objectMapper = new ObjectMapper()
