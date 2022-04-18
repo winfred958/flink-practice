@@ -22,9 +22,10 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 5 \
   --detached \
   --yarnname NoteSendStreamOdsTable \
-  --yarnqueue default \
+  --yarnqueue crowd \
   ${HOME_PATH}/lib/training-iceberg.jar \
-    --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
+    --checkpoiont-dir hdfs://spacex-hadoop/flink/checkpoiont \
+    --warehouse-path hdfs://spacex-hadoop/iceberg/warehouse \
     --topic-names note_send_test \
     --table-name channel_note_send
 

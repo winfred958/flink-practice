@@ -21,9 +21,9 @@ object NoteSendStreamOdsTable {
 
   val catalogName = "hadoop_catalog"
   val namespaceName = "ods"
-  var warehousePath: String = "hdfs://spacex-hadoop-qa/iceberg/warehouse"
+  var warehousePath: String = "hdfs://spacex-hadoop/iceberg/warehouse"
 
-  var checkpointDir: String = "hdfs://spacex-hadoop-qa/flink/checkpoiont"
+  var checkpointDir: String = "hdfs://spacex-hadoop/flink/checkpoiont"
 
   val groupId = this.getClass.getName
 

@@ -1,10 +1,10 @@
 kafka:
   producer:
-    bootstrapServers: 192.168.179.53:9092
+    bootstrapServers: 192.168.178.219:6667,192.168.178.220:6667
     keySerializer: org.apache.kafka.common.serialization.StringSerializer
     valueSerializer: org.apache.kafka.common.serialization.StringSerializer
   consumer:
-    bootstrapServers: 192.168.179.53:9092
+    bootstrapServers: 192.168.178.219:6667,192.168.178.220:6667
     groupId: training-iceberg
     enableAutoCommit: false
     keySerializer: org.apache.kafka.common.serialization.StringSerializer
