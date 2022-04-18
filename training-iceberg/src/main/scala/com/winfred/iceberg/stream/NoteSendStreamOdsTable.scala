@@ -8,6 +8,7 @@ import com.winfred.core.source.entity.raw.NoteSendRaw
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.iceberg.common.IcebergCommonOption
 import org.apache.commons.lang3.StringUtils
+import org.apache.flink.api.common.functions.Partitioner
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -97,6 +98,13 @@ object NoteSendStreamOdsTable {
         }
         noteSendOds.setDt(sendTime.toLocalDate.format(DateTimeFormatter.ISO_DATE))
         noteSendOds
+      })
+      .partitionCustom(new Partitioner[String] {
+        override def partition(key: String, numPartitions: Int): Int = {
+          key.hashCode % numPartitions
+        }
+      }, entity => {
+        entity.getPrimaryKey
       })
 
     val ods_note_send_view = "ods_note_send_tmp"
