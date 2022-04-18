@@ -10,8 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.flink.table.annotation.DataTypeHint;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -35,14 +36,17 @@ public class NoteReceiptOds implements NoteMock {
     private String sp_result;
     private Long sp_charge_submit_num;
 
+    @DataTypeHint(value = "TIMESTAMP(9)", bridgedTo = java.time.LocalDateTime.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private String sp_send_time;
+    private LocalDateTime sp_send_time;
 
+    @DataTypeHint(value = "TIMESTAMP(9)", bridgedTo = java.time.LocalDateTime.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private String channel_receive_time;
+    private LocalDateTime channel_receive_time;
 
+    @DataTypeHint(value = "TIMESTAMP(9)", bridgedTo = java.time.LocalDateTime.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private String receive_system_time;
+    private LocalDateTime receive_system_time;
 
     private String dt;
 
