@@ -18,7 +18,7 @@ ${FLINK_HOME}/bin/flink run \
   --jobmanager yarn-cluster \
   --yarnslots 1 \
   --yarnjobManagerMemory 1024 \
-  --yarntaskManagerMemory 1024 \
+  --yarntaskManagerMemory 2048 \
   --parallelism 1 \
   --detached \
   --yarnname NoteReceiptStreamOdsTable \
