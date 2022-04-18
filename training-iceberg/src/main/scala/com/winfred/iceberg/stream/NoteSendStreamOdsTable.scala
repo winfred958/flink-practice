@@ -80,7 +80,7 @@ object NoteSendStreamOdsTable {
         objectMapper.readValue(str, classOf[NoteSendRaw])
       })
 
-    val odsDataStream = rawDataStream
+    val odsDataStream: DataStream[NoteSendOds] = rawDataStream
       .map(raw => {
         val noteSendOds = new NoteSendOds
         BeanUtil.copyProperties(raw, noteSendOds, false)
