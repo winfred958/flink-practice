@@ -141,7 +141,7 @@ object NoteSendStreamOdsTable {
            |   'write.wap.enabled' = 'true',
            |   'write.metadata.delete-after-commit.enabled' = 'true',
            |   'write.metadata.previous-versions-max' = '200',
-           |   'write.distribution-mode' = 'hash',
+           |   'write.distribution-mode' = 'none',
            |   'write.upsert.enabled' = 'true'
            | )
            |""".stripMargin)
