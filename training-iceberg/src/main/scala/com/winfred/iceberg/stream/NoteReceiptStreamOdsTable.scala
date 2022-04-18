@@ -138,13 +138,13 @@ object NoteReceiptStreamOdsTable {
         s"""
            | INSERT INTO `${tableName}`
            | SELECT
-           |   primary_key              ,
-           |   sp_result                ,
-           |   sp_charge_submit_num     ,
-           |   sp_send_time             ,
-           |   channel_receive_time     ,
-           |   receive_system_time      ,
-           |   dt
+           |   `primary_key`              ,
+           |   `sp_result`                ,
+           |   `sp_charge_submit_num`     ,
+           |   `sp_send_time`             ,
+           |   `channel_receive_time`     ,
+           |   `receive_system_time`      ,
+           |   `dt`
            | FROM
            |   ${ods_node_receipt_view}
            |""".stripMargin)
