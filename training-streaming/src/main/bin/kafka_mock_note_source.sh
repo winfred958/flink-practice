@@ -20,7 +20,7 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 3 \
   --detached \
   --yarnname NodeMessageMock \
-  --yarnqueue default \
+  --yarnqueue crowd \
   ${HOME_PATH}/lib/training-streaming.jar \
     --interval-min 2 \
     --interval-max 10
