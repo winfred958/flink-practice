@@ -22,9 +22,8 @@ ${FLINK_HOME}/bin/flink run \
   --yarnname NodeMessageMock \
   --yarnqueue default \
   ${HOME_PATH}/lib/training-streaming.jar \
-  --topic-name kafka_test_raw \
-  --interval-min 2 \
-  --interval-max 10
+    --interval-min 2 \
+    --interval-max 10
 EOF
 )
 
