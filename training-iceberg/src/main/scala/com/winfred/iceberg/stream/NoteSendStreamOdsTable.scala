@@ -1,7 +1,6 @@
 package com.winfred.iceberg.stream
 
 import cn.hutool.core.bean.BeanUtil
-import cn.hutool.core.util.RandomUtil
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.winfred.core.source.entity.ods.NoteSendOds
@@ -102,7 +101,7 @@ object NoteSendStreamOdsTable {
       })
       .partitionCustom(new Partitioner[String] {
         override def partition(key: String, numPartitions: Int): Int = {
-          RandomUtil.randomInt(1, numPartitions * 10) % numPartitions
+          Math.abs(key.hashCode) / numPartitions
         }
       }, (entity) => {
         entity.getPrimaryKey
