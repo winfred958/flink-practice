@@ -36,11 +36,13 @@ object NoteReceiptStreamOdsTable {
     val requestWarehouse = ArgsHandler.getArgsParam(args, "warehouse-path")
     if (!StringUtils.isBlank(requestWarehouse)) {
       warehousePath = requestWarehouse
+      println(s"warehousePath=${warehousePath}")
     }
 
     val requestTopics = ArgsHandler.getArgsParam(args, "topic-names")
     if (!StringUtils.isBlank(requestTopics)) {
       topicNames = requestTopics
+      println(s"topicNames=${topicNames}")
     }
 
     val requestTableName = ArgsHandler.getArgsParam(args, "table-name")
