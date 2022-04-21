@@ -43,7 +43,7 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         Object lock = ctx.getCheckpointLock();
         while (isRun) {
             synchronized (lock) {
-                final int size = RandomUtils.nextInt(10, 100);
+                final int size = RandomUtils.nextInt(30, 100);
                 mockNoteInfo(size)
                     .forEach(ctx::collect);
             }
@@ -71,6 +71,10 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
 
             // mock 发送短信的回执
             final NoteReceiptRaw receipt = getReceipt(primaryKey, receiver);
+            // 随机发送重复数据
+            for (int repeat = 1; repeat <= RandomUtils.nextInt(1, 3); repeat++) {
+                result.add(receipt);
+            }
             result.add(receipt);
         }
         return result;
