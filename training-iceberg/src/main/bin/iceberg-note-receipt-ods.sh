@@ -24,7 +24,7 @@ ${FLINK_HOME}/bin/flink run \
   --yarnname NoteReceiptStreamOdsTable \
   --yarnqueue default \
   ${HOME_PATH}/lib/training-iceberg.jar \
-    --warehouse-path hdfs://spacex-hadoop/iceberg/warehouse \
+    --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
     --topic-names note_receipt_test \
     --table-name channel_note_receipt
 
