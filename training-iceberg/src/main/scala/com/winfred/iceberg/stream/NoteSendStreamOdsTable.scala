@@ -85,7 +85,7 @@ object NoteSendStreamOdsTable {
           objectMapper.readValue(str, classOf[NoteSendRaw])
         } catch {
           case e: Exception => {
-            log.error("脏数据 {}", str, e)
+            log.error(s"脏数据: ${str}", e)
             null;
           }
         }

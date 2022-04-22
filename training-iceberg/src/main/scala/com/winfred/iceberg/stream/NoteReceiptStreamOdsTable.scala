@@ -83,7 +83,7 @@ object NoteReceiptStreamOdsTable {
           objectMapper.readValue(str, classOf[NoteReceiptRaw])
         } catch {
           case e: Exception => {
-            log.error("脏数据 {}", str, e)
+            log.error(s"脏数据: ${str}", e)
             null;
           }
         }
