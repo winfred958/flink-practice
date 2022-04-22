@@ -20,13 +20,13 @@ object NodeMessageMock {
     import org.apache.flink.streaming.api.scala._
 
 
-    val requestNoteSendTopic = ArgsHandler.getArgsParam(args, "note-send-topic")
+    val requestNoteSendTopic = ArgsHandler.getArgsParam(args, "send-topic")
     if (StringUtils.isNotBlank(requestNoteSendTopic)) {
       noteSendTopic = requestNoteSendTopic
     }
 
 
-    val requestNoteReceiptTopic = ArgsHandler.getArgsParam(args, "note-receipt-topic")
+    val requestNoteReceiptTopic = ArgsHandler.getArgsParam(args, "receipt-topic")
     if (StringUtils.isNotBlank(requestNoteReceiptTopic)) {
       noteReceiptTopic = requestNoteReceiptTopic
     }
