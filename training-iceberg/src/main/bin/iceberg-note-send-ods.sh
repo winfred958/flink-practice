@@ -19,7 +19,7 @@ ${FLINK_HOME}/bin/flink run \
   --yarnslots 1 \
   --yarnjobManagerMemory 1024 \
   --yarntaskManagerMemory 2048 \
-  --parallelism 5 \
+  --parallelism 1 \
   --detached \
   --yarnname NoteSendStreamOdsTable \
   --yarnqueue crowd \

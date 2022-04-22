@@ -1,7 +1,6 @@
 package com.winfred.iceberg.stream
 
 import cn.hutool.core.bean.BeanUtil
-import cn.hutool.core.util.HashUtil
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.winfred.core.source.entity.ods.NoteSendOds
@@ -9,7 +8,6 @@ import com.winfred.core.source.entity.raw.NoteSendRaw
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.iceberg.common.IcebergCommonOption
 import org.apache.commons.lang3.StringUtils
-import org.apache.flink.api.common.functions.Partitioner
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -99,26 +97,27 @@ object NoteSendStreamOdsTable {
         val noteSendOds = new NoteSendOds
         BeanUtil.copyProperties(raw, noteSendOds, false)
         // FIXME: 处理其他字段转换
-        raw.getChannel_send_time
-
-        noteSendOds.setChannel_send_time(raw.getChannel_send_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteSendOds.setBusiness_request_time(raw.getBusiness_request_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteSendOds.setSubmit_system_time(raw.getSubmit_system_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-
-        var sendTime: LocalDateTime = raw.getChannel_send_time
-        if (null == sendTime) {
-          sendTime = LocalDateTime.now()
-
+        var channelSendTime: LocalDateTime = raw.getChannel_send_time
+        if (null == channelSendTime) {
+          channelSendTime = LocalDateTime.now(zoneId)
         }
-        noteSendOds.setDt(sendTime.toLocalDate.format(DateTimeFormatter.ISO_DATE))
+
+        var businessRequestTime = raw.getBusiness_request_time
+        if (null == businessRequestTime) {
+          businessRequestTime = LocalDateTime.now(zoneId)
+        }
+        var submitSystemTime = raw.getSubmit_system_time
+        if (null == submitSystemTime) {
+          submitSystemTime = LocalDateTime.now(zoneId)
+        }
+
+        noteSendOds.setChannel_send_time(channelSendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteSendOds.setBusiness_request_time(businessRequestTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        noteSendOds.setSubmit_system_time(submitSystemTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+
+        // channel_send_time 分区
+        noteSendOds.setDt(channelSendTime.toLocalDate.format(DateTimeFormatter.ISO_DATE))
         noteSendOds
-      })
-      .partitionCustom(new Partitioner[String] {
-        override def partition(key: String, numPartitions: Int): Int = {
-          Math.abs(HashUtil.fnvHash(key)) % numPartitions
-        }
-      }, (entity) => {
-        entity.getPrimaryKey
       })
 
     val ods_note_send_view = "ods_note_send_tmp"

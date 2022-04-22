@@ -16,6 +16,10 @@ object NodeMessageMock {
     executionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
     import org.apache.flink.streaming.api.scala._
 
+    var noteSendTopic = "note_send_test"
+
+    var noteReceiptTopic = "note_receipt_test"
+
     var intervalMin = 100L
     val intervalMinStr = ArgsHandler.getArgsParam(args, "interval-min")
     if (!StringUtils.isBlank(intervalMinStr)) {
@@ -34,10 +38,10 @@ object NodeMessageMock {
       })
 
     // MockSourceName
-    val noteSendTopic = "note_send_test"
+
     SendKafkaCommon.sinkToNoteTopic(dataStreamSource, noteSendTopic)
 
-    val noteReceiptTopic = "note_receipt_test"
+
     SendKafkaCommon.sinkToNoteTopic(dataStreamSource, noteReceiptTopic)
 
     executionEnvironment.execute(this.getClass.getName)
