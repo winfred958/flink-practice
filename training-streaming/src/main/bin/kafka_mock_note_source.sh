@@ -22,8 +22,8 @@ ${FLINK_HOME}/bin/flink run \
   --yarnname NodeMessageMock \
   --yarnqueue crowd \
   ${HOME_PATH}/lib/training-streaming.jar \
-    --note-send-topic "note_send_test_v2" \
-    --note-receipt-topic "note_receipt_test_v2" \
+    --note-send-topic note_send_test_v2 \
+    --note-receipt-topic note_receipt_test_v2 \
     --interval-min 2 \
     --interval-max 10
 EOF
