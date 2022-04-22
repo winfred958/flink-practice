@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -49,12 +48,12 @@ public class NoteSendOds implements NoteMock {
      * <p>
      * 例：TBSMS、TBSMSSINGLE、TBKSMS、SMS、SMSDYNAMIC、EDM、EDMDYNAMIC
      */
-    @JsonProperty(value = "type")
     private String business_type;
     private String task_id;
     private String subtask_id;
     private String content;
     private String receiver;
+    private String sign;
     private String show_id;
     private String gateway_id;
 

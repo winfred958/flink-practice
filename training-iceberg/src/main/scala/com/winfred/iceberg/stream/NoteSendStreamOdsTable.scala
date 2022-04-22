@@ -14,11 +14,14 @@ import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
+import org.slf4j.{Logger, LoggerFactory}
 
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDateTime, ZoneId}
 
 object NoteSendStreamOdsTable {
+
+  val log: Logger = LoggerFactory.getLogger(NoteSendStreamOdsTable.getClass)
 
   val catalogName = "hadoop_catalog"
   val namespaceName = "ods"
@@ -75,10 +78,20 @@ object NoteSendStreamOdsTable {
       topicNames = topicNames,
       groupId = groupId)
       .map((str: String) => {
-        val objectMapper = new ObjectMapper()
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        objectMapper.readValue(str, classOf[NoteSendRaw])
+        try {
+          val objectMapper = new ObjectMapper()
+          objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+          objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+          objectMapper.readValue(str, classOf[NoteSendRaw])
+        } catch {
+          case e: Exception => {
+            log.error("脏数据 {}", str, e)
+            null;
+          }
+        }
+      })
+      .filter(entity => {
+        entity != null
       })
 
     val odsDataStream: DataStream[NoteSendOds] = rawDataStream

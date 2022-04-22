@@ -34,11 +34,11 @@ object NodeMessageMock {
       })
 
     // MockSourceName
-    val orderTopic = "note_send_test"
-    SendKafkaCommon.sinkToNoteTopic(dataStreamSource, orderTopic)
+    val noteSendTopic = "note_send_test"
+    SendKafkaCommon.sinkToNoteTopic(dataStreamSource, noteSendTopic)
 
-    val orderItemTopic = "note_receipt_test"
-    SendKafkaCommon.sinkToNoteTopic(dataStreamSource, orderItemTopic)
+    val noteReceiptTopic = "note_receipt_test"
+    SendKafkaCommon.sinkToNoteTopic(dataStreamSource, noteReceiptTopic)
 
     executionEnvironment.execute(this.getClass.getName)
   }

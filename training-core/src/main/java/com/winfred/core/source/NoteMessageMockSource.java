@@ -1,6 +1,7 @@
 package com.winfred.core.source;
 
 import cn.hutool.crypto.digest.MD5;
+import com.alibaba.fastjson.JSON;
 import com.winfred.core.source.entity.NoteMock;
 import com.winfred.core.source.entity.raw.NoteReceiptRaw;
 import com.winfred.core.source.entity.raw.NoteSendRaw;
@@ -107,6 +108,8 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         final LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);
         send.setBusiness_request_time(localDateTime);
         send.setChannel_send_time(localDateTime);
+
+        send.setExt_json(JSON.toJSONString(send));
         return send;
     }
 
