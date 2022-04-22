@@ -97,16 +97,32 @@ object NoteReceiptStreamOdsTable {
       .map(raw => {
         val noteReceiptOds = new NoteReceiptOds
         BeanUtil.copyProperties(raw, noteReceiptOds, false)
-        // FIXME: 处理其他字段转换
-        var datetime: LocalDateTime = raw.getSp_send_time
-        if (null == datetime) {
-          datetime = LocalDateTime.now()
-        }
-        noteReceiptOds.setDt(datetime.toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
 
-        noteReceiptOds.setChannel_receive_time(raw.getChannel_receive_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteReceiptOds.setSp_send_time(raw.getSp_send_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteReceiptOds.setReceive_system_time(raw.getReceive_system_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        var channelReceiveTime = raw.getChannel_receive_time
+        if (null == channelReceiveTime) {
+          noteReceiptOds.setChannel_receive_time(null)
+        } else {
+          noteReceiptOds.setChannel_receive_time(channelReceiveTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        }
+
+        var spSendTime = raw.getSp_send_time
+        if (null == spSendTime) {
+          noteReceiptOds.setSp_send_time(null)
+        } else {
+          noteReceiptOds.setSp_send_time(spSendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        }
+
+        var receiveSystemTime = raw.getReceive_system_time
+        if (null == receiveSystemTime) {
+          noteReceiptOds.setReceive_system_time(null)
+        } else {
+          noteReceiptOds.setReceive_system_time(receiveSystemTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        }
+
+        // process time 分区
+        var processTime: LocalDateTime = LocalDateTime.now(zoneId)
+        noteReceiptOds.setDt(processTime.toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
+
         noteReceiptOds
       })
 

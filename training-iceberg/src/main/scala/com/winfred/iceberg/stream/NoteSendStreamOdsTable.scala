@@ -99,24 +99,26 @@ object NoteSendStreamOdsTable {
         // FIXME: 处理其他字段转换
         var channelSendTime: LocalDateTime = raw.getChannel_send_time
         if (null == channelSendTime) {
-          channelSendTime = LocalDateTime.now(zoneId)
+          noteSendOds.setChannel_send_time(null)
+        } else {
+          noteSendOds.setChannel_send_time(channelSendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         }
 
         var businessRequestTime = raw.getBusiness_request_time
         if (null == businessRequestTime) {
-          businessRequestTime = LocalDateTime.now(zoneId)
+          noteSendOds.setBusiness_request_time(null)
+        } else {
+          noteSendOds.setBusiness_request_time(businessRequestTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         }
+
         var submitSystemTime = raw.getSubmit_system_time
         if (null == submitSystemTime) {
-          submitSystemTime = LocalDateTime.now(zoneId)
+          noteSendOds.setSubmit_system_time(null)
+        } else {
+          noteSendOds.setSubmit_system_time(submitSystemTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         }
-
-        noteSendOds.setChannel_send_time(channelSendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteSendOds.setBusiness_request_time(businessRequestTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteSendOds.setSubmit_system_time(submitSystemTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-
         // channel_send_time 分区
-        noteSendOds.setDt(channelSendTime.toLocalDate.format(DateTimeFormatter.ISO_DATE))
+        noteSendOds.setDt(LocalDateTime.now(zoneId).toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
         noteSendOds
       })
 
