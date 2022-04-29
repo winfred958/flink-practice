@@ -44,7 +44,7 @@ MODEL_NAME=training-streaming
 
 CMD=$(
   cat <<EOF
-mvn package --projects ${MODEL_NAME} --also-make --also-make-dependents
+mvn clean package --projects ${MODEL_NAME} --also-make --also-make-dependents
 EOF
 )
 
