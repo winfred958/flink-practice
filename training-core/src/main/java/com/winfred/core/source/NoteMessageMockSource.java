@@ -1,5 +1,6 @@
 package com.winfred.core.source;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson.JSON;
 import com.winfred.core.source.entity.NoteMock;
@@ -117,7 +118,12 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         final LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneId);
         send.setBusiness_request_time(localDateTime);
 
-        final LocalDateTime sendTime = LocalDateTime.now().minusDays(RandomUtils.nextLong(0, 7));
+        LocalDateTime sendTime = LocalDateTime.now();
+        final int timeRand = RandomUtil.randomInt(0, 100);
+        if (timeRand < 10) {
+            sendTime = LocalDateTime.now().minusDays(RandomUtils.nextLong(0, 7));
+        }
+
         send.setChannel_send_time(sendTime);
 
         send.setExt_json(JSON.toJSONString(send));
@@ -130,7 +136,7 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         receipt.setSp_result(String.valueOf(RandomUtils.nextBoolean()));
         receipt.setSp_charge_submit_num(RandomUtils.nextLong(0, 999L));
 
-        final LocalDateTime spSendTime = LocalDateTime.from(channelSendTime).plusHours(RandomUtils.nextLong(0, 72));
+        final LocalDateTime spSendTime = LocalDateTime.from(channelSendTime).minusDays(RandomUtils.nextLong(0, 72));
         receipt.setSp_send_time(spSendTime);
         receipt.setChannel_receive_time(spSendTime.plusMinutes(1));
         receipt.setReceive_system_time(LocalDateTime.now());
