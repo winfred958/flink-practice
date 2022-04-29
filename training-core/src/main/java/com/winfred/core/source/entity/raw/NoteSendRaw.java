@@ -12,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -20,7 +19,7 @@ import java.util.UUID;
  *
  * @author winfred
  */
-@MockSourceName(name = "note_send_test")
+@MockSourceName(name = "note_send_test_v2")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -51,7 +50,6 @@ public class NoteSendRaw implements NoteMock {
      * <p>
      * 例：TBSMS、TBSMSSINGLE、TBKSMS、SMS、SMSDYNAMIC、EDM、EDMDYNAMIC
      */
-    @JsonProperty(value = "type")
     private String business_type;
     private String task_id;
     private String subtask_id;

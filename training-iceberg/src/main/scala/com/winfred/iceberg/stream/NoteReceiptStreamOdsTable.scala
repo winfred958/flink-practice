@@ -12,11 +12,14 @@ import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
+import org.slf4j.{Logger, LoggerFactory}
 
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.{LocalDateTime, ZoneId}
 
 object NoteReceiptStreamOdsTable {
+
+  val log: Logger = LoggerFactory.getLogger(NoteSendStreamOdsTable.getClass)
 
   val catalogName = "hadoop_catalog"
   val namespaceName = "ods"
@@ -75,10 +78,20 @@ object NoteReceiptStreamOdsTable {
       groupId = groupId
     )
       .map((str: String) => {
-        val objectMapper = new ObjectMapper()
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        objectMapper.readValue(str, classOf[NoteReceiptRaw])
+        try {
+          val objectMapper = new ObjectMapper()
+          objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+          objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+          objectMapper.readValue(str, classOf[NoteReceiptRaw])
+        } catch {
+          case e: Exception => {
+            log.error(s"脏数据: ${str}", e)
+            null;
+          }
+        }
+      })
+      .filter(entity => {
+        entity != null
       })
 
 
@@ -86,16 +99,31 @@ object NoteReceiptStreamOdsTable {
       .map(raw => {
         val noteReceiptOds = new NoteReceiptOds
         BeanUtil.copyProperties(raw, noteReceiptOds, false)
-        // FIXME: 处理其他字段转换
-        var datetime: LocalDateTime = raw.getSp_send_time
-        if (null == datetime) {
-          datetime = LocalDateTime.now()
-        }
-        noteReceiptOds.setDt(datetime.toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
 
-        noteReceiptOds.setChannel_receive_time(raw.getChannel_receive_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteReceiptOds.setSp_send_time(raw.getSp_send_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
-        noteReceiptOds.setReceive_system_time(raw.getReceive_system_time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        var channelReceiveTime = raw.getChannel_receive_time
+        if (null == channelReceiveTime) {
+          noteReceiptOds.setChannel_receive_time(null)
+        } else {
+          noteReceiptOds.setChannel_receive_time(channelReceiveTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        }
+
+        var spSendTime = raw.getSp_send_time
+        if (null == spSendTime) {
+          noteReceiptOds.setSp_send_time(null)
+        } else {
+          noteReceiptOds.setSp_send_time(spSendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        }
+
+        var receiveSystemTime = raw.getReceive_system_time
+        if (null == receiveSystemTime) {
+          noteReceiptOds.setReceive_system_time(null)
+        } else {
+          noteReceiptOds.setReceive_system_time(receiveSystemTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
+        }
+
+        // sp send time 分区
+        noteReceiptOds.setDt(spSendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(zoneId)))
+
         noteReceiptOds
       })
 

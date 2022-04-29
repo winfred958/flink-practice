@@ -20,7 +20,7 @@ import java.util.UUID;
  *
  * @author winfred
  */
-@MockSourceName(name = "note_receipt_test")
+@MockSourceName(name = "note_receipt_test_v2")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

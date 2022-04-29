@@ -19,13 +19,13 @@ ${FLINK_HOME}/bin/flink run \
   --yarnslots 1 \
   --yarnjobManagerMemory 1024 \
   --yarntaskManagerMemory 2048 \
-  --parallelism 5 \
+  --parallelism 1 \
   --detached \
   --yarnname NoteSendStreamOdsTable \
   --yarnqueue crowd \
   ${HOME_PATH}/lib/training-iceberg.jar \
-    --checkpoiont-dir hdfs://spacex-hadoop/flink/checkpoiont \
-    --warehouse-path hdfs://spacex-hadoop/iceberg/warehouse \
+    --checkpoiont-dir hdfs://spacex-hadoop-qa/flink/checkpoiont \
+    --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
     --topic-names note_send_test \
     --table-name channel_note_send
 

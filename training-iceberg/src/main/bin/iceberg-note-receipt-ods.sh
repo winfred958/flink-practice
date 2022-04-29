@@ -19,12 +19,13 @@ ${FLINK_HOME}/bin/flink run \
   --yarnslots 1 \
   --yarnjobManagerMemory 1024 \
   --yarntaskManagerMemory 2048 \
-  --parallelism 2 \
+  --parallelism 1 \
   --detached \
   --yarnname NoteReceiptStreamOdsTable \
   --yarnqueue default \
   ${HOME_PATH}/lib/training-iceberg.jar \
-    --warehouse-path hdfs://spacex-hadoop/iceberg/warehouse \
+    --checkpoiont-dir hdfs://spacex-hadoop-qa/flink/checkpoiont \
+    --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
     --topic-names note_receipt_test \
     --table-name channel_note_receipt
 
