@@ -119,7 +119,7 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         send.setBusiness_request_time(localDateTime);
 
         LocalDateTime sendTime = LocalDateTime.now();
-        final int timeRand = RandomUtil.randomInt(0, 1000);
+        final int timeRand = RandomUtil.randomInt(0, 10000);
         if (timeRand < 1) {
             sendTime = LocalDateTime.now().minusDays(RandomUtils.nextLong(0, 7));
         }
@@ -136,7 +136,7 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         receipt.setSp_result(String.valueOf(RandomUtils.nextBoolean()));
         receipt.setSp_charge_submit_num(RandomUtils.nextLong(0, 999L));
 
-        final LocalDateTime spSendTime = LocalDateTime.from(channelSendTime).minusDays(RandomUtils.nextLong(0, 72));
+        final LocalDateTime spSendTime = LocalDateTime.from(channelSendTime).minusHours(RandomUtils.nextLong(0, 24));
         receipt.setSp_send_time(spSendTime);
         receipt.setChannel_receive_time(spSendTime.plusMinutes(1));
         receipt.setReceive_system_time(LocalDateTime.now());
