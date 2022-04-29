@@ -118,7 +118,7 @@ object NoteSendStreamOdsTable {
           noteSendOds.setSubmit_system_time(submitSystemTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         }
         // channel_send_time 分区
-        noteSendOds.setDt(LocalDateTime.now(zoneId).toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
+        noteSendOds.setDt(LocalDateTime.now(zoneId).toLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(zoneId)))
         noteSendOds
       })
 

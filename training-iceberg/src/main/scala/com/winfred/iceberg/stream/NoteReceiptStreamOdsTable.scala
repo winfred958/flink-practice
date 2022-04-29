@@ -14,8 +14,8 @@ import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 import org.slf4j.{Logger, LoggerFactory}
 
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.{LocalDateTime, ZoneId}
 
 object NoteReceiptStreamOdsTable {
 
@@ -119,9 +119,8 @@ object NoteReceiptStreamOdsTable {
           noteReceiptOds.setReceive_system_time(receiveSystemTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)))
         }
 
-        // process time 分区
-        var processTime: LocalDateTime = LocalDateTime.now(zoneId)
-        noteReceiptOds.setDt(processTime.toLocalDate.format(DateTimeFormatter.ISO_DATE.withZone(zoneId)))
+        // sp send time 分区
+        noteReceiptOds.setDt(spSendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(zoneId)))
 
         noteReceiptOds
       })
