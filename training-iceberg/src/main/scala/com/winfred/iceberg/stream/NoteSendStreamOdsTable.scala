@@ -196,7 +196,7 @@ object NoteSendStreamOdsTable {
            |   ${ods_note_send_view}
            |""".stripMargin)
 
-    streamExecutionEnvironment.execute("iceberg note send table")
+//    streamExecutionEnvironment.execute("iceberg note send table")
 
 
   }
