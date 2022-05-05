@@ -119,7 +119,7 @@ public class NoteMessageMockSource extends RichParallelSourceFunction<NoteMock> 
         send.setBusiness_request_time(localDateTime);
 
         LocalDateTime sendTime = LocalDateTime.now();
-        final int timeRand = RandomUtil.randomInt(0, 10000);
+        final int timeRand = RandomUtil.randomInt(0, 1000);
         if (timeRand < 1) {
             sendTime = LocalDateTime.now().minusDays(RandomUtils.nextLong(0, 7));
         }
