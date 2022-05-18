@@ -50,7 +50,11 @@ object NodeMessageMock {
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
       })
-
+//    dataStreamSource
+//      .map(entity => {
+//        JSON.toJSON(entity)
+//      })
+//      .print()
     // MockSourceName
     SendKafkaCommon.sinkToNoteTopic(dataStreamSource, noteSendTopic)
     SendKafkaCommon.sinkToNoteTopic(dataStreamSource, noteReceiptTopic)
