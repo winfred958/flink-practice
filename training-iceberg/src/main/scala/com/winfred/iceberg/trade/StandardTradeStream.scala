@@ -83,12 +83,22 @@ object StandardTradeStream {
         val tradeEntity = objectMapper.readValue(str, classOf[TradeEntity])
 
         val created = tradeEntity.getCreated
-        val part = LocalDateTime.parse(created, dateTimeFormatter).format(DateTimeFormatter.ofPattern("yyyy-MM"))
+        if (StringUtils.isBlank(created)) {
+          new TradeEntity()
+        } else {
+          val part = LocalDateTime.parse(created, dateTimeFormatter).format(DateTimeFormatter.ofPattern("yyyy-MM"))
 
-        val deDuplicationKey = getUnionKey(created, tradeEntity.getUni_order_id, tradeEntity.getUni_shop_id, tradeEntity.getPart)
-        tradeEntity.setDe_duplication_key(deDuplicationKey)
-        tradeEntity.setPart(part)
-        tradeEntity
+          val deDuplicationKey = getUnionKey(created, tradeEntity.getUni_order_id, tradeEntity.getUni_shop_id, tradeEntity.getPart)
+          tradeEntity.setDe_duplication_key(deDuplicationKey)
+          tradeEntity.setPart(part)
+          tradeEntity
+        }
+      })
+      .filter(entity => {
+        StringUtils.isNotBlank(entity.getDe_duplication_key)
+      })
+      .filter(entity => {
+        StringUtils.isNotBlank(entity.getCreated)
       })
 
     // 开始写流表
