@@ -1,6 +1,7 @@
 #!/bin/bash
 
-FLINK_HOME=/data/kai/flink
+QUEUE_NAME=STDQueue
+
 HOME_PATH=$(
   cd "$(dirname "$0")"
   cd ..
@@ -22,7 +23,7 @@ ${FLINK_HOME}/bin/flink run \
   --parallelism 5 \
   --detached \
   --yarnname NoteSendStreamOdsTable \
-  --yarnqueue crowd \
+  --yarnqueue ${QUEUE_NAME} \
   ${HOME_PATH}/lib/training-iceberg.jar \
     --checkpoint-dir hdfs://spacex-hadoop-qa/flink/checkpoiont \
     --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
