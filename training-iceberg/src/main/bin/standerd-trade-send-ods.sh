@@ -12,22 +12,23 @@ source ~/.bash_profile
 CMD=$(
   cat <<EOF
 ${FLINK_HOME}/bin/flink run \
-  --class com.winfred.iceberg.stream.NoteSendStreamOdsTable \
+  --class com.winfred.iceberg.trade.StandardTradeStream \
   --yarnship ${HOME_PATH}/lib/iceberg-flink-runtime-1.14-0.13.1.jar \
   --classpath file://${HOME_PATH}/lib/iceberg-flink-runtime-1.14-0.13.1.jar \
   --jobmanager yarn-cluster \
-  --yarnslots 1 \
   --yarnjobManagerMemory 1024 \
+  --yarnslots 1 \
   --yarntaskManagerMemory 2048 \
-  --parallelism 1 \
+  --parallelism 5 \
   --detached \
   --yarnname NoteSendStreamOdsTable \
   --yarnqueue crowd \
   ${HOME_PATH}/lib/training-iceberg.jar \
     --checkpoint-dir hdfs://spacex-hadoop-qa/flink/checkpoiont \
     --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
-    --topic-names note_send_test \
-    --table-name channel_note_send
+    --topic-names standard_trade_state \
+    --namespace-name ods         \
+    --table-name standard_trade
 
 EOF
 )

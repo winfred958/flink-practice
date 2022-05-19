@@ -51,7 +51,7 @@ object NoteSendStreamOdsTable {
       tableName = requestTableName
     }
 
-    val requestCheckpointDir = ArgsHandler.getArgsParam(args, "checkpoiont-dir")
+    val requestCheckpointDir = ArgsHandler.getArgsParam(args, "checkpoint-dir")
     if (!StringUtils.isBlank(requestCheckpointDir)) {
       checkpointDir = requestCheckpointDir
     }
