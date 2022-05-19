@@ -51,4 +51,30 @@ object IcebergCommonOption {
         groupId = groupId
       )
   }
+
+  def setTableConfig(tableEnvironment: StreamTableEnvironment,
+                     catalogName: String,
+                     namespaceName: String,
+                     tableName: String) = {
+    tableEnvironment
+      .executeSql(
+        s"""
+           |  ALTER TABLE `${catalogName}`.`${namespaceName}`.`${tableName}`
+           |  SET (
+           |    'write.wap.enabled' = 'true',
+           |    'write.target-file-size-bytes' = '536870912',
+           |    'write.metadata.delete-after-commit.enabled' = 'true',
+           |    'write.metadata.previous-versions-max' = '30',
+           |
+           |    'format-version' = '2',
+           |    'write.upsert.enabled' = 'true',
+           |
+           |    'commit.manifest-merge.enabled' = 'true',
+           |    'history.expire.min-snapshots-to-keep' = '3',
+           |    'history.expire.max-snapshot-age-ms' = '10800000',
+           |
+           |    'write.metadata.metrics.default' = 'runcate(32)'
+           |  )
+           |""".stripMargin)
+  }
 }
