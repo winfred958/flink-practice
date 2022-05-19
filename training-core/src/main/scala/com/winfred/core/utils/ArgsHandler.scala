@@ -144,6 +144,15 @@ object ArgsHandler {
     commandLine.getOptionValue(longOpt)
   }
 
+  def getArgsParam(args: Array[String], longOpt: String, defaultValue: String): String = {
+    val value = getArgsParam(args, longOpt)
+    if (StringUtils.isBlank(value)) {
+      defaultValue
+    } else {
+      value
+    }
+  }
+
   private def buildCommandLine(args: Array[String], options: Options, opt: String): CommandLine = {
     var longOpt = opt
     if (StringUtils.startsWith(longOpt, "-")) {

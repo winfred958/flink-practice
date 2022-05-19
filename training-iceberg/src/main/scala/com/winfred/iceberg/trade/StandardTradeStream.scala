@@ -3,10 +3,12 @@ package com.winfred.iceberg.trade
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.winfred.core.source.entity.trade.TradeEntity
+import com.winfred.core.utils.ArgsHandler
 import com.winfred.iceberg.common.IcebergCommonOption
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.CheckpointingMode
+import org.apache.flink.streaming.api.environment.CheckpointConfig
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.table.api.TableResult
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
@@ -19,15 +21,14 @@ object StandardTradeStream {
   val log: Logger = LoggerFactory.getLogger(StandardTradeStream.getClass)
 
   val catalogName = "hadoop_catalog"
-  val namespaceName = "ods"
   var warehousePath: String = "hdfs://spacex-hadoop-qa/iceberg/warehouse"
-
   var checkpointDir: String = "hdfs://spacex-hadoop-qa/flink/checkpoiont"
 
   val groupId = this.getClass.getName
 
   var topicNames = "standard_trade_state"
 
+  var namespaceName = "ods"
   var tableName = "std_trade"
 
   private val zoneId: ZoneId = ZoneId.of("Asia/Shanghai")
@@ -35,15 +36,27 @@ object StandardTradeStream {
   val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(zoneId)
 
   def main(args: Array[String]): Unit = {
+
+    warehousePath = ArgsHandler.getArgsParam(args, "warehouse-path", warehousePath)
+    checkpointDir = ArgsHandler.getArgsParam(args, "checkpoint-dir", checkpointDir)
+
+    topicNames = ArgsHandler.getArgsParam(args, "topic-names", topicNames)
+    namespaceName = ArgsHandler.getArgsParam(args, "namespace-name", namespaceName)
+    tableName = ArgsHandler.getArgsParam(args, "table-name", tableName)
+
     val configuration = new Configuration()
     configuration.setBoolean("write.upsert.enabled", true)
 
     val streamExecutionEnvironment: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+    streamExecutionEnvironment.configure(configuration)
+
     streamExecutionEnvironment.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE)
     val checkpointConfig = streamExecutionEnvironment.getCheckpointConfig
     checkpointConfig.setCheckpointStorage(s"${checkpointDir}/${tableName}")
     checkpointConfig.setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE)
     checkpointConfig.setTolerableCheckpointFailureNumber(3)
+    checkpointConfig.setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION)
+
 
     val tableEnvironment: StreamTableEnvironment = StreamTableEnvironment.create(executionEnvironment = streamExecutionEnvironment)
 
@@ -257,3 +270,4 @@ object StandardTradeStream {
     tableEnvironment.executeSql(sql)
   }
 }
+
