@@ -251,7 +251,7 @@ object StandardTradeStream {
          |    'catalog-database'='${namespaceName}',
          |    'warehouse' = '${warehousePath}',
          |
-         |    'write.upsert.enabled' = 'true'
+         |    'write.upsert.enabled' = 'true',
          |
          |    'write.wap.enabled' = 'true',
          |    'write.target-file-size-bytes' = '536870912',
