@@ -79,7 +79,7 @@ object StandardTradeStream {
       .map(str => {
         val objectMapper = new ObjectMapper()
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false)
         val tradeEntity = objectMapper.readValue(str, classOf[TradeEntity])
 
         val created = tradeEntity.getCreated
@@ -98,7 +98,7 @@ object StandardTradeStream {
 
 
   private def sinkToIceberg(tableEnvironment: StreamTableEnvironment, resultDataStream: DataStream[TradeEntity]): TableResult = {
-    val result_table_view = "ods_note_receipt_tmp"
+    val result_table_view = "ods_std_trade"
     tableEnvironment
       .createTemporaryView(result_table_view, resultDataStream)
 
@@ -168,7 +168,7 @@ object StandardTradeStream {
            |    `trade_business_type`   ,
            |    `part`
            |  FROM
-           |    ${result_table_view}
+           |    `${result_table_view}`
            |""".stripMargin)
   }
 
