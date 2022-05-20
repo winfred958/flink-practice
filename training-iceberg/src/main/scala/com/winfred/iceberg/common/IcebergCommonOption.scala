@@ -71,7 +71,7 @@ object IcebergCommonOption {
            |    'history.expire.min-snapshots-to-keep' = '3',
            |    'history.expire.max-snapshot-age-ms' = '10800000',
            |
-           |    'write.metadata.metrics.default' = 'runcate(32)'
+           |    'write.metadata.metrics.default' = 'truncate(32)'
            |  )
            |""".stripMargin)
   }
