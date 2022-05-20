@@ -191,7 +191,7 @@ object StandardTradeStream {
       .executeSql(s"CREATE TABLE IF NOT EXISTS ${namespaceName}")
     val sql =
       s"""
-         |  CREATE TABLE IF NOT EXISTS `${catalogName}`.`${namespaceName}`.`${tableName}`
+         |  CREATE TABLE IF NOT EXISTS `${tableName}`
          |  (
          |    `de_duplication_key`     string,
          |    `uni_order_id`           string,

@@ -59,7 +59,7 @@ object IcebergCommonOption {
     tableEnvironment
       .executeSql(
         s"""
-           |  ALTER TABLE `${catalogName}`.`${namespaceName}`.`${tableName}`
+           |  ALTER TABLE `${tableName}`
            |  SET (
            |    'write.wap.enabled' = 'true',
            |    'write.target-file-size-bytes' = '536870912',
