@@ -15,7 +15,7 @@ import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.time.format.DateTimeFormatter
-import java.time.{LocalDateTime, ZoneId, ZoneOffset}
+import java.time.{LocalDateTime, ZoneId}
 
 object StandardTradeStream {
   val log: Logger = LoggerFactory.getLogger(StandardTradeStream.getClass)
@@ -88,7 +88,7 @@ object StandardTradeStream {
         } else {
           val part = LocalDateTime.parse(created, dateTimeFormatter).format(DateTimeFormatter.ofPattern("yyyy-MM"))
 
-          val deDuplicationKey = getUnionKey(created, tradeEntity.getUni_order_id, tradeEntity.getUni_shop_id, tradeEntity.getPart)
+          val deDuplicationKey = getUnionKey(tradeEntity.getUni_order_id, tradeEntity.getUni_shop_id, tradeEntity.getPart)
           tradeEntity.setDe_duplication_key(deDuplicationKey)
           tradeEntity.setPart(part)
           tradeEntity
@@ -182,9 +182,8 @@ object StandardTradeStream {
            |""".stripMargin)
   }
 
-  private def getUnionKey(datetimeStr: String, uniOrderId: String, uniShopId: String, partner: String): String = {
-    val epochMilli = LocalDateTime.parse(datetimeStr, dateTimeFormatter).toInstant(ZoneOffset.UTC).toEpochMilli
-    s"${epochMilli}|${uniOrderId}|${uniShopId}|${partner}"
+  private def getUnionKey(uniOrderId: String, uniShopId: String, partner: String): String = {
+    s"${uniOrderId}|${uniShopId}|${partner}"
   }
 
   private def createTradeTable(tableEnvironment: StreamTableEnvironment): TableResult = {
@@ -251,7 +250,8 @@ object StandardTradeStream {
          |    `buyer_remark`           string,
          |    `seller_remark`          string,
          |    `trade_business_type`    string,
-         |    `part`                   string
+         |    `part`                   string,
+         |    PRIMARY KEY (`de_duplication_key`) NOT ENFORCED
          |  )
          |  PARTITIONED BY (`part`)
          |  WITH (
