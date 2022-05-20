@@ -187,6 +187,8 @@ object StandardTradeStream {
   }
 
   private def createTradeTable(tableEnvironment: StreamTableEnvironment): TableResult = {
+    tableEnvironment
+      .executeSql(s"CREATE TABLE IF NOT EXISTS ${namespaceName}")
     val sql =
       s"""
          |  CREATE TABLE IF NOT EXISTS `${tableName}`
