@@ -22,7 +22,7 @@ object StandardTradeStream {
 
   val catalogName = "hadoop_catalog"
   var warehousePath: String = "hdfs://spacex-hadoop-qa/iceberg/warehouse"
-  var checkpointDir: String = "hdfs://spacex-hadoop-qa/flink/checkpoiont"
+  var checkpointDir: String = "hdfs://spacex-hadoop-qa/flink/checkpoint"
 
   val groupId = this.getClass.getName
 

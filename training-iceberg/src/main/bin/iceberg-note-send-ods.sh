@@ -24,7 +24,7 @@ ${FLINK_HOME}/bin/flink run \
   --yarnname NoteSendStreamOdsTable \
   --yarnqueue crowd \
   ${HOME_PATH}/lib/training-iceberg.jar \
-    --checkpoint-dir hdfs://spacex-hadoop-qa/flink/checkpoiont \
+    --checkpoint-dir hdfs://spacex-hadoop-qa/flink/checkpoint \
     --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
     --topic-names note_send_test \
     --table-name channel_note_send

@@ -25,7 +25,7 @@ ${FLINK_HOME}/bin/flink run \
   --yarnname NoteSendStreamOdsTable \
   --yarnqueue ${QUEUE_NAME} \
   ${HOME_PATH}/lib/training-iceberg.jar \
-    --checkpoint-dir hdfs://spacex-hadoop-qa/flink/checkpoiont \
+    --checkpoint-dir hdfs://spacex-hadoop-qa/flink/checkpoint \
     --warehouse-path hdfs://spacex-hadoop-qa/iceberg/warehouse \
     --topic-names standard_trade_state \
     --namespace-name ods         \
