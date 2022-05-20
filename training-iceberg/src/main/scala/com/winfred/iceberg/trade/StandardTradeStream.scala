@@ -263,24 +263,19 @@ object StandardTradeStream {
          |  PARTITIONED BY (`part`)
          |  WITH (
          |    'connector' = 'iceberg',
-         |    'catalog-type'='hadoop',
+         |    'catalog-type' = 'hadoop',
          |    'catalog-name' = '${catalogName}',
          |    'catalog-database'='${namespaceName}',
          |    'warehouse' = '${warehousePath}',
-         |
-         |    'write.upsert.enabled' = 'true',
-         |
          |    'write.wap.enabled' = 'true',
          |    'write.target-file-size-bytes' = '536870912',
          |    'write.metadata.delete-after-commit.enabled' = 'true',
          |    'write.metadata.previous-versions-max' = '100',
-         |    'write.metadata.compression-codec' = 'gzip',
-         |
          |    'format-version' = '2',
-         |
          |    'commit.manifest-merge.enabled' = 'true',
          |    'history.expire.min-snapshots-to-keep' = '3',
-         |    'history.expire.max-snapshot-age-ms' = '10800000'
+         |    'history.expire.max-snapshot-age-ms' = '10800000',
+         |    'write.upsert.enabled' = 'true'
          |  )
          |""".stripMargin
 
