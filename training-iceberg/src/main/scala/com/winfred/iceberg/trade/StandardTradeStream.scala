@@ -191,7 +191,7 @@ object StandardTradeStream {
       .executeSql(s"CREATE DATABASE IF NOT EXISTS `${catalogName}`.`${namespaceName}`")
 
     tableEnvironment
-      .executeSql(s"USE ${namespaceName}")
+      .executeSql(s"USE `${catalogName}`.`${namespaceName}`")
 
     val sql =
       s"""
