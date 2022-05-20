@@ -251,7 +251,7 @@ object StandardTradeStream {
          |    `seller_remark`          string,
          |    `trade_business_type`    string,
          |    `part`                   string,
-         |    PRIMARY KEY (`de_duplication_key`) NOT ENFORCED
+         |    PRIMARY KEY (`part`, `de_duplication_key`) NOT ENFORCED
          |  )
          |  PARTITIONED BY (`part`)
          |  WITH (
