@@ -115,7 +115,7 @@ object StandardTradeStream {
     tableEnvironment
       .executeSql(
         s"""
-           |  INSERT INTO `${namespaceName}`.`${tableName}`
+           |  INSERT INTO `${tableName}`
            |  SELECT
            |    `de_duplication_key`    ,
            |    `uni_order_id`          ,
@@ -189,9 +189,13 @@ object StandardTradeStream {
   private def createTradeTable(tableEnvironment: StreamTableEnvironment): TableResult = {
     tableEnvironment
       .executeSql(s"CREATE TABLE IF NOT EXISTS ${namespaceName}")
+
+    tableEnvironment
+      .executeSql(s"USE ${namespaceName}")
+
     val sql =
       s"""
-         |  CREATE TABLE IF NOT EXISTS `${namespaceName}`.`${tableName}`
+         |  CREATE TABLE IF NOT EXISTS `${tableName}`
          |  (
          |    `de_duplication_key`     string,
          |    `uni_order_id`           string,
