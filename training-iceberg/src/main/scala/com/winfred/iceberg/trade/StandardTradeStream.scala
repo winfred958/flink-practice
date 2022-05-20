@@ -115,7 +115,7 @@ object StandardTradeStream {
     tableEnvironment
       .executeSql(
         s"""
-           |  INSERT INTO `${tableName}`
+           |  INSERT INTO `${catalogName}`.`${namespaceName}`.`${tableName}`
            |  SELECT
            |    `de_duplication_key`    ,
            |    `uni_order_id`          ,
@@ -195,7 +195,7 @@ object StandardTradeStream {
 
     val sql =
       s"""
-         |  CREATE TABLE IF NOT EXISTS `${tableName}`
+         |  CREATE TABLE IF NOT EXISTS `${catalogName}`.`${namespaceName}`.`${tableName}`
          |  (
          |    `de_duplication_key`     string,
          |    `uni_order_id`           string,
