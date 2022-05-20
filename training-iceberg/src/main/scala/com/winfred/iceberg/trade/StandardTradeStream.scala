@@ -62,15 +62,6 @@ object StandardTradeStream {
     // 建表, 无需创建 db方式: https://iceberg.apache.org/docs/latest/flink-connector/#table-managed-in-hadoop-catalog
     createTradeTable(tableEnvironment)
 
-    //    // 创建 catalog
-    //    IcebergCommonOption.createHadoopCatalog(tableEnvironment, catalogName, warehousePath)
-    //
-    //    tableEnvironment
-    //      .executeSql(s"CREATE DATABASE IF NOT EXISTS `${catalogName}`.`${namespaceName}`")
-    //
-    //    tableEnvironment
-    //      .executeSql(s"USE `${catalogName}`.`${namespaceName}`")
-
     // 修改表属性
     IcebergCommonOption.setTableConfig(tableEnvironment, tableName)
 
