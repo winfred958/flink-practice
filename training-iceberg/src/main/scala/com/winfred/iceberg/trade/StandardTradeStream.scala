@@ -110,7 +110,7 @@ object StandardTradeStream {
     // 开始写流表
     sinkToIceberg(tableEnvironment, resultDataStream)
 
-    tableEnvironment.execute("StandardTradeStream")
+    streamExecutionEnvironment.execute("StandardTradeStream")
   }
 
 
@@ -185,7 +185,7 @@ object StandardTradeStream {
            |    `trade_business_type`   ,
            |    `part`
            |  FROM
-           |    `${result_table_view}`
+           |    ${result_table_view}
            |""".stripMargin)
   }
 
