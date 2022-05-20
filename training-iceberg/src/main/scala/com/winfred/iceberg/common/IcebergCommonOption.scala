@@ -33,7 +33,7 @@ object IcebergCommonOption {
     tableEnvironment
       .executeSql(
         s"""
-           | CREATE CATALOG ${catalogName}
+           | CREATE CATALOG IF NOT EXISTS ${catalogName}
            | WITH (
            |    'type' = 'iceberg',
            |    'catalog-type' = 'hadoop',
