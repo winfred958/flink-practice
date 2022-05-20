@@ -53,13 +53,12 @@ object IcebergCommonOption {
   }
 
   def setTableConfig(tableEnvironment: StreamTableEnvironment,
-                     catalogName: String,
                      namespaceName: String,
                      tableName: String) = {
     tableEnvironment
       .executeSql(
         s"""
-           |  ALTER TABLE `${tableName}`
+           |  ALTER TABLE `${namespaceName}`.`${tableName}`
            |  SET (
            |    'write.wap.enabled' = 'true',
            |    'write.target-file-size-bytes' = '536870912',

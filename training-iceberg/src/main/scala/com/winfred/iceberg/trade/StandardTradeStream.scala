@@ -67,7 +67,7 @@ object StandardTradeStream {
     createTradeTable(tableEnvironment)
 
     // 修改表属性
-    IcebergCommonOption.setTableConfig(tableEnvironment, catalogName, namespaceName, tableName)
+    IcebergCommonOption.setTableConfig(tableEnvironment, namespaceName, tableName)
 
     import org.apache.flink.streaming.api.scala._
 
@@ -115,7 +115,7 @@ object StandardTradeStream {
     tableEnvironment
       .executeSql(
         s"""
-           |  INSERT INTO `${catalogName}`.`${namespaceName}`.`${tableName}`
+           |  INSERT INTO `${namespaceName}`.`${tableName}`
            |  SELECT
            |    `de_duplication_key`    ,
            |    `uni_order_id`          ,
@@ -191,7 +191,7 @@ object StandardTradeStream {
       .executeSql(s"CREATE TABLE IF NOT EXISTS ${namespaceName}")
     val sql =
       s"""
-         |  CREATE TABLE IF NOT EXISTS `${tableName}`
+         |  CREATE TABLE IF NOT EXISTS `${namespaceName}`.`${tableName}`
          |  (
          |    `de_duplication_key`     string,
          |    `uni_order_id`           string,
