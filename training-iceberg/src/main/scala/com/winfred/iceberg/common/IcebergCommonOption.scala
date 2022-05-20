@@ -63,14 +63,11 @@ object IcebergCommonOption {
            |    'write.target-file-size-bytes' = '536870912',
            |    'write.metadata.delete-after-commit.enabled' = 'true',
            |    'write.metadata.previous-versions-max' = '30',
-           |
            |    'format-version' = '2',
            |    'write.upsert.enabled' = 'true',
-           |
            |    'commit.manifest-merge.enabled' = 'true',
            |    'history.expire.min-snapshots-to-keep' = '3',
            |    'history.expire.max-snapshot-age-ms' = '3600000',
-           |
            |    'write.metadata.metrics.default' = 'truncate(32)'
            |  )
            |""".stripMargin)
