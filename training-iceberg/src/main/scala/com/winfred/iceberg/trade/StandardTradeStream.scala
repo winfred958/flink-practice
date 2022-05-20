@@ -103,7 +103,8 @@ object StandardTradeStream {
 
     // 开始写流表
     sinkToIceberg(tableEnvironment, resultDataStream)
-      .await()
+
+    tableEnvironment.execute("StandardTradeStream")
   }
 
 
