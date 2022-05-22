@@ -67,7 +67,7 @@ object StandardTradeStream {
 
     import org.apache.flink.streaming.api.scala._
 
-    // 获取数据源
+    // 获取主订单数据
     val resultDataStream: DataStream[TradeEntity] = IcebergCommonOption.getRawFromKafka(streamExecutionEnvironment, topicNames, this.getClass.getName)
       .filter(str => {
         StringUtils.isNotBlank(str)
