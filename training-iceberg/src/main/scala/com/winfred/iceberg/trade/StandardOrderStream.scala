@@ -101,12 +101,12 @@ object StandardOrderStream {
     // 开始写流表
     sinkToIceberg(tableEnvironment, resultDataStream)
 
-    streamExecutionEnvironment.execute("StandardTradeStream")
+    streamExecutionEnvironment.execute("StandardOrderStream")
   }
 
 
   private def sinkToIceberg(tableEnvironment: StreamTableEnvironment, resultDataStream: DataStream[OrderEntity]): TableResult = {
-    val result_table_view = "ods_std_trade"
+    val result_table_view = "ods_std_order"
     tableEnvironment
       .createTemporaryView(result_table_view, resultDataStream)
 

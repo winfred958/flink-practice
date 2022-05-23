@@ -68,7 +68,9 @@ object IcebergCommonOption {
            |    'commit.manifest-merge.enabled' = 'true',
            |    'history.expire.min-snapshots-to-keep' = '3',
            |    'history.expire.max-snapshot-age-ms' = '3600000',
-           |    'write.metadata.metrics.default' = 'truncate(32)'
+           |    'write.metadata.metrics.default' = 'truncate(32)',
+           |    'snapshot.retain-last.nums' = '10',
+           |    'snapshot.retain-last.minutes' = '5',
            |  )
            |""".stripMargin)
   }
