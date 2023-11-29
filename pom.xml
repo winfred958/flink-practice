@@ -41,7 +41,7 @@
     <lombok.version>1.18.16</lombok.version>
     <java-jwt.version>3.10.2</java-jwt.version>
     <!-- parquet-->
-    <parquet.version>1.10.1</parquet.version>
+    <parquet.version>1.17.2</parquet.version>
     <!--db-->
     <mybatis.version>3.5.6</mybatis.version>
     <mysql-connector-java.version>5.1.46</mysql-connector-java.version>
@@ -161,9 +161,9 @@
         <version>${flink.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.parquet</groupId>
-        <artifactId>parquet-avro</artifactId>
-        <version>${parquet.version}</version>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-avro</artifactId>
+        <version>${flink.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.flink</groupId>
