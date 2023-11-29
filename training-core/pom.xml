@@ -36,12 +36,12 @@
     <!-- jdbc -->
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-connector-jdbc_${scala.binary.version}</artifactId>
+      <artifactId>flink-connector-jdbc</artifactId>
     </dependency>
     <!-- flink hbase ?-->
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-connector-hbase-1.4_${scala.binary.version}</artifactId>
+      <artifactId>flink-connector-hbase-2.2</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.hbase</groupId>
@@ -59,11 +59,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-clients_${scala.binary.version}</artifactId>
+      <artifactId>flink-clients</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
+      <artifactId>flink-streaming-java</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
@@ -71,11 +71,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-connector-kafka_${scala.binary.version}</artifactId>
+      <artifactId>flink-connector-kafka</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-connector-elasticsearch7_${scala.binary.version}</artifactId>
+      <artifactId>flink-connector-elasticsearch7</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>

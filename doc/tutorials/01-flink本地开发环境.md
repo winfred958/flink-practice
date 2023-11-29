@@ -26,12 +26,12 @@
           <dependencies>
               <dependency>
                   <groupId>org.apache.flink</groupId>
-                  <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
+                  <artifactId>flink-streaming-java</artifactId>
                   <version>${flink.version}</version>
               </dependency>
               <dependency>
                   <groupId>org.apache.flink</groupId>
-                  <artifactId>flink-test-utils_${scala.binary.version}</artifactId>
+                  <artifactId>flink-test-utils</artifactId>
                   <version>${flink.version}</version>
                   <scope>test</scope>
               </dependency>
@@ -64,7 +64,7 @@
               </dependency>
               <dependency>
                   <groupId>org.apache.flink</groupId>
-                  <artifactId>flink-test-utils_${scala.binary.version}</artifactId>
+                  <artifactId>flink-test-utils</artifactId>
                   <version>${flink.version}</version>
                   <scope>test</scope>
               </dependency>
