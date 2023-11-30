@@ -1,9 +1,10 @@
 package com.winfred.streamming.kafka
 
 import com.winfred.core.annotation.PassTest
+import com.winfred.core.entity.log.EventEntity
 import com.winfred.core.sink.FlinkKafkaSink
 import com.winfred.core.source.DataMockSource
-import com.winfred.core.utils.ArgsHandler
+import com.winfred.core.utils.{ArgsHandler, JsonUtils}
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
@@ -40,13 +41,16 @@ object KafkaMockSource {
     }
 
     if (StringUtils.isBlank(sinkTopic)) sinkTopic = sinkTopicName
-    val dataStream: DataStream[String] = executionEnvironment
+    val dataStream: DataStream[EventEntity] = executionEnvironment
       .addSource(new DataMockSource(intervalMin, intervalMax))
       .assignAscendingTimestamps(s => {
         System.currentTimeMillis()
       })
 
     dataStream
+      .map(entity => {
+        JsonUtils.toJsonStr(entity)
+      })
       .sinkTo(FlinkKafkaSink.getKafkaSink(topic = sinkTopic))
 
     executionEnvironment.execute(this.getClass.getName)

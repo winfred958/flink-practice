@@ -14,11 +14,11 @@ import java.time.ZoneOffset;
  */
 public class LocalDateTimeJsonSerializer extends JsonSerializer<LocalDateTime> {
 
-    @Override
-    public void serialize(LocalDateTime localdatetime, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
-        if (null != localdatetime) {
-            final long epochMilli = localdatetime.toInstant(ZoneOffset.UTC).toEpochMilli();
-            gen.writeNumber(epochMilli);
-        }
+  @Override
+  public void serialize(LocalDateTime localdatetime, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+    if (null != localdatetime) {
+      final long epochMilli = localdatetime.toInstant(ZoneOffset.UTC).toEpochMilli();
+      gen.writeNumber(epochMilli);
     }
+  }
 }

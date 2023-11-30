@@ -129,27 +129,30 @@ ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION: 作业取消时, 删除作
             - 本地开发和调试
             - 状态很小的job, 由算子(Map, Flatmap, Filter)等 一对一算子构成的job
         - 注意
-            -
-            建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
-            设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
+          -
+          建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+          设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **FsStateBackend**
         - FsStateBackend 特性
             - FsStateBackend 将正在运行中的状态数据保存在 TaskManager 的内存中
-            - CheckPoint 时，将状态快照写入到配置的文件系统目录中。 少量的元数据信息存储到 JobManager 的内存中（高可用模式下，将其写入到 CheckPoint 的元数据文件中）.
+            - CheckPoint 时，将状态快照写入到配置的文件系统目录中。 少量的元数据信息存储到 JobManager 的内存中（高可用模式下，将其写入到
+              CheckPoint 的元数据文件中）.
         - FsStateBackend 使用场景
             - 状态比较大, 窗口比较长(分钟级别), key/value 状态比较大的job
             - 所有高可用的场景
         - 注意
-            -
-            建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
-            设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
+          -
+          建议同时将 [managed memory](https://ci.apache.org/projects/flink/flink-docs-release-1.12/deployment/memory/mem_setup_tm.html)
+          设为0，以保证将最大限度的内存分配给 JVM 上的用户代码。
 
     - ##### **RocksDBStateBackend**
         - RocksDBStateBackend 的限制：
             - RocksDBStateBackend 只支持异步快照。
-            - 由于 RocksDB 的 JNI API 构建在 byte[] 数据结构之上, 所以每个 key 和 value 最大支持 2^31 字节。 重要信息: RocksDB
-              合并操作的状态（例如：ListState）累积数据量大小可以超过 2^31 字节，但是会在下一次获取数据时失败。这是当前 RocksDB JNI 的限制。
+            - 由于 RocksDB 的 JNI API 构建在 byte[] 数据结构之上, 所以每个 key 和 value 最大支持 2^31 字节。 重要信息:
+              RocksDB
+              合并操作的状态（例如：ListState）累积数据量大小可以超过 2^31 字节，但是会在下一次获取数据时失败。这是当前
+              RocksDB JNI 的限制。
         - 适用场景
             - 状态非常大、窗口非常长(天级别)、key/value 状态非常大的 Job。
             - 所有高可用的场景。

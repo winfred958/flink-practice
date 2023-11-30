@@ -1,6 +1,5 @@
 package com.winfred.streamming.connector.fs
 
-import com.alibaba.fastjson.JSON
 import com.winfred.core.source.FlinkKafkaSource
 import com.winfred.core.utils.ArgsHandler
 import com.winfred.streamming.connector.fs.FileSystemConnector.LogEntity
@@ -40,8 +39,8 @@ object FileSystemConnectorTest {
       .flatMap(x => {
         for (i <- x.split("\n").toList) yield i
       }).filter(x => {
-      StringUtils.isNotBlank(x)
-    })
+        StringUtils.isNotBlank(x)
+      })
       .assignTimestampsAndWatermarks(new AscendingTimestampExtractor[String]() {
         override def extractAscendingTimestamp(element: String): Long = {
           return System.currentTimeMillis();

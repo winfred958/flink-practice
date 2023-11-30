@@ -1,9 +1,9 @@
 package com.winfred.streamming.example
 
-import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson2.JSON
 import com.winfred.core.entity.log.EventEntity
 import com.winfred.core.source.FlinkKafkaSource
-import com.winfred.core.utils.ArgsHandler
+import com.winfred.core.utils.{ArgsHandler, JsonUtils}
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.eventtime.WatermarkStrategy
 import org.apache.flink.core.fs.Path
@@ -39,14 +39,14 @@ object CosSinkExample {
 
     val result: DataStream[LogEntity] = sourceData
       .map(str => {
-        JSON.parseObject(str, classOf[EventEntity])
+        JsonUtils.parseObject(str, classOf[EventEntity])
       })
       .map(entity => {
         LogEntity(
           uuid = entity.getUuid,
-          server_time = entity.getServer_time,
+          server_time = entity.getServerTime,
           token = entity.getHeader.getToken,
-          visitor_id = entity.getHeader.getVisitor_id,
+          visitor_id = entity.getHeader.getVisitorId,
           platform = entity.getHeader.getPlatform
         )
       })

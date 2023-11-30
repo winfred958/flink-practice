@@ -11,8 +11,6 @@ import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 
-import java.time.LocalDate
-
 object IcebergUpsertDemo {
 
   val catalogName = "hadoop_catalog"

@@ -72,9 +72,9 @@ object NoteSendStreamOdsTable {
     import org.apache.flink.streaming.api.scala._
 
     val rawDataStream: DataStream[NoteSendRaw] = IcebergCommonOption.getRawFromKafka(
-      streamEnvironment = streamExecutionEnvironment,
-      topicNames = topicNames,
-      groupId = groupId)
+        streamEnvironment = streamExecutionEnvironment,
+        topicNames = topicNames,
+        groupId = groupId)
       .map((str: String) => {
         try {
           val objectMapper = new ObjectMapper()
@@ -196,7 +196,7 @@ object NoteSendStreamOdsTable {
            |   ${ods_note_send_view}
            |""".stripMargin)
 
-//    streamExecutionEnvironment.execute("iceberg note send table")
+    //    streamExecutionEnvironment.execute("iceberg note send table")
 
 
   }

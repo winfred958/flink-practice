@@ -26,35 +26,35 @@ import java.util.UUID;
 @Data
 public class NoteReceiptRaw implements NoteMock {
 
-    private static final long serialVersionUID = 8713417573020650030L;
+  private static final long serialVersionUID = 8713417573020650030L;
 
 
-    @JsonProperty(value = "primary_key")
-    @SerializedName(value = "primary_key")
-    private String primary_key;
+  @JsonProperty(value = "primary_key")
+  @SerializedName(value = "primary_key")
+  private String primary_key;
 
-    private String sp_result;
+  private String sp_result;
 
-    private Long sp_charge_submit_num;
+  private Long sp_charge_submit_num;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
-    private LocalDateTime sp_send_time;
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
+  private LocalDateTime sp_send_time;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
-    private LocalDateTime channel_receive_time;
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
+  private LocalDateTime channel_receive_time;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
-    private LocalDateTime receive_system_time = LocalDateTime.now();
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeJsonSerializer.class)
+  private LocalDateTime receive_system_time = LocalDateTime.now();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public String getPrimaryKey() {
-        if (null == this.primary_key) {
-            this.primary_key = UUID.randomUUID().toString();
-        }
-        return primary_key;
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @Override
+  public String getPrimaryKey() {
+    if (null == this.primary_key) {
+      this.primary_key = UUID.randomUUID().toString();
     }
+    return primary_key;
+  }
 }

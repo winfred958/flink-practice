@@ -18,7 +18,8 @@
           是以表（Table）为中心的声明式编程（DSL）API, [create-a-tableenvironment](https://ci.apache.org/projects/flink/flink-docs-release-1.12/dev/table/common.html#create-a-tableenvironment)
         - Table API 使用起来很简洁并且可以由各种类型的用户自定义函数扩展功能，但还是比 Core API 的表达能力差。
         - Table API 程序在执行之前还会使用优化器中的优化规则对用户编写的表达式进行优化。
-        - 表和 DataStream/DataSet 可以进行无缝切换，Flink 允许用户在编写应用程序时将 **Table API 与 DataStream/DataSet API 混合使用**。
+        - 表和 DataStream/DataSet 可以进行无缝切换，Flink 允许用户在编写应用程序时将 **Table API 与 DataStream/DataSet
+          API 混合使用**。
     - SQL
         - 这层抽象在语义和程序表达式上都类似于 Table API，但是其程序实现都是 SQL 查询表达式。
         - SQL 查询语句可以在 Table API 中定义的表上执行。

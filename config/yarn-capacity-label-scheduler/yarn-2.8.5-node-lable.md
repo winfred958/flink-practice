@@ -4,7 +4,8 @@
 
 ### 1.1 概述
 
-- 1个node只能有存在于1个 node partition (label), 因此可以将集群中的node根据node partition划分到不相交的sub cluster; 默认所有node 都属于 <
+- 1个node只能有存在于1个 node partition (label), 因此可以将集群中的node根据node partition划分到不相交的sub cluster;
+  默认所有node 都属于 <
   DEFAULT_PARTITION> (partition="")
 - 用户需要配置每个 node partition (label)需要多少资源被不同的queue访问;
 - 有2种 node partition

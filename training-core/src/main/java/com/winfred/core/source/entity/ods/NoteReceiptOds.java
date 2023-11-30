@@ -10,9 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.flink.table.annotation.DataTypeHint;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -27,31 +25,31 @@ import java.util.UUID;
 @Setter
 public class NoteReceiptOds implements NoteMock {
 
-    private static final long serialVersionUID = -1731119476212623361L;
+  private static final long serialVersionUID = -1731119476212623361L;
 
-    @JsonProperty(value = "primary_key")
-    @SerializedName(value = "primary_key")
-    private String primary_key;
+  @JsonProperty(value = "primary_key")
+  @SerializedName(value = "primary_key")
+  private String primary_key;
 
-    private String sp_result;
-    private Long sp_charge_submit_num;
+  private String sp_result;
+  private Long sp_charge_submit_num;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private String sp_send_time;
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private String sp_send_time;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private String channel_receive_time;
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private String channel_receive_time;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private String receive_system_time;
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private String receive_system_time;
 
-    private String dt;
+  private String dt;
 
-    @Override
-    public String getPrimaryKey() {
-        if (null == this.primary_key) {
-            this.primary_key = UUID.randomUUID().toString();
-        }
-        return primary_key;
+  @Override
+  public String getPrimaryKey() {
+    if (null == this.primary_key) {
+      this.primary_key = UUID.randomUUID().toString();
     }
+    return primary_key;
+  }
 }

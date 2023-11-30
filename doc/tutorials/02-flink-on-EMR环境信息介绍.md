@@ -2,13 +2,13 @@
 
 ## 1. EMR & Flink & hadoop 版本对应关系
 
-| EMR | flink | hadoop | scala |
-| :--- | :--- | :--- | :--- |
-| 2.3.0 | 1.9.2 | 2.8.5 | 2.11 |
-| 2.2.1 | 1.10.1| 2.8.5 | 2.11 |
-| 2.2.0 | 1.9.2 | 2.8.5 | 2.11 |
-| 3.0.0 | 1.8.1 | 3.1.2 | 2.11 |
-| 2.1.0 | 1.4.2 | 2.8.4 | ? |
+| EMR   | flink  | hadoop | scala |
+|:------|:-------|:-------|:------|
+| 2.3.0 | 1.9.2  | 2.8.5  | 2.11  |
+| 2.2.1 | 1.10.1 | 2.8.5  | 2.11  |
+| 2.2.0 | 1.9.2  | 2.8.5  | 2.11  |
+| 3.0.0 | 1.8.1  | 3.1.2  | 2.11  |
+| 2.1.0 | 1.4.2  | 2.8.4  | ?     |
 
 ## 2. Flink 部署目录
 
@@ -41,14 +41,14 @@
 
 ## 4. 需要您关注的Flink配置 ()
 
-| key | 简述 | 默认值 | 推荐 |
-| :--- | :--- | :--- | :--- |
-| jobmanager.rpc.address |  | none | 0.0.0.0 |
-| jobmanager.rpc.port |  | 6123 |  |
-| jobmanager.heap.size | JobManager heap size | 1024m | flink run 参数指定 |
-| taskmanager.heap.size | TaskManager heap size | 1024m | flink run 参数指定 |
-| parallelism.default | 并行度 | 1 | flink run 参数指定 |
-| rest.bind-port | 会覆盖 rest.port的值, **建议配置这个** | 8081 | 为了避免, 一个node上启动多个JobManager造成冲突, 建议配置成区间, 例如“50100-50200”|
-| rest.bind-address |  | none | 0.0.0.0 |
-| classloader.resolve-order | 定义优先加载的依赖 | "child-first" | "child-first" |
+| key                       | 简述                          | 默认值           | 推荐                                                        |
+|:--------------------------|:----------------------------|:--------------|:----------------------------------------------------------|
+| jobmanager.rpc.address    |                             | none          | 0.0.0.0                                                   |
+| jobmanager.rpc.port       |                             | 6123          |                                                           |
+| jobmanager.heap.size      | JobManager heap size        | 1024m         | flink run 参数指定                                            |
+| taskmanager.heap.size     | TaskManager heap size       | 1024m         | flink run 参数指定                                            |
+| parallelism.default       | 并行度                         | 1             | flink run 参数指定                                            |
+| rest.bind-port            | 会覆盖 rest.port的值, **建议配置这个** | 8081          | 为了避免, 一个node上启动多个JobManager造成冲突, 建议配置成区间, 例如“50100-50200” |
+| rest.bind-address         |                             | none          | 0.0.0.0                                                   |
+| classloader.resolve-order | 定义优先加载的依赖                   | "child-first" | "child-first"                                             |
 

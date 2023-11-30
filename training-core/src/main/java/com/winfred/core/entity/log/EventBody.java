@@ -1,47 +1,53 @@
 package com.winfred.core.entity.log;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author winfred
  */
-public class EventBody {
+public class EventBody implements Serializable {
 
-    @Getter
-    @Setter
-    private String event_name;
+  private static final long serialVersionUID = -7588044156994131696L;
 
-    @Getter
-    @Setter
-    private String event_type;
-    /**
-     * 业务相关参数
-     */
+  @Getter
+  @Setter
+  @JSONField(name = "event_name")
+  private String eventName;
 
-    @Getter
-    @Setter
-    private List<Parameter> parameters;
+  @Getter
+  @Setter
+  @JSONField(name = "event_type")
+  private String eventType;
+  /**
+   * 业务相关参数
+   */
 
-    @Setter
-    private Utm utm;
+  @Getter
+  @Setter
+  private List<Parameter> parameters;
 
-    @Data
-    @AllArgsConstructor
-    public static class Parameter {
-        private String name;
-        private String value;
+  @Setter
+  private Utm utm;
+
+  @Data
+  @AllArgsConstructor
+  public static class Parameter {
+    private String name;
+    private String value;
+  }
+
+
+  public Utm getUtm() {
+    if (this.utm == null) {
+      this.utm = new Utm();
     }
-
-
-    public Utm getUtm() {
-        if (this.utm == null) {
-            this.utm = new Utm();
-        }
-        return utm;
-    }
+    return utm;
+  }
 }

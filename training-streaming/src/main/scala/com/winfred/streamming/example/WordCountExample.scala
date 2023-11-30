@@ -1,9 +1,7 @@
 package com.winfred.streamming.example
 
-import com.alibaba.fastjson.JSON
 import com.winfred.core.entity.log.EventEntity
 import com.winfred.core.source.DataMockSource
-import org.apache.commons.lang3.StringUtils
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
@@ -41,17 +39,13 @@ object WordCountExample {
     executionEnvironment.execute("Socket Window WordCount")
   }
 
-  def wordCount(dataStream: DataStream[String]): DataStream[Word] = {
+  def wordCount(dataStream: DataStream[EventEntity]): DataStream[Word] = {
 
     import org.apache.flink.streaming.api.scala._
 
     dataStream
-      .filter(str => {
-        StringUtils.isNotBlank(str)
-      })
-      .map(str => {
-        val entity = JSON.parseObject(str, classOf[EventEntity])
-        entity.getHeader.getVisitor_id
+      .map(entity => {
+        entity.getUuid
       })
       .map(term => {
         Word(term, 1L)
@@ -96,7 +90,7 @@ object WordCountExample {
       })
   }
 
-  def getFromMockSource(executionEnvironment: StreamExecutionEnvironment): DataStream[String] = {
+  def getFromMockSource(executionEnvironment: StreamExecutionEnvironment): DataStream[EventEntity] = {
     import org.apache.flink.streaming.api.scala._
     executionEnvironment
       .addSource(new DataMockSource(2, 20))

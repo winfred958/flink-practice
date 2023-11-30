@@ -1,56 +1,61 @@
 package com.winfred.core.entity.log;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * @author winfred
  */
-public class EventEntity {
-    @Setter
-    private String uuid;
+public class EventEntity implements Serializable {
+  private static final long serialVersionUID = 7258184194640553341L;
 
-    @Setter
-    private Long server_time;
+  @Setter
+  private String uuid;
 
-    @Getter
-    @Setter
-    private String source;
+  @Setter
+  @JSONField(name = "server_time")
+  private Long serverTime;
 
-    @Setter
-    private EventHeader header;
+  @Getter
+  @Setter
+  private String source;
 
-    @Setter
-    private EventBody body;
+  @Setter
+  private EventHeader header;
 
-    public String getUuid() {
-        if (StringUtils.isBlank(this.uuid)) {
-            this.uuid = UUID.randomUUID().toString();
-        }
-        return uuid;
+  @Setter
+  private EventBody body;
+
+  public String getUuid() {
+    if (StringUtils.isBlank(this.uuid)) {
+      this.uuid = UUID.randomUUID().toString();
     }
+    return uuid;
+  }
 
-    public Long getServer_time() {
-        if (this.server_time == null) {
-            this.server_time = System.currentTimeMillis();
-        }
-        return server_time;
+  public Long getServerTime() {
+    if (this.serverTime == null) {
+      this.serverTime = System.currentTimeMillis();
     }
+    return serverTime;
+  }
 
-    public EventHeader getHeader() {
-        if (this.header == null) {
-            this.header = new EventHeader();
-        }
-        return header;
+  public EventHeader getHeader() {
+    if (this.header == null) {
+      this.header = new EventHeader();
     }
+    return header;
+  }
 
-    public EventBody getBody() {
-        if (this.body == null) {
-            this.body = new EventBody();
-        }
-        return body;
+  public EventBody getBody() {
+    if (this.body == null) {
+      this.body = new EventBody();
     }
+    return body;
+  }
 }

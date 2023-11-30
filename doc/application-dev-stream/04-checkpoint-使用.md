@@ -53,7 +53,7 @@ Flink 通过 restart-strategy 和 failover strategy 来控制Task重启:
       restart-strategy.fixed-delay.delay: 10s
       ```
       | key | default | type | description |
-                                                                                    | :--- | :--- | :--- | :--- |
+                                                                                          | :--- | :--- | :--- | :--- |
       | restart-strategy.fixed-delay.attempts | 1 | Integer | 重启次数 |
       | restart-strategy.fixed-delay.delay | 1s | Duration | 重启间隔 |
     - 程序中独立配置
@@ -75,7 +75,7 @@ Flink 通过 restart-strategy 和 failover strategy 来控制Task重启:
       restart-strategy.failure-rate.failure-rate-interval: 5 min
       ```
       | key | default | type | description |
-                                                            | :--- | :--- | :--- | :--- |
+                                                                  | :--- | :--- | :--- | :--- |
       | restart-strategy.failure-rate.delay | 1s | Integer | restart 间隔 |
       | restart-strategy.failure-rate.failure-rate-interval | 1 min | Duration | 周期 |
       | restart-strategy.failure-rate.max-failures-per-interval | 1 | Duration | 周期中restart阈值 |
@@ -121,4 +121,5 @@ Flink 通过 restart-strategy 和 failover strategy 来控制Task重启:
 - 需要重启的 Region 的判断逻辑如下：
     - 出错 Task 所在 Region 需要重启。
     - 如果要重启的 Region 需要消费的数据有部分无法访问（丢失或损坏），产出该部分数据的 Region 也需要重启。
-    - 需要重启的 Region 的下游 Region 也需要重启。这是出于保障数据一致性的考虑，因为一些非确定性的计算或者分发会导致同一个 Result Partition 每次产生时包含的数据都不相同。
+    - 需要重启的 Region 的下游 Region 也需要重启。这是出于保障数据一致性的考虑，因为一些非确定性的计算或者分发会导致同一个
+      Result Partition 每次产生时包含的数据都不相同。

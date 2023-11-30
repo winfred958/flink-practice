@@ -1,7 +1,6 @@
 package com.winfred.core.common
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.serializer.SerializerFeature
+import com.alibaba.fastjson2.{JSON, JSONWriter}
 import com.winfred.core.entity.MysqlConfigEntity
 import org.slf4j.{Logger, LoggerFactory}
 import org.yaml.snakeyaml.Yaml
@@ -150,14 +149,14 @@ object MysqlConfigUtil {
   def getMysqlSparkProperties(dataSourceName: String): Properties = {
     val properties: Properties = new Properties()
     val optionMysqlConfigEntity = getMysqlConfigEntity(dataSourceName)
-    LOGGER.info("mysql properties config : {}", JSON.toJSONString(optionMysqlConfigEntity, 1, SerializerFeature.SortField))
+    LOGGER.info("mysql properties config : {}", JSON.toJSONString(optionMysqlConfigEntity, JSONWriter.Feature.MapSortField))
     properties.setProperty("user", optionMysqlConfigEntity.getMysqlUserName)
     properties.setProperty("password", optionMysqlConfigEntity.getMysqlPassword)
     properties.setProperty("driver", optionMysqlConfigEntity.getMysqlDatabaseDriver)
     properties.setProperty("batchsize", optionMysqlConfigEntity.getSparkBatchSize)
     properties.setProperty("spark.sql.warehouse.dir", "hdfs://xxx/user/hive/warehouse")
     properties.setProperty("truncate", optionMysqlConfigEntity.getSparkTruncate)
-    LOGGER.info("mysql spark config : {}", JSON.toJSONString(optionMysqlConfigEntity, 1, SerializerFeature.SortField))
+    LOGGER.info("mysql spark config : {}", JSON.toJSONString(optionMysqlConfigEntity, JSONWriter.Feature.MapSortField))
     return properties
   }
 
@@ -211,8 +210,8 @@ object MysqlConfigUtil {
     println(mysqlConfigs.getMysqlConfig.getDataSource.apply(0).getHost)
     println(mysqlConfigs.getMysqlConfig.getDataSource.apply(1).getHost)
 
-    println(JSON.toJSONString(MysqlConfigUtil.getMysqlConfigEntity, 1, SerializerFeature.SortField))
-    println(JSON.toJSONString(MysqlConfigUtil.getMysqlConfigEntity("xa-test"), 1, SerializerFeature.SortField))
+    println(JSON.toJSONString(MysqlConfigUtil.getMysqlConfigEntity,  JSONWriter.Feature.MapSortField))
+    println(JSON.toJSONString(MysqlConfigUtil.getMysqlConfigEntity("xa-test"),  JSONWriter.Feature.MapSortField))
   }
 }
 

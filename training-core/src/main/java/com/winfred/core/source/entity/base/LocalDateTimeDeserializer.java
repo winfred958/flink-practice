@@ -18,21 +18,21 @@ import java.time.ZoneId;
 @Slf4j
 public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
 
-    private static final ZoneId ZONE_ID = ZoneId.of("Asia/Shanghai");
+  private static final ZoneId ZONE_ID = ZoneId.of("Asia/Shanghai");
 
-    @Override
-    public LocalDateTime deserialize(JsonParser jsonParser,
-                                     DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        final String text = jsonParser.getText();
-        if (StringUtils.isBlank(text)) {
-            return LocalDateTime.now(ZONE_ID);
-        }
-        Long longValue = System.currentTimeMillis();
-        try {
-            longValue = Long.valueOf(text);
-        } catch (NumberFormatException e) {
-            log.error("脏数据", e);
-        }
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZONE_ID);
+  @Override
+  public LocalDateTime deserialize(JsonParser jsonParser,
+                                   DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    final String text = jsonParser.getText();
+    if (StringUtils.isBlank(text)) {
+      return LocalDateTime.now(ZONE_ID);
     }
+    Long longValue = System.currentTimeMillis();
+    try {
+      longValue = Long.valueOf(text);
+    } catch (NumberFormatException e) {
+      log.error("脏数据", e);
+    }
+    return LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZONE_ID);
+  }
 }

@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public interface NoteMock extends Serializable {
 
-    String getPrimaryKey();
+  String getPrimaryKey();
 }

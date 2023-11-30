@@ -19,9 +19,11 @@
 
 - #### DataStream & Transformation
     - DataStream 表示了由一种类型构成的数据流
-    - 通过算子操作, 可以将一个DataStream转化为另一个DataStream, 转化的过程会抽象成 Transformation , 存到 StreamExecutionEnvironment 的
+    - 通过算子操作, 可以将一个DataStream转化为另一个DataStream, 转化的过程会抽象成 Transformation , 存到
+      StreamExecutionEnvironment 的
       transformations列表中
-        - **也就是说**: 在 DataStream 上面通过算子不断进行转换，就得到了由 Transformation 构成的图。当需要执行的时候，底层的这个图就会被转换成 StreamGraph
+        - **也就是说**: 在 DataStream 上面通过算子不断进行转换，就得到了由 Transformation 构成的图。当需要执行的时候，底层的这个图就会被转换成
+          StreamGraph
         - DataStream.map 算子**为例**, **每个算子都会加入 StreamExecutionEnvironment 的 transformations 列表中**.
           ```java
           /**
@@ -122,7 +124,8 @@ DataStream –> Transformation –> StreamOperator 这样的依赖关系，就�
 
     - 1.StreamExecutionEnvironment.execute() 开始执行, 根据transformations, config 等, **构造出 StreamGraphGenerator**
     - 2.StreamGraphGenerator 遍历 transformations 构造出 StreamNode 和 StreamEdge 组成 DAG, 即 StreamGraph
-        - StreamNode 是来描述 operator 的逻辑节点, 关键属性有 inEdges, outEdges , Class<? extends AbstractInvokable> jobVertexClass,
+        - StreamNode 是来描述 operator 的逻辑节点, 关键属性有 inEdges, outEdges , Class<? extends AbstractInvokable>
+          jobVertexClass,
           slotSharingGroup slotSharingGroup
             - 每个StreamNode对象都携带有parallelism, slotSharingGroup, 执行类信息
         - StreamEge 是用来描述两个 operator 边(关系), 关键属性有 StreamNode sourceVertex, StreamNode targetVertex

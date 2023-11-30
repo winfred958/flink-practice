@@ -1,8 +1,7 @@
 package com.winfred.iceberg.trade
 
-import com.alibaba.fastjson.JSON
 import com.winfred.core.source.entity.trade.TradeEntity
-import com.winfred.core.utils.ArgsHandler
+import com.winfred.core.utils.{ArgsHandler, JsonUtils}
 import com.winfred.iceberg.common.IcebergCommonOption
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.configuration.Configuration
@@ -76,7 +75,7 @@ object StandardTradeStream {
         //        val objectMapper = new ObjectMapper()
         //        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
         //        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false)
-        val tradeEntity = JSON.parseObject(str, classOf[TradeEntity])
+        val tradeEntity = JsonUtils.parseObject(str, classOf[TradeEntity])
 
         val created = tradeEntity.getCreated
         if (StringUtils.isBlank(created)) {

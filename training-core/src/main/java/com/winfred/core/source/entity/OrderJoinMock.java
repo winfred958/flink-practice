@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public interface OrderJoinMock extends Serializable {
 
-    String getOrderId();
+  String getOrderId();
 }

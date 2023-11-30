@@ -13,43 +13,43 @@ import java.util.UUID;
 @MockSourceName(name = "qa_order_test")
 public class OrderEntity implements OrderJoinMock {
 
-    private static final long serialVersionUID = 5980053617720035282L;
-    
-    @Setter
-    private String orderId;
+  private static final long serialVersionUID = 5980053617720035282L;
 
-    @Setter
-    private Long serverTime;
+  @Setter
+  private String orderId;
 
-    @Getter
-    @Setter
-    private String userId;
+  @Setter
+  private Long serverTime;
 
-    @Getter
-    @Setter
-    private String orderStatus;
-    @Getter
-    @Setter
-    private String payStatus;
-    @Getter
-    @Setter
-    private String shipStatus;
-    @Getter
-    @Setter
-    private String payType;
+  @Getter
+  @Setter
+  private String userId;
 
-    @Override
-    public String getOrderId() {
-        if (null == orderId) {
-            this.orderId = UUID.randomUUID().toString();
-        }
-        return orderId;
+  @Getter
+  @Setter
+  private String orderStatus;
+  @Getter
+  @Setter
+  private String payStatus;
+  @Getter
+  @Setter
+  private String shipStatus;
+  @Getter
+  @Setter
+  private String payType;
+
+  @Override
+  public String getOrderId() {
+    if (null == orderId) {
+      this.orderId = UUID.randomUUID().toString();
     }
+    return orderId;
+  }
 
-    public Long getServerTime() {
-        if (null == serverTime) {
-            this.serverTime = System.currentTimeMillis();
-        }
-        return serverTime;
+  public Long getServerTime() {
+    if (null == serverTime) {
+      this.serverTime = System.currentTimeMillis();
     }
+    return serverTime;
+  }
 }

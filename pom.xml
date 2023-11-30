@@ -33,7 +33,7 @@
     <hbase-client.version>2.2.4</hbase-client.version>
 
     <!-- other -->
-    <fastjson.version>1.2.46</fastjson.version>
+    <fastjson.version>2.0.33</fastjson.version>
     <snakeyaml.version>1.26</snakeyaml.version>
     <commons-lang3.version>3.9</commons-lang3.version>
     <google-maps-services.version>0.2.7</google-maps-services.version>
@@ -239,8 +239,8 @@
         <version>${snakeyaml.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>fastjson</artifactId>
+        <groupId>com.alibaba.fastjson2</groupId>
+        <artifactId>fastjson2</artifactId>
         <version>${fastjson.version}</version>
       </dependency>
       <dependency>
@@ -316,6 +316,11 @@
         <version>${jackson.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>com.beust</groupId>
+        <artifactId>jcommander</artifactId>
+        <version>1.82</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
